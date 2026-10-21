@@ -75,5 +75,6 @@ For the developer who connects selling and hosts the site (e.g. Woz). Kept up to
 
 ## Hosting
 - Netlify (free tier) builds and hosts the site; `netlify.toml` sets the build, Node 22, the 404 page and labs headers. Any static host with a Node build works (Cloudflare Pages, etc.).
+- Live now at https://jeanette-read-studio.netlify.app (Netlify site connected to `main` on 21 Oct 2026). Pages CMS is connected to the same repo and branch; admin saves trigger a deploy.
 - Netlify Forms could handle the contact and newsletter forms with a `data-netlify` attribute (check the free-tier limits), or use a mailing service's embed.
 - Payment, newsletter and contact form need whichever services are chosen. Domain still to be decided.
