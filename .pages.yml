@@ -31,35 +31,41 @@ content:
       - name: type
         label: Product type
         type: select
+        description: "Decides which filter on the Shop page shows it."
         options:
           values: [Beanbags, Cushions, Throws, Rugs, Tableware]
-      - { name: price, label: 'Price (£)', type: number, description: "Leave empty to show [£ price]." }
-      - { name: order, label: 'Order in the shop', type: number, description: "Lower numbers show first." }
-      - { name: newIn, label: 'Show in "New in" on the home page', type: boolean }
-      - { name: dateAdded, label: 'Date added', type: date, options: { format: yyyy-MM-dd }, description: "Used for 'Newest' sorting." }
-      - name: flag
-        label: Card flag
-        type: select
-        options:
-          values: [New, Sale]
+      - { name: price, label: 'Price (£)', type: number, description: "Numbers only, e.g. 85. Leave empty to show [£ price]." }
       - name: colourways
-        label: Colourways
+        label: Colours (one per colourway)
         type: object
-        list: true
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{index}. {name}"
+        description: "Each colour gets its own photo. In the Shop grid, the first colour's photo shows on the product's card and the dots switch between them. On the product page, clicking a colour swaps the main photo. Landscape photos work best; they are cropped to 4:3 from the centre."
         fields:
-          - { name: name, label: 'Colourway name', type: string }
-          - { name: swatch, label: "Swatch colour (hex, e.g. #3968A0)", type: string }
-          - { name: image, label: 'Card photo for this colourway', type: image }
+          - { name: name, label: 'Colour name', type: string, description: "e.g. Indigo. Shown to customers." }
+          - { name: image, label: 'Photo in this colour', type: image }
+          - { name: swatch, label: "Dot colour", type: string, description: "A hex colour code for the little colour dot, e.g. #3968A0." }
       - name: gallery
-        label: Product page photos
+        label: More photos (product page)
         type: image
         list: true
-        description: "The first photo is the main one."
-      - { name: body, label: 'Description', type: rich-text }
+        description: "Extra photos shown on the product's own page. The first one is the large photo; the rest appear as thumbnails. Portrait works best (cropped to 4:5 from the centre). If left empty, the first colour's photo is used."
+      - { name: body, label: 'Description', type: rich-text, description: "Two or three sentences about the piece." }
       - { name: materials, label: 'Materials & care', type: text }
       - { name: dimensions, label: 'Dimensions', type: text }
+      - { name: newIn, label: 'Show in "New in" on the home page', type: boolean }
+      - name: flag
+        label: Label on the card (optional)
+        type: select
+        description: "A small New or Sale label on the product's card."
+        options:
+          values: [New, Sale]
+      - { name: order, label: 'Position in the shop', type: number, description: "1 shows first, then 2, and so on." }
+      - { name: dateAdded, label: 'Date added', type: date, options: { format: yyyy-MM-dd }, description: "Used when customers sort by Newest." }
       - { name: placeholder, type: string, hidden: true }
-      - { name: draft, label: 'Hide from the site (draft)', type: boolean }
+      - { name: draft, label: 'Hide from the site (draft)', type: boolean, description: "Tick to save without publishing." }
 
   # ---------------------------------------------------------------- Art
   - name: art
@@ -73,7 +79,7 @@ content:
       primary: title
       sort: [order, title]
     fields:
-      - { name: title, type: string, required: true }
+      - { name: title, label: 'Title', type: string, required: true }
       - name: kind
         label: Original or print
         type: select
@@ -82,7 +88,7 @@ content:
       - { name: year, type: string }
       - { name: medium, type: string }
       - { name: size, type: string }
-      - { name: image, label: 'Photo of the work', type: image }
+      - { name: image, label: 'Photo of the work', type: image, description: "Shown whole, not cropped." }
       - { name: etsyUrl, label: 'Etsy link (prints)', type: string, description: "Leave empty to link to the main Etsy shop." }
       - { name: order, label: 'Order on the page', type: number }
       - { name: placeholder, type: number, hidden: true }
@@ -107,7 +113,7 @@ content:
         options:
           values: [Studio news, New designs, Work in progress]
       - { name: image, label: 'Header photo', type: image }
-      - { name: excerpt, label: 'Short excerpt (for cards)', type: text }
+      - { name: excerpt, label: 'Short summary', type: text, description: "One or two sentences shown under the post on the Journal page." }
       - { name: standfirst, label: 'Standfirst (intro under the title)', type: text }
       - { name: body, label: 'Post', type: rich-text }
       - { name: placeholder, type: string, hidden: true }
@@ -122,7 +128,7 @@ content:
     fields:
       - { name: heroImage, label: 'Hero photo', type: image }
       - { name: heroImageAlt, label: 'Hero photo description (for screen readers)', type: string }
-      - { name: heroFocus, label: 'Hero crop (x% y%)', type: string, description: "Which part of the photo stays in view, e.g. 50% 80%." }
+      - { name: heroFocus, label: 'Hero crop (x% y%)', type: string, description: "Which part of the photo stays in view. First number: left (0%) to right (100%). Second: top (0%) to bottom (100%). 50% 50% is the centre." }
       - { name: heroKicker, label: 'Hero small label', type: string }
       - { name: heroTitle, label: 'Hero title', type: string }
       - { name: heroText, label: 'Hero text', type: text }
@@ -150,22 +156,25 @@ content:
       - { name: title, label: 'Page title', type: string }
       - { name: heroImage, label: 'Header photo', type: image }
       - { name: heroImageAlt, label: 'Header photo description', type: string }
-      - { name: heroFocus, label: 'Header crop (x% y%)', type: string }
+      - { name: heroFocus, label: 'Header crop (x% y%)', type: string, description: "Which part of the photo stays in view. First number: left (0%) to right (100%). Second: top (0%) to bottom (100%). 50% 50% is the centre." }
       - { name: intro, label: 'Intro text (optional)', type: text }
       - name: tags
         label: Photo tags
         type: object
-        list: true
-        description: "Labels on the header photo. x and y are % across and down the visible photo."
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{label} ({x}% across, {y}% down)"
+        description: "Labels placed on the header photo. Clicking one filters the products below. Hidden on phones."
         fields:
-          - { name: label, type: string }
+          - { name: label, label: 'Label text', type: string }
           - name: filter
-            label: Shows product type
+            label: Clicking it shows
             type: select
             options:
               values: [Beanbags, Cushions, Throws, Rugs, Tableware]
-          - { name: x, type: number }
-          - { name: y, type: number }
+          - { name: x, label: 'Across (%)', type: number, description: "0 is the left edge, 100 the right." }
+          - { name: y, label: 'Down (%)', type: number, description: "0 is the top edge, 100 the bottom." }
       - { name: productNote, label: 'Delivery note on product pages', type: string }
       - { name: madeIn, label: '"Made in the UK" text', type: text }
       - { name: deliverySummary, label: 'Delivery summary on product pages', type: text }
@@ -180,22 +189,26 @@ content:
       - { name: title, label: 'Page title', type: string }
       - { name: heroImage, label: 'Header photo', type: image }
       - { name: heroImageAlt, label: 'Header photo description', type: string }
-      - { name: heroFocus, label: 'Header crop (x% y%)', type: string }
+      - { name: heroFocus, label: 'Header crop (x% y%)', type: string, description: "Which part of the photo stays in view. First number: left (0%) to right (100%). Second: top (0%) to bottom (100%). 50% 50% is the centre." }
       - { name: intro1, label: "Intro, first column", type: text }
       - { name: intro2, label: "Intro, second column", type: text }
       - name: tags
         label: Photo tags
         type: object
-        list: true
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{label} ({x}% across, {y}% down)"
+        description: "Labels placed on the header photo. Clicking one filters the works below. Hidden on phones."
         fields:
-          - { name: label, type: string }
+          - { name: label, label: 'Label text', type: string }
           - name: filter
-            label: Shows
+            label: Clicking it shows
             type: select
             options:
               values: [Originals, Prints]
-          - { name: x, type: number }
-          - { name: y, type: number }
+          - { name: x, label: 'Across (%)', type: number, description: "0 is the left edge, 100 the right." }
+          - { name: y, label: 'Down (%)', type: number, description: "0 is the top edge, 100 the bottom." }
       - { name: etsyLinkText, label: 'Etsy link text', type: string }
       - { name: ctaTitle, label: 'Commissions heading', type: string }
       - { name: ctaText, label: 'Commissions text', type: text }
@@ -210,7 +223,7 @@ content:
       - { name: title, label: 'Page title', type: string }
       - { name: heroImage, label: 'Header photo', type: image }
       - { name: heroImageAlt, label: 'Header photo description', type: string }
-      - { name: heroFocus, label: 'Header crop (x% y%)', type: string }
+      - { name: heroFocus, label: 'Header crop (x% y%)', type: string, description: "Which part of the photo stays in view. First number: left (0%) to right (100%). Second: top (0%) to bottom (100%). 50% 50% is the centre." }
       - { name: intro, label: 'Intro text', type: text }
       - { name: categories, label: 'Filter categories', type: string, list: true, description: "Should match the categories used on posts." }
 
@@ -223,7 +236,7 @@ content:
       - { name: title, label: 'Page title', type: string }
       - { name: heroImage, label: 'Header photo', type: image }
       - { name: heroImageAlt, label: 'Header photo description', type: string }
-      - { name: heroFocus, label: 'Header crop (x% y%)', type: string }
+      - { name: heroFocus, label: 'Header crop (x% y%)', type: string, description: "Which part of the photo stays in view. First number: left (0%) to right (100%). Second: top (0%) to bottom (100%). 50% 50% is the centre." }
       - { name: intro1, label: "Intro, first column", type: text }
       - { name: intro2, label: "Intro, second column", type: text }
       - { name: contactTitle, label: 'Contact heading', type: string }
@@ -232,10 +245,13 @@ content:
       - name: studioImages
         label: Studio photos
         type: object
-        list: true
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{index}. {caption}"
         fields:
-          - { name: image, type: image }
-          - { name: caption, type: string }
+          - { name: image, label: 'Photo', type: image }
+          - { name: caption, label: 'Caption', type: string }
 
   - name: info
     label: Info pages (delivery, privacy, terms)
@@ -254,7 +270,10 @@ content:
       - name: rates
         label: Delivery rates table (delivery page only)
         type: object
-        list: true
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{service}: {cost}"
         fields:
           - { name: service, type: string }
           - { name: time, label: 'Delivery time', type: string }
@@ -262,7 +281,10 @@ content:
       - name: sections
         label: Sections
         type: object
-        list: true
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{heading}"
         fields:
           - { name: heading, type: string }
           - { name: text, type: text, description: "Blank line between paragraphs." }
