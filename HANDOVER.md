@@ -75,6 +75,9 @@ For the developer who connects selling and hosts the site (e.g. Woz). Kept up to
 
 ## Hosting
 - Netlify (free tier) builds and hosts the site; `netlify.toml` sets the build, Node 22, the 404 page and labs headers. Any static host with a Node build works (Cloudflare Pages, etc.).
-- Live now at https://jeanette-read-studio.netlify.app (Netlify site connected to `main` on 21 Oct 2026). Pages CMS is connected to the same repo and branch; admin saves trigger a deploy.
+- Netlify site https://jeanette-read-studio.netlify.app connected to `main` on 21 Oct 2026; Pages CMS connected to the same repo and branch. Tested end to end, then **builds stopped** (Build status: Stopped) the same day: the free plan's 300 credits/month (15 per production deploy) ran out after about 20 admin saves. The site shows the last deploy before that.
+- Netlify credit costs (checked 21 Oct 2026): production deploy 15; bandwidth 20 per GB; web requests 2 per 10,000; branch deploys, deploy previews and failed deploys free. Personal plan $9/month for 1,000 credits; Pro from $20/month for 3,000. Rough post-launch estimate 400–700 credits/month (assumes 20–40 saves and ~1,000 visits a month; not measured).
+- Before reactivating: decide host (Netlify Personal vs Cloudflare Pages, free 500 builds/month), add image resizing, and load bulk content on a separate branch then merge once, so population costs one production deploy.
+- Design work continues on the `design` branch and in the claude.ai preview artifact; `main` stays frozen until launch.
 - Netlify Forms could handle the contact and newsletter forms with a `data-netlify` attribute (check the free-tier limits), or use a mailing service's embed.
 - Payment, newsletter and contact form need whichever services are chosen. Domain still to be decided.
