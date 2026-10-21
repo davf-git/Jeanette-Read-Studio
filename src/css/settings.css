@@ -68,8 +68,8 @@
   --radius: 0px;
   --header-pad: 10px;
   --brand-dir: row;       /* row = name beside logo, column = name beneath */
-  --logo-h: 79px;
-  --logo-h-m: 47px;
+  --logo-h: 60px;
+  --logo-h-m: 40px;
   --hero-img-h: 450px;    /* home hero height, desktop */
   --hero-img-h-m: 300px;  /* home hero height, under 600px wide */
 }
