@@ -1,0 +1,12 @@
+{
+  "title": "Journal",
+  "heroImage": "/images/photos/home-hero.jpg",
+  "heroImageAlt": "[Journal header photo]",
+  "heroFocus": "50% 40%",
+  "intro": "[One line on what the journal covers: studio news, new designs, work in progress.]",
+  "categories": [
+    "Studio news",
+    "New designs",
+    "Work in progress"
+  ]
+}

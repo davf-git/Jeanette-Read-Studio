@@ -1,0 +1,58 @@
+{#- Reusable markup. Import with: {% import "partials/macros.njk" as ui %} -#}
+
+{#- Staged photo header with tags (Shop, Art, Journal, About) -#}
+{% macro stage(p, crumb) %}
+    <section class="stage{% if not p.heroImage %} ph-shallows{% endif %}" aria-label="{{ p.title }}">
+      {% if p.heroImage %}<img src="{{ p.heroImage }}" alt="{{ p.heroImageAlt }}" style="object-position:{{ p.heroFocus or '50% 50%' }}">{% else %}<span class="ph-label">{{ p.heroImageAlt }}</span>{% endif %}
+      {%- for t in p.tags %}
+      <button type="button" class="tag" style="--x:{{ t.x }}%;--y:{{ t.y }}%" data-tag-filter="{{ t.filter }}">{{ t.label }}</button>
+      {%- endfor %}
+      <div class="stage__text wrap">
+        <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span>{{ crumb or p.title }}</span></nav>
+        <h1 class="stage__title">{{ p.title }}</h1>
+      </div>
+    </section>
+{% endmacro %}
+
+{#- Filter chips -#}
+{% macro chips(values, label, allLabel) %}
+<div class="chips" role="group" aria-label="{{ label }}"><button type="button" class="chip" data-filter="All" aria-pressed="true">{{ allLabel or "All" }}</button>{% for v in values %}<button type="button" class="chip" data-filter="{{ v }}" aria-pressed="false">{{ v }}</button>{% endfor %}</div>
+{% endmacro %}
+
+{#- Product card with colourway swatches -#}
+{% macro productCard(item, n) %}
+{%- set d = item.data -%}
+          <div class="card" data-type="{{ d.type }}" data-product-id="{{ item.fileSlug }}" data-colourway="0" data-order="{{ d.order or n }}" data-new="{{ d.dateAdded | isoDate }}" data-price-pence="{{ d.price | pence }}">
+            <div class="card__media">
+              <a href="{{ item.url }}" aria-label="{{ d.title }}">
+                {%- for c in d.colourways %}<div class="imgbox card__layer {{ d.placeholder }} cw-{{ loop.index0 % 3 }}{% if loop.first %} is-on{% endif %}">{% if c.image %}<img src="{{ c.image }}" alt="" loading="lazy">{% endif %}</div>{% endfor -%}
+              </a>
+              {%- if d.flag %}<span class="flag{% if d.flag == 'Sale' %} flag--sun{% endif %}">{{ d.flag }}</span>{% endif %}
+              {%- if d.colourways.length > 1 %}
+              <div class="swatches" role="group" aria-label="Colourways">{% for c in d.colourways %}<button type="button" class="swatch {{ d.placeholder }} cw-{{ loop.index0 % 3 }}" data-cw="{{ loop.index0 }}" aria-label="{{ c.name }}" aria-pressed="{{ 'true' if loop.first else 'false' }}"></button>{% endfor %}</div>
+              {%- endif %}
+            </div>
+            <a class="card__row" href="{{ item.url }}"><span>{{ d.title }}</span><span>{{ d.price | gbp }}</span></a>
+            <span class="t-small js-cw-name">{{ d.colourways[0].name if d.colourways.length else "" }}</span>
+          </div>
+{% endmacro %}
+
+{#- Artwork card: originals link to enquiries, prints to Etsy -#}
+{% macro artCard(item, site) %}
+{%- set d = item.data -%}
+{%- set orig = d.kind == "Original" -%}
+{%- set href = "/about/#contact" if orig else (d.etsyUrl or site.etsyUrl) -%}
+{%- set ext = "" if orig else ' target="_blank" rel="noopener"' -%}
+        <div class="work" data-type="{{ 'Originals' if orig else 'Prints' }}">
+          <a class="work__frame" href="{{ href }}"{{ ext | safe }} aria-label="{{ d.title }}, {{ d.kind | lower }}">{% if d.image %}<img src="{{ d.image }}" alt="{{ d.title }}" loading="lazy">{% else %}<div class="art-ph art-ph--{{ d.placeholder or 1 }}"></div>{% endif %}</a>
+          <div class="work__row"><span class="work__title">{{ d.title }}</span><span class="t-small">{{ d.year }}</span></div>
+          <span class="t-small">{{ d.kind }} · {{ d.medium }} · {{ d.size }}</span>
+          <a class="work__act t-label lnk" href="{{ href }}"{{ ext | safe }}>{{ "Enquire" if orig else "Buy on Etsy ↗" }}</a>
+        </div>
+{% endmacro %}
+
+{#- Journal card -#}
+{% macro postCard(item, showExcerpt) %}
+{%- set d = item.data -%}
+        <a class="jcard" href="{{ item.url }}" data-type="{{ d.category }}"><div class="imgbox {{ d.placeholder if not d.image }}">{% if d.image %}<img src="{{ d.image }}" alt="" loading="lazy">{% endif %}</div><span class="t-small">{{ item.date | ukDate }} · {{ d.category }}</span><span class="t-card">{{ d.title }}</span>{% if showExcerpt %}<span class="t-body">{{ d.excerpt }}</span>{% endif %}</a>
+{% endmacro %}

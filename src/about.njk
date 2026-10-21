@@ -1,0 +1,54 @@
+---
+layout: layouts/base.njk
+permalink: /about/
+nav: about
+eleventyComputed:
+  title: "{{ pages.about.title }}"
+description: About Jeanette Read, artist and designer, and how to get in touch.
+---
+{%- import "partials/macros.njk" as ui -%}
+{%- set p = pages.about -%}
+  <main id="main">
+{{ ui.stage(p) }}
+    <div class="wrap page-main page-main--art">
+      <div class="intro2">
+        <p class="t-body">{{ p.intro1 }}</p>
+        {% if p.intro2 %}<p class="t-body">{{ p.intro2 }}</p>{% endif %}
+      </div>
+
+      <section class="contact" id="contact" aria-label="{{ p.contactTitle }}">
+        <div>
+          <h2 class="t-section">{{ p.contactTitle }}</h2>
+          <p class="t-body">{{ p.contactText }}</p>
+          <div class="stack links">
+            <a href="mailto:{{ site.email }}">{{ site.email }}</a>
+            <a href="{{ site.instagramUrl }}" target="_blank" rel="noopener">Instagram: @{{ site.instagramHandle }}</a>
+            <a href="{{ site.etsyUrl }}" target="_blank" rel="noopener">Etsy shop ↗</a>
+            <span class="t-small">{{ site.location }}</span>
+          </div>
+        </div>
+        <div>
+          <!-- CONTACT FORM: needs a backend or form service. See HANDOVER.md. -->
+          <form class="form" data-form="contact" novalidate>
+            <label class="t-label">Name<input class="input" name="name" autocomplete="name" required></label>
+            <label class="t-label">Email<input class="input" name="email" type="email" autocomplete="email" required></label>
+            <label class="t-label">Message<textarea class="input" name="message" required></textarea></label>
+            <button class="btn" type="submit">Send</button>
+            <p class="t-small" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+
+      {%- if p.studioImages and p.studioImages.length %}
+      <section class="stack studio-sec" aria-label="{{ p.studioTitle }}">
+        <h2 class="t-section">{{ p.studioTitle }}</h2>
+        <div class="agrid">
+          {%- set fills = ["ph-wet", "ph-sun", "ph-sea", "ph-dune"] %}
+          {%- for s in p.studioImages %}
+          <figure class="studio-fig"><div class="imgbox r-11{% if not s.image %} {{ fills[loop.index0 % 4] }}{% endif %}">{% if s.image %}<img src="{{ s.image }}" alt="{{ s.caption }}" loading="lazy">{% else %}<span class="ph-label">{{ s.caption }}</span>{% endif %}</div>{% if s.image and s.caption %}<figcaption class="t-small">{{ s.caption }}</figcaption>{% endif %}</figure>
+          {%- endfor %}
+        </div>
+      </section>
+      {%- endif %}
+    </div>
+  </main>

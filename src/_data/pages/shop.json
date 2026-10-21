@@ -1,0 +1,43 @@
+{
+  "title": "Shop",
+  "heroImage": "/images/photos/shop-hero.jpg",
+  "heroImageAlt": "Patio styled with white outdoor sofa, cushions, beanbags, rug, tea set and a sheepskin throw",
+  "heroFocus": "50% 96%",
+  "intro": "",
+  "tags": [
+    {
+      "label": "Beanbags",
+      "filter": "Beanbags",
+      "x": 17,
+      "y": 52
+    },
+    {
+      "label": "Cushions",
+      "filter": "Cushions",
+      "x": 61,
+      "y": 22
+    },
+    {
+      "label": "Tea set",
+      "filter": "Tableware",
+      "x": 52,
+      "y": 48
+    },
+    {
+      "label": "Rug",
+      "filter": "Rugs",
+      "x": 40,
+      "y": 74
+    },
+    {
+      "label": "Throws",
+      "filter": "Throws",
+      "x": 84,
+      "y": 41
+    }
+  ],
+  "productNote": "Free UK delivery on orders over [£X].",
+  "madeIn": "All products are designed, printed and made in the UK.",
+  "deliverySummary": "[Short summary of delivery times and returns.]",
+  "relatedTitle": "Pairs well with"
+}

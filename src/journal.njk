@@ -1,0 +1,23 @@
+---
+layout: layouts/base.njk
+permalink: /journal/
+nav: journal
+eleventyComputed:
+  title: "{{ pages.journal.title }}"
+description: Studio news, new designs and work in progress from Jeanette Read.
+---
+{%- import "partials/macros.njk" as ui -%}
+{%- set p = pages.journal -%}
+  <main id="main">
+{{ ui.stage(p) }}
+    <div class="wrap page-main page-main--art" data-filter-scope>
+      {% if p.intro %}<div class="intro2"><p class="t-body">{{ p.intro }}</p></div>{% endif %}
+      <div class="toolbar">
+        {{ ui.chips(p.categories, "Filter posts") }}
+      </div>
+      <p class="t-small js-count" data-unit="post,posts">{{ collections.posts.length }} posts</p>
+      <div class="agrid" data-grid>
+{%- for item in collections.posts %}{{ ui.postCard(item, true) }}{% endfor %}
+      </div>
+    </div>
+  </main>

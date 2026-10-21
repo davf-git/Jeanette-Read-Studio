@@ -1,0 +1,75 @@
+---
+layout: layouts/base.njk
+permalink: /labs/components/
+title: Components lab
+robots: noindex
+labs: true
+eleventyExcludeFromCollections: true
+extraCss: ["/labs/labs.css"]
+
+---
+{%- import "partials/macros.njk" as ui -%}
+  <main id="main" class="wrap lab-comps">
+    <h1 class="t-title">Components</h1>
+    <p class="t-body">Every reusable part of the site, on one page. The header, delivery bar and footer on this page are the real ones.</p>
+
+    <section class="lab-block"><h2 class="lab-h">Buttons</h2>
+      <div class="btn-row"><a class="btn" href="#">Primary</a><a class="btn btn--line" href="#">Outline</a><button class="btn" type="button" disabled>Disabled</button></div>
+      <div class="lab-dark btn-row"><a class="btn btn--on" href="#">On photo</a><a class="btn btn--light" href="#">On photo, outline</a></div>
+    </section>
+
+    <section class="lab-block"><h2 class="lab-h">Links, labels, breadcrumbs</h2>
+      <p><a class="t-label lnk" href="#">View all</a></p>
+      <nav class="crumbs" aria-label="Breadcrumb example"><a href="#">Home</a><span aria-hidden="true">/</span><a href="#">Shop</a><span aria-hidden="true">/</span><span>[Product name]</span></nav>
+    </section>
+
+    <section class="lab-block" data-filter-scope><h2 class="lab-h">Filter chips and product cards</h2>
+      <div class="filters">{{ ui.chips(collections.products | pluck("type") | unique, "Shop by type") }}<p class="t-small count js-count">{{ collections.products.length }} products</p></div>
+      <div class="pgrid" data-grid>
+{%- for item in collections.products %}{{ ui.productCard(item, loop.index) }}{% endfor %}
+      </div>
+    </section>
+
+    <section class="lab-block"><h2 class="lab-h">Artwork cards</h2>
+      <div class="agrid">{% for item in collections.artworks | limit(2) %}{{ ui.artCard(item, site) }}{% endfor %}</div>
+    </section>
+
+    <section class="lab-block"><h2 class="lab-h">Journal cards</h2>
+      <div class="jgrid">
+        <a class="jcard" href="#"><div class="imgbox ph-sea"></div><span class="t-small">[Date]</span><span class="t-card">[Post title]</span></a>
+        <a class="jcard" href="#"><div class="imgbox ph-wet"></div><span class="t-small">[Date]</span><span class="t-card">[Post title]</span></a>
+        <a class="jcard" href="#"><div class="imgbox ph-shallows"></div><span class="t-small">[Date]</span><span class="t-card">[Post title]</span></a>
+      </div>
+    </section>
+
+    <section class="lab-block"><h2 class="lab-h">Form fields</h2>
+      <form class="form" data-form="contact" novalidate>
+        <label class="t-label">Name<input class="input" name="name" required></label>
+        <label class="t-label">Email<input class="input" name="email" type="email" required></label>
+        <label class="t-label">Message<textarea class="input" name="message" required></textarea></label>
+        <label class="sort">Sort<select><option>Featured</option><option>Newest</option></select></label>
+        <button class="btn" type="submit">Send</button>
+        <p class="t-small" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="lab-block"><h2 class="lab-h">Product options</h2>
+      <fieldset class="lab-fieldset"><legend class="t-label">Colourway: <span class="js-variant-name">[Colourway 1]</span></legend>
+        <div class="dots"><button type="button" class="dot" style="background:#3968A0" data-variant="colourway-1" aria-label="[Colourway 1]" aria-pressed="true"></button><button type="button" class="dot" style="background:#E9A23B" data-variant="colourway-2" aria-label="[Colourway 2]" aria-pressed="false"></button><button type="button" class="dot" style="background:#C8573A" data-variant="colourway-3" aria-label="[Colourway 3]" aria-pressed="false"></button></div></fieldset>
+      <div class="add-row"><div class="qty"><button type="button" data-qty-step="-1" aria-label="Decrease quantity"><svg><use href="#i-minus"/></svg></button><output value="1">1</output><button type="button" data-qty-step="1" aria-label="Increase quantity"><svg><use href="#i-plus"/></svg></button></div>
+        <button class="btn" type="button" data-action="add-to-basket" data-product-id="sample" data-variant="colourway-1" data-variant-name="[Colourway 1]" data-name="[Sample product]" data-qty="1" data-price-pence="">Add to basket</button></div>
+    </section>
+
+    <section class="lab-block"><h2 class="lab-h">Badges and notes</h2>
+      <div class="btn-row"><span class="flag">New</span><span class="flag flag--sun">Sale</span></div>
+      <p class="note">Added to your basket.</p>
+    </section>
+
+    <section class="lab-block"><h2 class="lab-h">Commission band</h2>
+      <section class="cta-band"><div><h2>Enquiries and commissions</h2><p>[One line on buying original work or commissioning a piece]</p></div><a class="btn btn--on" href="#">Get in touch</a></section>
+    </section>
+
+    <section class="lab-block"><h2 class="lab-h">Overlays</h2>
+      <div class="btn-row"><button class="btn btn--line" type="button" data-open="basket" aria-controls="ovl-basket">Open basket drawer</button><button class="btn btn--line" type="button" data-open="menu" aria-controls="ovl-menu">Open mobile menu</button></div>
+    </section>
+  </main>

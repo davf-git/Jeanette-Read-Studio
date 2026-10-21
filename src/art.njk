@@ -1,0 +1,35 @@
+---
+layout: layouts/base.njk
+permalink: /art/
+nav: art
+eleventyComputed:
+  title: "{{ pages.art.title }}"
+description: Original paintings and prints by Jeanette Read.
+---
+{%- import "partials/macros.njk" as ui -%}
+{%- set p = pages.art -%}
+  <main id="main">
+{{ ui.stage(p) }}
+    <div class="wrap page-main page-main--art" data-filter-scope>
+      <div class="intro2">
+        <p class="t-body">{{ p.intro1 }}</p>
+        {% if p.intro2 %}<p class="t-body">{{ p.intro2 }}</p>{% endif %}
+      </div>
+      <div class="toolbar">
+        {{ ui.chips(["Originals", "Prints"], "Filter work", "All work") }}
+        <a class="t-label lnk" href="{{ site.etsyUrl }}" target="_blank" rel="noopener">{{ p.etsyLinkText }}</a>
+      </div>
+      <p class="t-small js-count" data-unit="work,works">{{ collections.artworks.length }} works</p>
+      <div class="agrid" data-grid>
+{%- for item in collections.artworks %}{{ ui.artCard(item, site) }}{% endfor %}
+      </div>
+
+      <section class="cta-band" aria-label="Commissions">
+        <div>
+          <h2>{{ p.ctaTitle }}</h2>
+          <p>{{ p.ctaText }}</p>
+        </div>
+        <a class="btn btn--on" href="/about/#contact">{{ p.ctaButton }}</a>
+      </section>
+    </div>
+  </main>

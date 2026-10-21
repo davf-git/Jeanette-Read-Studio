@@ -1,0 +1,29 @@
+{
+  "title": "About",
+  "heroImage": "",
+  "heroImageAlt": "[Photo: Jeanette in the studio]",
+  "heroFocus": "50% 50%",
+  "intro1": "Jeanette Read is a British artist and designer whose work draws on the patterns, rhythms and movement of the natural world, particularly water and the sea. Jeanette has always been creative. Returning to university to study fine art after a career break, she developed a love of bold geometric pattern and the Op Art movement of the 20th century.",
+  "intro2": "A love of the outdoors, and of the ocean in particular, informs both her art and her design work, with water pattern and movement a constant fascination.",
+  "contactTitle": "Contact",
+  "contactText": "[One line on commissions, stockist and press enquiries]",
+  "studioTitle": "In the studio",
+  "studioImages": [
+    {
+      "image": "",
+      "caption": "[Sketchbook / drawing]"
+    },
+    {
+      "image": "",
+      "caption": "[Printing or painting]"
+    },
+    {
+      "image": "",
+      "caption": "[Finished pieces / fabric]"
+    },
+    {
+      "image": "",
+      "caption": "[Studio space]"
+    }
+  ]
+}

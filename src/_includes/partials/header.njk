@@ -1,0 +1,35 @@
+{%- set navItems = [["shop", "Shop", "/shop/"], ["art", "Art", "/art/"], ["journal", "Journal", "/journal/"], ["about", "About", "/about/"]] -%}
+  <header class="hdr">
+    <div class="hdr__bar">
+      <div class="wrap hdr__in">
+        <div class="hdr__left">
+          <button class="ibtn hdr__menu-btn" type="button" data-open="menu" aria-controls="ovl-menu" aria-expanded="false" aria-label="Open menu"><svg><use href="#i-menu"/></svg></button>
+          <a class="ibtn hdr__home" href="/" aria-label="Home"{% if page.url == "/" %} aria-current="page"{% endif %}><svg><use href="#i-home"/></svg></a>
+          <nav class="hdr__nav" aria-label="Main">
+            {%- for item in navItems %}
+            <a class="t-label" href="{{ item[2] }}"{% if nav == item[0] %} aria-current="page"{% endif %}>{{ item[1] }}</a>
+            {%- endfor %}
+          </nav>
+        </div>
+        <a class="hdr__brand" href="/" aria-label="{{ site.name }}, home">
+          <img class="hdr__logo" src="/images/logos/logo-mark.svg" alt="" width="95" height="94">
+          <span class="t-wordmark">{{ site.name }}</span>
+        </a>
+        <div class="hdr__tools">
+          <a class="ibtn hide-m" href="{{ site.instagramUrl }}" target="_blank" rel="noopener" aria-label="Instagram"><svg><use href="#i-camera"/></svg></a>
+          <a class="hdr__etsy t-label hide-m" href="{{ site.etsyUrl }}" target="_blank" rel="noopener">Etsy <span aria-hidden="true">↗</span></a>
+          <button class="ibtn hide-m" type="button" data-toggle="search" aria-controls="hdr-search" aria-expanded="false" aria-label="Search"><svg><use href="#i-search"/></svg></button>
+          <button class="ibtn" type="button" data-open="basket" aria-controls="ovl-basket" aria-expanded="false" aria-label="Open basket">
+            <svg><use href="#i-bag"/></svg><span class="badge js-bk-count" hidden>0</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="hdr__search" id="hdr-search" hidden>
+      <form class="wrap" role="search" data-form="search">
+        <label class="t-label" for="hdr-q">Search</label>
+        <input class="input" id="hdr-q" name="q" type="search" placeholder="Search">
+      </form>
+    </div>
+    <div class="dbar"><p class="wrap">{{ site.deliveryBar }}</p></div>
+  </header>

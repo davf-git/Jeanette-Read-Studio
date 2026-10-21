@@ -1,0 +1,71 @@
+---
+layout: layouts/base.njk
+permalink: /labs/style/
+title: Style lab
+robots: noindex
+labs: true
+eleventyExcludeFromCollections: true
+extraCss: ["/labs/labs.css"]
+extraJs: ["/labs/style-lab.js"]
+---
+
+  <main id="main" class="lab">
+    <aside class="lab-panel" aria-label="Style controls">
+      <p class="lab-note">Changes preview live across this page. When it looks right, press <b>Copy settings.css</b> and paste over css/settings.css (or send it to Claude). Nothing is saved here.</p>
+      <div class="lab-actions">
+        <button class="lab-btn lab-btn--main" type="button" id="lab-copy">Copy settings.css</button>
+        <button class="lab-btn" type="button" id="lab-reset">Reset</button>
+      </div>
+      <div id="lab-controls"></div>
+      <textarea id="lab-out" class="lab-out" readonly hidden aria-label="settings.css"></textarea>
+    </aside>
+    <div class="lab-preview">
+      <section class="wrap sec">
+        <h2 class="lab-h">Type</h2>
+      <div class="spec-row" data-level="hero">
+        <div class="spec-meta"><b>Hero</b><span class="js-meta"></span></div>
+        <div><p class="t-hero">New collection</p></div>
+      </div>
+      <div class="spec-row" data-level="title">
+        <div class="spec-meta"><b>Page title</b><span class="js-meta"></span></div>
+        <div><p class="t-title">Delivery &amp; returns</p></div>
+      </div>
+      <div class="spec-row" data-level="section">
+        <div class="spec-meta"><b>Section heading</b><span class="js-meta"></span></div>
+        <div><p class="t-section">From the journal</p></div>
+      </div>
+      <div class="spec-row" data-level="statement">
+        <div class="spec-meta"><b>Statement</b><span class="js-meta"></span></div>
+        <div><p class="t-statement">A love of the outdoors informs both her art and her design work.</p></div>
+      </div>
+      <div class="spec-row" data-level="wordmark">
+        <div class="spec-meta"><b>Wordmark</b><span class="js-meta"></span></div>
+        <div><p class="t-wordmark">Jeanette Read Studio</p></div>
+      </div>
+      <div class="spec-row" data-level="lead">
+        <div class="spec-meta"><b>Lead</b><span class="js-meta"></span></div>
+        <div><p class="t-lead">Jeanette Read is a British artist and designer whose work draws on the patterns, rhythms and movement of the natural world.</p></div>
+      </div>
+      <div class="spec-row" data-level="body">
+        <div class="spec-meta"><b>Body</b><span class="js-meta"></span></div>
+        <div><p class="t-body">Pieces are designed to complement one another, with colours and patterns that can be mixed and matched.</p></div>
+      </div>
+      <div class="spec-row" data-level="label">
+        <div class="spec-meta"><b>Label / nav</b><span class="js-meta"></span></div>
+        <div><p class="t-label">Shop · Art · Journal · About</p></div>
+      </div>
+      <div class="spec-row" data-level="small">
+        <div class="spec-meta"><b>Small</b><span class="js-meta"></span></div>
+        <div><p class="t-small">Free UK delivery on orders over [£X]</p></div>
+      </div>
+      </section>
+      <section class="wrap sec band-dune">
+        <h2 class="lab-h">Colour</h2>
+        <div class="spec-swatches"><div class="sw"><i style="background:var(--sand)"></i><span class="t-small">sand</span></div><div class="sw"><i style="background:var(--dune)"></i><span class="t-small">dune</span></div><div class="sw"><i style="background:var(--wet-sand)"></i><span class="t-small">wet-sand</span></div><div class="sw"><i style="background:var(--driftwood)"></i><span class="t-small">driftwood</span></div><div class="sw"><i style="background:var(--deep-sea)"></i><span class="t-small">deep-sea</span></div><div class="sw"><i style="background:var(--open-sea)"></i><span class="t-small">open-sea</span></div><div class="sw"><i style="background:var(--shallows)"></i><span class="t-small">shallows</span></div><div class="sw"><i style="background:var(--sun)"></i><span class="t-small">sun</span></div><div class="sw"><i style="background:var(--coral)"></i><span class="t-small">coral</span></div><div class="sw"><i style="background:var(--slate)"></i><span class="t-small">slate</span></div><div class="sw"><i style="background:var(--pebble)"></i><span class="t-small">pebble</span></div></div>
+      </section>
+      <section class="wrap sec">
+        <h2 class="lab-h">Buttons and links</h2>
+        <div class="btn-row"><a class="btn" href="#">Primary</a><a class="btn btn--line" href="#">Outline</a><a class="t-label lnk" href="#">Text link</a></div>
+      </section>
+    </div>
+  </main>

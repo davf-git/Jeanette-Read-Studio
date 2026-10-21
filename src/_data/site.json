@@ -1,0 +1,15 @@
+{
+  "name": "Jeanette Read Studio",
+  "description": "Homeware and art by Jeanette Read, a British artist and designer inspired by water and the sea.",
+  "url": "",
+  "deliveryBar": "Free UK delivery on orders over [£X]",
+  "email": "[email address]",
+  "instagramUrl": "https://www.instagram.com/",
+  "instagramHandle": "[handle]",
+  "etsyUrl": "https://www.etsy.com/",
+  "location": "[Studio location, e.g. county]",
+  "copyright": "© 2026 Jeanette Read Studio · [Business name and address]",
+  "newsletterTitle": "Newsletter",
+  "newsletterText": "New pieces and studio news, occasionally.",
+  "showLabsLink": true
+}

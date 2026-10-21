@@ -1,0 +1,44 @@
+---
+layout: layouts/base.njk
+---
+{#- Text pages (delivery, privacy, terms). Edited in the admin under Info pages. -#}
+  <main id="main" class="wrap page-top page-main">
+    <div class="stack stack--tight">
+      <h1 class="t-title">{{ title }}</h1>
+      {% if updated %}<p class="t-small">Last updated: {{ updated }}</p>{% endif %}
+    </div>
+    <div class="doc">
+      <nav class="doc__nav" aria-label="On this page">
+        {% if rates and rates.length %}<a href="#uk">UK delivery</a>{% endif %}
+        {%- for s in sections %}<a href="#{{ s.heading | slug }}">{{ s.heading }}</a>{% endfor %}
+        {% if showContactBox %}<a href="#help">Contact</a>{% endif %}
+      </nav>
+      <div class="doc__body">
+        {%- if rates and rates.length %}
+        <section id="uk">
+          <h2>UK delivery</h2>
+          {% if intro %}<p class="t-body">{{ intro }}</p>{% endif %}
+          <div class="table-wrap"><table class="table">
+            <thead><tr><th>Service</th><th>Delivery time</th><th>Cost</th></tr></thead>
+            <tbody>
+              {%- for r in rates %}
+              <tr><td>{{ r.service }}</td><td>{{ r.time }}</td><td>{{ r.cost }}</td></tr>
+              {%- endfor %}
+            </tbody>
+          </table></div>
+        </section>
+        {%- elif intro %}
+        <p class="t-body">{{ intro }}</p>
+        {%- endif %}
+        {%- for s in sections %}
+        <section id="{{ s.heading | slug }}"><h2>{{ s.heading }}</h2><div class="t-body prose">{{ s.text | md | safe }}</div></section>
+        {%- endfor %}
+        {%- if showContactBox %}
+        <section id="help" class="help-box">
+          <div><h2>Questions about an order?</h2><p class="t-body">{{ site.email }}</p></div>
+          <a class="btn" href="/about/#contact">Contact</a>
+        </section>
+        {%- endif %}
+      </div>
+    </div>
+  </main>

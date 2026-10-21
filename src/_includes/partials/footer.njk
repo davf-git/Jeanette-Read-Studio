@@ -1,0 +1,54 @@
+  <footer class="ftr">
+    <div class="wrap ftr__in">
+      <div class="news">
+        <div>
+          <h2 class="t-section">{{ site.newsletterTitle }}</h2>
+          <p class="t-body muted">{{ site.newsletterText }}</p>
+        </div>
+        <form data-form="newsletter" novalidate>
+          <label class="vh" for="news-email">Email address</label>
+          <div class="field">
+            <input id="news-email" name="email" type="email" autocomplete="email" placeholder="Email address" required>
+            <button class="btn" type="submit">Subscribe</button>
+          </div>
+          <p class="t-small" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+      <div class="ftr__cols">
+        <nav class="ftr__col" aria-label="Shop">
+          <p class="t-label">Shop</p>
+          <a href="/shop/">All homeware</a>
+          <a href="/shop/">New in</a>
+          <a href="/shop/">Gift cards</a>
+        </nav>
+        <nav class="ftr__col" aria-label="Art">
+          <p class="t-label">Art</p>
+          <a href="/art/">Original work</a>
+          <a href="{{ site.etsyUrl }}" target="_blank" rel="noopener">Prints and canvases on Etsy ↗</a>
+          <a href="/about/#contact">Commissions</a>
+        </nav>
+        <nav class="ftr__col" aria-label="Studio">
+          <p class="t-label">Studio</p>
+          <a href="/about/">About</a>
+          <a href="/journal/">Journal</a>
+          <a href="/about/#contact">Contact</a>
+        </nav>
+        <nav class="ftr__col" aria-label="Help">
+          <p class="t-label">Help</p>
+          <a href="/delivery/">Delivery &amp; returns</a>
+          <a href="/delivery/">Care guide</a>
+          <a href="/delivery/">FAQs</a>
+          <a href="/privacy/">Privacy policy</a>
+          <a href="/terms/">Terms &amp; conditions</a>
+        </nav>
+      </div>
+      <div class="ftr__base">
+        <div class="ftr__social">
+          <a class="ibtn" href="{{ site.instagramUrl }}" target="_blank" rel="noopener" aria-label="Instagram"><svg><use href="#i-camera"/></svg></a>
+          <a class="hdr__etsy t-label" href="{{ site.etsyUrl }}" target="_blank" rel="noopener">Etsy <span aria-hidden="true">↗</span></a>
+        </div>
+        <p class="t-small">{{ site.copyright }}</p>
+        {% if site.showLabsLink %}<a class="t-small" href="/labs/style/">Design labs</a>{% endif %}
+      </div>
+    </div>
+  </footer>

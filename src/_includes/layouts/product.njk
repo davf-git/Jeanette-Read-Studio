@@ -1,0 +1,65 @@
+---
+layout: layouts/base.njk
+---
+{#- One page per file in src/content/products. Edited in the admin under Shop. -#}
+{%- import "partials/macros.njk" as ui -%}
+{%- set p = pages.shop -%}
+{%- set first = colourways[0] if colourways and colourways.length else {} -%}
+{%- set mainImg = gallery[0] if gallery and gallery.length else first.image -%}
+  <main id="main" class="wrap page-top page-main">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/shop/">Shop</a><span aria-hidden="true">/</span><span>{{ title }}</span></nav>
+
+    <div class="prod">
+      <div class="gallery">
+        <div class="imgbox gallery__main{% if not mainImg %} {{ placeholder }} cw-0{% endif %}">{% if mainImg %}<img src="{{ mainImg }}" alt="{{ title }}">{% endif %}</div>
+        <div class="thumbs">
+          {%- if gallery and gallery.length %}
+          {%- for img in gallery %}<button type="button" class="thumb" data-src="{{ img }}" data-alt="{{ title }}" aria-label="Photo {{ loop.index }}" aria-pressed="{{ 'true' if loop.first else 'false' }}"><img src="{{ img }}" alt=""></button>{% endfor %}
+          {%- else %}
+          {%- for i in range(0, 4) %}<button type="button" class="thumb {{ placeholder }} cw-{{ i % 3 }}" data-src="" data-ground="{{ placeholder }} cw-{{ i % 3 }}" aria-label="Photo {{ i + 1 }}" aria-pressed="{{ 'true' if i == 0 else 'false' }}"></button>{% endfor %}
+          {%- endif %}
+        </div>
+      </div>
+
+      <div class="buy">
+        <div class="stack stack--tight">
+          <h1 class="t-title">{{ title }}</h1>
+          <p class="buy__price">{{ price | gbp }}</p>
+        </div>
+        <div class="t-body">{{ content | safe }}</div>
+
+        {%- if colourways and colourways.length %}
+        <fieldset>
+          <legend class="t-label">Colourway: <span class="js-variant-name">{{ first.name }}</span></legend>
+          <div class="dots">{% for c in colourways %}<button type="button" class="dot" style="background:{{ c.swatch or '#D8CBB3' }}" data-variant="colourway-{{ loop.index }}" data-image="{{ c.image }}" aria-label="{{ c.name }}" aria-pressed="{{ 'true' if loop.first else 'false' }}"></button>{% endfor %}</div>
+        </fieldset>
+        {%- endif %}
+
+        <div class="add-row">
+          <div class="qty">
+            <button type="button" data-qty-step="-1" aria-label="Decrease quantity"><svg><use href="#i-minus"/></svg></button>
+            <output aria-live="polite" value="1">1</output>
+            <button type="button" data-qty-step="1" aria-label="Increase quantity"><svg><use href="#i-plus"/></svg></button>
+          </div>
+          <!-- ADD TO BASKET HOOK: product id, variant, quantity, price in pence. See HANDOVER.md. -->
+          <button class="btn" type="button" data-action="add-to-basket" data-product-id="{{ page.fileSlug }}" data-variant="colourway-1" data-variant-name="{{ first.name }}" data-name="{{ title }}" data-qty="1" data-price-pence="{{ price | pence }}" data-img="{{ mainImg }}">Add to basket</button>
+        </div>
+        <p class="note js-added" role="status" hidden>Added to your basket.</p>
+        <p class="t-small">{{ p.productNote }} <a href="/delivery/">Delivery &amp; returns</a></p>
+
+        <div class="acc">
+          <details><summary class="t-label">Materials &amp; care</summary><p class="t-body">{{ materials }}</p></details>
+          <details><summary class="t-label">Dimensions</summary><p class="t-body">{{ dimensions }}</p></details>
+          <details><summary class="t-label">Made in the UK</summary><p class="t-body">{{ p.madeIn }}</p></details>
+          <details><summary class="t-label">Delivery &amp; returns</summary><p class="t-body">{{ p.deliverySummary }} <a href="/delivery/">Full details</a></p></details>
+        </div>
+      </div>
+    </div>
+
+    <section class="stack related-sec" aria-label="{{ p.relatedTitle }}">
+      <h2 class="t-section">{{ p.relatedTitle }}</h2>
+      <div class="pgrid">
+{%- for item in collections.products | exclude(page.url) | limit(4) %}{{ ui.productCard(item, loop.index) }}{% endfor %}
+      </div>
+    </section>
+  </main>

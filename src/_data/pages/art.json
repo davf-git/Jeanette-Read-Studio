@@ -1,0 +1,26 @@
+{
+  "title": "Art",
+  "heroImage": "/images/photos/art-hero.jpg",
+  "heroImageAlt": "Bright garden room opening onto a sea-view patio, with two of Jeanette's artworks on the walls and patterned beanbag, cubes and cushions",
+  "heroFocus": "50% 28%",
+  "intro1": "Jeanette's art explores order and chaos, repetition and disruption. She investigates colour, perception and the relationship between a work and its viewer, and how each person's way of seeing becomes part of the piece.",
+  "intro2": "Working mainly in print and paint, her process is rooted in investigation and precision, with measurement and experimentation central to the development of each piece.",
+  "tags": [
+    {
+      "label": "[Artwork 1]",
+      "filter": "Originals",
+      "x": 6,
+      "y": 50
+    },
+    {
+      "label": "[Artwork 2]",
+      "filter": "Originals",
+      "x": 80,
+      "y": 52
+    }
+  ],
+  "etsyLinkText": "Prints and canvases on Etsy ↗",
+  "ctaTitle": "Enquiries and commissions",
+  "ctaText": "[One line on buying original work or commissioning a piece]",
+  "ctaButton": "Get in touch"
+}

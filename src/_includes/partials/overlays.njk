@@ -1,0 +1,56 @@
+<!-- ===== BASKET DRAWER (same on every page) ===== -->
+<div class="ovl" id="ovl-basket" aria-hidden="true">
+  <button class="ovl__scrim" type="button" data-close tabindex="-1" aria-label="Close basket"></button>
+  <aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="bk-title">
+    <div class="drawer__head">
+      <h2 class="drawer__title" id="bk-title">Basket (<span class="js-bk-count-text">0</span>)</h2>
+      <button class="ibtn" type="button" data-close aria-label="Close basket"><svg><use href="#i-close"/></svg></button>
+    </div>
+    <!-- Line items are rendered by site.js. Each li carries data-product-id, data-variant, data-qty, data-price-pence. -->
+    <ul class="bk-list" data-basket-list></ul>
+    <div class="bk-empty js-bk-empty">
+      <p class="t-body">Your basket is empty.</p>
+      <a class="btn btn--line" href="/shop/">Shop homeware</a>
+    </div>
+    <div class="bk-spacer"></div>
+    <div class="bk-foot js-bk-full" hidden>
+      <div class="bk-row"><span>Subtotal</span><span class="js-bk-subtotal">[£ price]</span></div>
+      <p class="t-small">Delivery calculated at checkout. <a href="/delivery/">Delivery &amp; returns</a></p>
+      <button class="btn btn--full" type="button" data-action="checkout">Checkout</button>
+      <p class="t-small js-checkout-msg" role="status" hidden></p>
+      <a class="bk-continue" href="/basket/">View basket</a>
+      <button class="bk-continue" type="button" data-close>Continue shopping</button>
+    </div>
+  </aside>
+</div>
+
+<!-- ===== MOBILE MENU (same on every page) ===== -->
+<div class="ovl" id="ovl-menu" aria-hidden="true">
+  <button class="ovl__scrim" type="button" data-close tabindex="-1" aria-label="Close menu"></button>
+  <aside class="mpanel" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="mpanel__top">
+      <img src="/images/logos/logo-mark.svg" alt="">
+      <button class="ibtn" type="button" data-close aria-label="Close menu"><svg><use href="#i-close"/></svg></button>
+    </div>
+    <nav class="mpanel__nav" aria-label="Main">
+      <a href="/shop/">Shop</a>
+      <a href="/art/">Art</a>
+      <a href="/journal/">Journal</a>
+      <a href="/about/">About</a>
+    </nav>
+    <form class="msearch" role="search" data-form="search">
+      <label class="vh" for="m-q">Search</label>
+      <input id="m-q" name="q" type="search" placeholder="Search">
+      <button type="submit" aria-label="Search"><svg><use href="#i-search"/></svg></button>
+    </form>
+    <div class="mpanel__links">
+      <a href="/delivery/">Delivery &amp; returns</a>
+      <a href="/about/#contact">Contact</a>
+    </div>
+    <div class="mpanel__social">
+      <a class="ibtn" href="{{ site.instagramUrl }}" target="_blank" rel="noopener" aria-label="Instagram"><svg><use href="#i-camera"/></svg></a>
+      <a class="hdr__etsy t-label" href="{{ site.etsyUrl }}" target="_blank" rel="noopener">Etsy <span aria-hidden="true">↗</span></a>
+    </div>
+  </aside>
+</div>
+

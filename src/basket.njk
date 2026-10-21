@@ -1,0 +1,26 @@
+---
+layout: layouts/base.njk
+permalink: /basket/
+title: Basket
+robots: noindex
+---
+  <main id="main" class="wrap page-top page-main">
+    <h1 class="t-title">Basket</h1>
+    <div class="js-bk-empty stack stack--start">
+      <p class="t-body">Your basket is empty.</p>
+      <a class="btn" href="/shop/">Shop homeware</a>
+    </div>
+    <div class="bpage js-bk-full" hidden>
+      <div class="bpage__list"><ul class="bk-list" data-basket-list></ul></div>
+      <aside class="summary" aria-label="Order summary">
+        <h2 class="t-label">Order summary</h2>
+        <div class="bk-row"><span>Subtotal</span><span class="js-bk-subtotal">[£ price]</span></div>
+        <div class="bk-row"><span>Delivery</span><span>Calculated at checkout</span></div>
+        <div class="bk-row bk-row--total"><span>Total</span><span class="js-bk-subtotal">[£ price]</span></div>
+        <!-- CHECKOUT HOOK: see HANDOVER.md -->
+        <button class="btn btn--full" type="button" data-action="checkout">Checkout</button>
+        <p class="t-small js-checkout-msg" role="status" hidden></p>
+        <p class="t-small">{{ pages.shop.productNote }} <a href="/delivery/">Delivery &amp; returns</a></p>
+      </aside>
+    </div>
+  </main>

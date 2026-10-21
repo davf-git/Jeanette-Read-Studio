@@ -1,0 +1,76 @@
+---
+layout: layouts/base.njk
+permalink: /
+nav: home
+---
+{%- import "partials/macros.njk" as ui -%}
+{%- set p = pages.home -%}
+{%- set newIn = collections.products | where("newIn") -%}
+  <main id="main">
+    <section class="hero-sec" aria-label="Featured">
+      <div class="imgbox hero-img">{% if p.heroImage %}<img src="{{ p.heroImage }}" alt="{{ p.heroImageAlt }}" style="object-position:{{ p.heroFocus }}">{% endif %}</div>
+      <div class="hero__text wrap">
+        <div>
+          <p class="t-label">{{ p.heroKicker }}</p>
+          <h1 class="t-hero">{{ p.heroTitle }}</h1>
+          <p class="t-lead">{{ p.heroText }}</p>
+          <div class="btn-row">
+            <a class="btn btn--on" href="/shop/">{{ p.heroButton1 }}</a>
+            <a class="btn btn--light" href="/art/">{{ p.heroButton2 }}</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" aria-label="{{ p.newInTitle }}" data-filter-scope>
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 class="t-section">{{ p.newInTitle }}</h2>
+          <a class="t-label lnk" href="/shop/">View all</a>
+        </div>
+        <div class="filters">
+          {{ ui.chips(collections.products | pluck("type") | unique, "Shop by type") }}
+          <p class="t-small count js-count">{{ newIn.length }} products</p>
+        </div>
+        <div class="pgrid" data-grid>
+{%- for item in newIn %}{{ ui.productCard(item, loop.index) }}{% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <section class="sec sec--flush-top" aria-label="Shop and art">
+      <div class="wrap doors">
+        <a class="door" href="/shop/">
+          <div class="imgbox door-shop{% if not p.shopDoorImage %} pat-hex{% endif %}">{% if p.shopDoorImage %}<img src="{{ p.shopDoorImage }}" alt="" loading="lazy">{% else %}<span class="ph-label">[Lifestyle photo: homeware in use]</span>{% endif %}</div>
+          <p class="t-label">{{ p.shopDoorKicker }}</p>
+          <h2 class="t-section">{{ p.shopDoorTitle }}</h2>
+          <p class="t-body">{{ p.shopDoorText }}</p>
+        </a>
+        <a class="door" href="/art/">
+          <div class="imgbox door-art{% if not p.artDoorImage %} pat-wave{% endif %}">{% if p.artDoorImage %}<img src="{{ p.artDoorImage }}" alt="" loading="lazy">{% else %}<span class="ph-label">[Photo: painting in the studio]</span>{% endif %}</div>
+          <p class="t-label">{{ p.artDoorKicker }}</p>
+          <h2 class="t-section">{{ p.artDoorTitle }}</h2>
+          <p class="t-body">{{ p.artDoorText }}</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="sec band-dune" aria-label="About">
+      <div class="wrap teaser">
+        <h2 class="t-statement">{{ p.statement }}</h2>
+        <a class="btn btn--line" href="/about/">{{ p.statementButton }}</a>
+      </div>
+    </section>
+
+    <section class="sec" aria-label="{{ p.journalTitle }}">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 class="t-section">{{ p.journalTitle }}</h2>
+          <a class="t-label lnk" href="/journal/">All posts</a>
+        </div>
+        <div class="jgrid">
+{%- for item in collections.posts | limit(3) %}{{ ui.postCard(item, false) }}{% endfor %}
+        </div>
+      </div>
+    </section>
+  </main>

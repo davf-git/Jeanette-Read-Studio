@@ -1,0 +1,31 @@
+---
+layout: layouts/base.njk
+permalink: /shop/
+nav: shop
+eleventyComputed:
+  title: "{{ pages.shop.title }}"
+description: Cushions, beanbags, throws, rugs and tableware designed by Jeanette Read.
+---
+{%- import "partials/macros.njk" as ui -%}
+{%- set p = pages.shop -%}
+  <main id="main">
+{{ ui.stage(p) }}
+    <div class="wrap page-main" data-filter-scope>
+      {% if p.intro %}<div class="intro2"><p class="t-body">{{ p.intro }}</p></div>{% endif %}
+      <div class="toolbar">
+        {{ ui.chips(collections.products | pluck("type") | unique, "Filter by type") }}
+        <label class="sort">Sort
+          <select data-sort>
+            <option value="featured">Featured</option>
+            <option value="newest">Newest</option>
+            <option value="price-asc">Price, low to high</option>
+            <option value="price-desc">Price, high to low</option>
+          </select>
+        </label>
+      </div>
+      <p class="t-small js-count">{{ collections.products.length }} products</p>
+      <div class="pgrid" data-grid>
+{%- for item in collections.products %}{{ ui.productCard(item, loop.index) }}{% endfor %}
+      </div>
+    </div>
+  </main>

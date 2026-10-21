@@ -1,0 +1,17 @@
+---
+layout: layouts/base.njk
+---
+{#- One page per file in src/content/journal. Edited in the admin under Journal. -#}
+  <main id="main" class="wrap page-top page-main">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/journal/">Journal</a><span aria-hidden="true">/</span><span>{{ title }}</span></nav>
+    <article class="article">
+      <p class="t-small">{{ page.date | ukDate }} · {{ category }}</p>
+      <h1 class="t-title">{{ title }}</h1>
+      {% if standfirst %}<p class="t-lead">{{ standfirst }}</p>{% endif %}
+      <div class="imgbox article__hero{% if not image %} {{ placeholder or 'ph-sea' }}{% endif %}">{% if image %}<img src="{{ image }}" alt="">{% endif %}</div>
+      <div class="article__body">
+{{ content | safe }}
+      </div>
+      <p><a class="t-label lnk" href="/journal/">← All posts</a></p>
+    </article>
+  </main>

@@ -1,0 +1,18 @@
+# Netlify builds the site from this repo on every commit (including edits saved in Pages CMS).
+[build]
+  command = "npm run build"
+  publish = "_site"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Serve the 404 page for unknown URLs
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404
+
+[[headers]]
+  for = "/labs/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"

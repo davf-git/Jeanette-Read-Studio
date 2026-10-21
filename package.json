@@ -1,0 +1,19 @@
+{
+  "name": "jeanette-read-studio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Jeanette Read Studio website: homeware and art.",
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "eleventy",
+    "build:preview": "ELEVENTY_RELATIVE=1 eleventy --output=_preview"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.2",
+    "markdown-it": "^14.3.3"
+  },
+  "type": "module"
+}

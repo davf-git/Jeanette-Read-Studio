@@ -1,0 +1,290 @@
+# Pages CMS configuration (https://pagescms.org).
+# Defines what can be edited in the admin at app.pagescms.org and where it is saved in this repo.
+# Every field in a content file must be listed here: fields that are not listed are removed on save.
+
+media:
+  input: src/images
+  output: /images
+  categories: [image]
+
+settings:
+  commit:
+    templates:
+      create: "Add {path} (via admin)"
+      update: "Update {path} (via admin)"
+      delete: "Delete {path} (via admin)"
+
+content:
+  # ---------------------------------------------------------------- Shop
+  - name: products
+    label: Shop – products
+    type: collection
+    path: src/content/products
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      fields: [title, type, price, order]
+      primary: title
+      sort: [order, title]
+    fields:
+      - { name: title, label: 'Product name', type: string, required: true }
+      - name: type
+        label: Product type
+        type: select
+        options:
+          values: [Beanbags, Cushions, Throws, Rugs, Tableware]
+      - { name: price, label: 'Price (£)', type: number, description: "Leave empty to show [£ price]." }
+      - { name: order, label: 'Order in the shop', type: number, description: "Lower numbers show first." }
+      - { name: newIn, label: 'Show in "New in" on the home page', type: boolean }
+      - { name: dateAdded, label: 'Date added', type: date, options: { format: yyyy-MM-dd }, description: "Used for 'Newest' sorting." }
+      - name: flag
+        label: Card flag
+        type: select
+        options:
+          values: [New, Sale]
+      - name: colourways
+        label: Colourways
+        type: object
+        list: true
+        fields:
+          - { name: name, label: 'Colourway name', type: string }
+          - { name: swatch, label: "Swatch colour (hex, e.g. #3968A0)", type: string }
+          - { name: image, label: 'Card photo for this colourway', type: image }
+      - name: gallery
+        label: Product page photos
+        type: image
+        list: true
+        description: "The first photo is the main one."
+      - { name: body, label: 'Description', type: rich-text }
+      - { name: materials, label: 'Materials & care', type: text }
+      - { name: dimensions, label: 'Dimensions', type: text }
+      - { name: placeholder, type: string, hidden: true }
+      - { name: draft, label: 'Hide from the site (draft)', type: boolean }
+
+  # ---------------------------------------------------------------- Art
+  - name: art
+    label: Art – works
+    type: collection
+    path: src/content/art
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      fields: [title, kind, year, order]
+      primary: title
+      sort: [order, title]
+    fields:
+      - { name: title, type: string, required: true }
+      - name: kind
+        label: Original or print
+        type: select
+        options:
+          values: [Original, Print]
+      - { name: year, type: string }
+      - { name: medium, type: string }
+      - { name: size, type: string }
+      - { name: image, label: 'Photo of the work', type: image }
+      - { name: etsyUrl, label: 'Etsy link (prints)', type: string, description: "Leave empty to link to the main Etsy shop." }
+      - { name: order, label: 'Order on the page', type: number }
+      - { name: placeholder, type: number, hidden: true }
+      - { name: draft, label: 'Hide from the site (draft)', type: boolean }
+
+  # ---------------------------------------------------------------- Journal
+  - name: journal
+    label: Journal – posts
+    type: collection
+    path: src/content/journal
+    format: yaml-frontmatter
+    filename: "{year}-{month}-{day}-{primary}.md"
+    view:
+      fields: [title, date, category]
+      primary: title
+      sort: [date, title]
+    fields:
+      - { name: title, type: string, required: true }
+      - { name: date, type: date, options: { format: yyyy-MM-dd } }
+      - name: category
+        type: select
+        options:
+          values: [Studio news, New designs, Work in progress]
+      - { name: image, label: 'Header photo', type: image }
+      - { name: excerpt, label: 'Short excerpt (for cards)', type: text }
+      - { name: standfirst, label: 'Standfirst (intro under the title)', type: text }
+      - { name: body, label: 'Post', type: rich-text }
+      - { name: placeholder, type: string, hidden: true }
+      - { name: draft, label: 'Hide from the site (draft)', type: boolean }
+
+  # ---------------------------------------------------------------- Page text
+  - name: page-home
+    label: Page text – Home
+    type: file
+    path: src/_data/pages/home.json
+    format: json
+    fields:
+      - { name: heroImage, label: 'Hero photo', type: image }
+      - { name: heroImageAlt, label: 'Hero photo description (for screen readers)', type: string }
+      - { name: heroFocus, label: 'Hero crop (x% y%)', type: string, description: "Which part of the photo stays in view, e.g. 50% 80%." }
+      - { name: heroKicker, label: 'Hero small label', type: string }
+      - { name: heroTitle, label: 'Hero title', type: string }
+      - { name: heroText, label: 'Hero text', type: text }
+      - { name: heroButton1, label: 'Hero button 1 (Shop)', type: string }
+      - { name: heroButton2, label: 'Hero button 2 (Art)', type: string }
+      - { name: newInTitle, label: '"New in" heading', type: string }
+      - { name: shopDoorImage, label: 'Homeware panel photo', type: image }
+      - { name: shopDoorKicker, label: 'Homeware panel label', type: string }
+      - { name: shopDoorTitle, label: 'Homeware panel heading', type: string }
+      - { name: shopDoorText, label: 'Homeware panel text', type: text }
+      - { name: artDoorImage, label: 'Art panel photo', type: image }
+      - { name: artDoorKicker, label: 'Art panel label', type: string }
+      - { name: artDoorTitle, label: 'Art panel heading', type: string }
+      - { name: artDoorText, label: 'Art panel text', type: text }
+      - { name: statement, label: 'Statement band', type: text }
+      - { name: statementButton, label: 'Statement button', type: string }
+      - { name: journalTitle, label: 'Journal section heading', type: string }
+
+  - name: page-shop
+    label: Page text – Shop
+    type: file
+    path: src/_data/pages/shop.json
+    format: json
+    fields:
+      - { name: title, label: 'Page title', type: string }
+      - { name: heroImage, label: 'Header photo', type: image }
+      - { name: heroImageAlt, label: 'Header photo description', type: string }
+      - { name: heroFocus, label: 'Header crop (x% y%)', type: string }
+      - { name: intro, label: 'Intro text (optional)', type: text }
+      - name: tags
+        label: Photo tags
+        type: object
+        list: true
+        description: "Labels on the header photo. x and y are % across and down the visible photo."
+        fields:
+          - { name: label, type: string }
+          - name: filter
+            label: Shows product type
+            type: select
+            options:
+              values: [Beanbags, Cushions, Throws, Rugs, Tableware]
+          - { name: x, type: number }
+          - { name: y, type: number }
+      - { name: productNote, label: 'Delivery note on product pages', type: string }
+      - { name: madeIn, label: '"Made in the UK" text', type: text }
+      - { name: deliverySummary, label: 'Delivery summary on product pages', type: text }
+      - { name: relatedTitle, label: 'Related products heading', type: string }
+
+  - name: page-art
+    label: Page text – Art
+    type: file
+    path: src/_data/pages/art.json
+    format: json
+    fields:
+      - { name: title, label: 'Page title', type: string }
+      - { name: heroImage, label: 'Header photo', type: image }
+      - { name: heroImageAlt, label: 'Header photo description', type: string }
+      - { name: heroFocus, label: 'Header crop (x% y%)', type: string }
+      - { name: intro1, label: "Intro, first column", type: text }
+      - { name: intro2, label: "Intro, second column", type: text }
+      - name: tags
+        label: Photo tags
+        type: object
+        list: true
+        fields:
+          - { name: label, type: string }
+          - name: filter
+            label: Shows
+            type: select
+            options:
+              values: [Originals, Prints]
+          - { name: x, type: number }
+          - { name: y, type: number }
+      - { name: etsyLinkText, label: 'Etsy link text', type: string }
+      - { name: ctaTitle, label: 'Commissions heading', type: string }
+      - { name: ctaText, label: 'Commissions text', type: text }
+      - { name: ctaButton, label: 'Commissions button', type: string }
+
+  - name: page-journal
+    label: Page text – Journal
+    type: file
+    path: src/_data/pages/journal.json
+    format: json
+    fields:
+      - { name: title, label: 'Page title', type: string }
+      - { name: heroImage, label: 'Header photo', type: image }
+      - { name: heroImageAlt, label: 'Header photo description', type: string }
+      - { name: heroFocus, label: 'Header crop (x% y%)', type: string }
+      - { name: intro, label: 'Intro text', type: text }
+      - { name: categories, label: 'Filter categories', type: string, list: true, description: "Should match the categories used on posts." }
+
+  - name: page-about
+    label: Page text – About
+    type: file
+    path: src/_data/pages/about.json
+    format: json
+    fields:
+      - { name: title, label: 'Page title', type: string }
+      - { name: heroImage, label: 'Header photo', type: image }
+      - { name: heroImageAlt, label: 'Header photo description', type: string }
+      - { name: heroFocus, label: 'Header crop (x% y%)', type: string }
+      - { name: intro1, label: "Intro, first column", type: text }
+      - { name: intro2, label: "Intro, second column", type: text }
+      - { name: contactTitle, label: 'Contact heading', type: string }
+      - { name: contactText, label: 'Contact text', type: text }
+      - { name: studioTitle, label: 'Studio photos heading', type: string }
+      - name: studioImages
+        label: Studio photos
+        type: object
+        list: true
+        fields:
+          - { name: image, type: image }
+          - { name: caption, type: string }
+
+  - name: info
+    label: Info pages (delivery, privacy, terms)
+    type: collection
+    path: src/content/info
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      fields: [title, updated]
+      primary: title
+    fields:
+      - { name: title, type: string, required: true }
+      - { name: description, label: 'Search engine description', type: text }
+      - { name: updated, label: 'Last updated (shown on the page)', type: string }
+      - { name: intro, label: 'Intro', type: text }
+      - name: rates
+        label: Delivery rates table (delivery page only)
+        type: object
+        list: true
+        fields:
+          - { name: service, type: string }
+          - { name: time, label: 'Delivery time', type: string }
+          - { name: cost, type: string }
+      - name: sections
+        label: Sections
+        type: object
+        list: true
+        fields:
+          - { name: heading, type: string }
+          - { name: text, type: text, description: "Blank line between paragraphs." }
+      - { name: showContactBox, label: 'Show "Questions about an order?" box', type: boolean }
+
+  # ---------------------------------------------------------------- Site settings
+  - name: site
+    label: Site settings
+    type: file
+    path: src/_data/site.json
+    format: json
+    fields:
+      - { name: name, label: 'Site name', type: string }
+      - { name: description, label: 'Default search engine description', type: text }
+      - { name: url, label: 'Live site address (e.g. https://jeanetteread.com)', type: string }
+      - { name: deliveryBar, label: 'Delivery bar text', type: string }
+      - { name: email, label: 'Contact email', type: string }
+      - { name: instagramUrl, label: 'Instagram link', type: string }
+      - { name: instagramHandle, label: 'Instagram handle (without @)', type: string }
+      - { name: etsyUrl, label: 'Etsy shop link', type: string }
+      - { name: location, label: 'Studio location', type: string }
+      - { name: copyright, label: 'Footer copyright line', type: string }
+      - { name: newsletterTitle, label: 'Newsletter heading', type: string }
+      - { name: newsletterText, label: 'Newsletter text', type: string }
+      - { name: showLabsLink, label: 'Show "Design labs" link in footer (turn off before launch)', type: boolean }
