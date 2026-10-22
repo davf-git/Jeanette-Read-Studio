@@ -6,17 +6,17 @@
    ========================================================= */
 :root {
   /* ---- Palette: sea, sun, sand ---- */
-  --sand: #F8F6F1;        /* page background */
-  --dune: #F2EDE3;        /* feature bands */
+  --sand: #F5EFE4;        /* page background */
+  --dune: #EADFCB;        /* feature bands */
   --wet-sand: #E4D7BF;    /* image grounds */
-  --driftwood: #CDC0A7;   /* rules */
-  --deep-sea: #3B5C78;    /* text, primary buttons, footer */
-  --open-sea: #3A75A1;    /* main accent, logo blue */
-  --shallows: #2E7F85;    /* alternative accent */
-  --sun: #EAA134;         /* highlights, badges (fill only, not text on sand) */
-  --coral: #D77D42;       /* occasional accent */
-  --slate: #59656E;       /* body text */
-  --pebble: #818F98;      /* captions */
+  --driftwood: #D8CBB3;   /* rules */
+  --deep-sea: #14324A;    /* text, primary buttons, footer */
+  --open-sea: #3968A0;    /* main accent, logo blue */
+  --shallows: #2E7F86;    /* alternative accent */
+  --sun: #E9A23B;         /* highlights, badges (fill only, not text on sand) */
+  --coral: #C8573A;       /* occasional accent */
+  --slate: #3A4A56;       /* body text */
+  --pebble: #56636B;      /* captions */
 
   /* ---- Colour roles ---- */
   --page-bg: var(--sand);
@@ -48,7 +48,7 @@
   --font-body: "Barlow", "Helvetica Neue", Arial, sans-serif;
 
   /* ---- Text levels: size / line height / letter spacing / weight ---- */
-  --hero-size: 88px;      --hero-lh: 0.97;      --hero-ls: -0.015em;    --hero-wt: 400;
+  --hero-size: 88px;      --hero-lh: 0.97;      --hero-ls: -0.015em;    --hero-wt: 500;
   --section-size: 52px;   --section-lh: 1.05;   --section-ls: -0.015em; --section-wt: 200;
   --statement-size: 40px; --statement-lh: 1.03; --statement-ls: -0.015em; --statement-wt: 300;
   --title-size: 56px;     --title-lh: 1.04;     --title-ls: -0.02em;    --title-wt: 200;
@@ -59,11 +59,11 @@
   --small-size: 13px;     --small-lh: 1.5;      --small-ls: 0em;        --small-wt: 400;
   --wordmark-case: none;
   --label-case: uppercase;
-  --mobile-scale: 0.7;   /* display sizes multiply by this under 600px wide */
+  --mobile-scale: 0.72;   /* display sizes multiply by this under 600px wide */
 
   /* ---- Spacing and layout ---- */
   --gutter: 40px;
-  --section-gap: 60px;    /* half above, half below each section */
+  --section-gap: 72px;    /* half above, half below each section */
   --max-w: 1600px;
   --radius: 0px;
   --header-pad: 10px;
