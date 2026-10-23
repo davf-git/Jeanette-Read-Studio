@@ -2,8 +2,12 @@
   <header class="hdr">
     <div class="hdr__bar">
       <div class="wrap hdr__in">
-        <div class="hdr__left">
-          <button class="ibtn hdr__menu-btn" type="button" data-open="menu" aria-controls="ovl-menu" aria-expanded="false" aria-label="Open menu"><svg><use href="#i-menu"/></svg></button>
+        <button class="ibtn hdr__menu-btn" type="button" data-open="menu" aria-controls="ovl-menu" aria-expanded="false" aria-label="Open menu"><svg><use href="#i-menu"/></svg></button>
+        <a class="hdr__brand" href="/" aria-label="{{ site.name }}, home">
+          <img class="hdr__logo" src="/images/logos/logo-mark.svg" alt="" width="95" height="94">
+          <span class="t-wordmark">{{ site.name }}</span>
+        </a>
+        <div class="hdr__mid">
           <a class="ibtn hdr__home" href="/" aria-label="Home"{% if page.url == "/" %} aria-current="page"{% endif %}><svg><use href="#i-home"/></svg></a>
           <nav class="hdr__nav" aria-label="Main">
             {%- for item in navItems %}
@@ -11,10 +15,6 @@
             {%- endfor %}
           </nav>
         </div>
-        <a class="hdr__brand" href="/" aria-label="{{ site.name }}, home">
-          <img class="hdr__logo" src="/images/logos/logo-mark.svg" alt="" width="95" height="94">
-          <span class="t-wordmark">{{ site.name }}</span>
-        </a>
         <div class="hdr__tools">
           <a class="ibtn hide-m" href="{{ site.instagramUrl }}" target="_blank" rel="noopener" aria-label="Instagram"><svg><use href="#i-camera"/></svg></a>
           <a class="hdr__etsy t-label hide-m" href="{{ site.etsyUrl }}" target="_blank" rel="noopener">Etsy <span aria-hidden="true">↗</span></a>

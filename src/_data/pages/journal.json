@@ -1,8 +1,8 @@
 {
   "title": "Journal",
-  "heroImage": "/images/photos/home-hero.jpg",
-  "heroImageAlt": "[Journal header photo]",
-  "heroFocus": "50% 40%",
+  "heroImage": "/images/photos/journal-hero-2.jpg",
+  "heroImageAlt": "Open sketchbook on a wooden table with watercolour wave studies, limpet shell drawings and an interlocking maze sketch, beside a watercolour tin, patterned fabric swatches, a rock-pool photo and pencils",
+  "heroFocus": "50% 45%",
   "intro": "[One line on what the journal covers: studio news, new designs, work in progress.]",
   "categories": [
     "Studio news",

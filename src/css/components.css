@@ -8,41 +8,47 @@
 .hdr {
   position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
   background: var(--page-bg);
+  --logo-now: var(--logo-h);
 }
+.hdr.is-compact { --logo-now: calc(var(--logo-h) * .7); }
 .hdr__bar { border-bottom: 1px solid var(--driftwood); }
-.hdr__in { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 24px; padding-bottom: var(--header-pad); }
-.hdr__left, .hdr__tools { display: flex; align-items: center; min-width: 0; }
-.hdr__nav { display: flex; gap: 28px; }
+/* Desktop: logo and name | home and nav (centred in the space between) | tools.
+   Everything sits on the baseline of the name; icons stand on that baseline; the logo is centred on the row. */
+.hdr__in { display: flex; align-items: baseline; gap: 24px; padding-block: var(--header-pad); }
+.hdr__brand { display: flex; flex-direction: var(--brand-dir); align-items: baseline; gap: var(--brand-gap); text-decoration: none; color: var(--deep-sea); min-width: 0; flex: none; }
+.hdr__logo { display: block; height: var(--logo-now); width: auto; align-self: center; transition: height .3s ease; }
+/* The name is the baseline for the whole header. Its top margin centres it on the logo,
+   and --name-drop fine-tunes that; everything else in the row follows the name's baseline. */
+.hdr__brand .t-wordmark { margin-top: max(0px, calc((var(--logo-now) - var(--wordmark-size) * var(--wordmark-lh)) / 2 + var(--name-drop))); transition: margin .3s ease; }
+.hdr__mid { flex: 1 1 auto; min-width: 0; display: flex; align-items: baseline; justify-content: center; gap: var(--nav-home-gap); }
+.hdr__nav { display: flex; align-items: baseline; gap: var(--nav-gap); }
 .hdr__nav a { color: var(--label-col); text-decoration: none; padding-block: 10px; }
 .hdr__nav a[aria-current="page"] { text-decoration: underline; text-underline-offset: 8px; text-decoration-thickness: 1px; }
-.hdr__menu-btn { display: none; margin-left: -10px; }
-.hdr__tools { justify-content: flex-end; gap: 4px; margin-right: -10px; }
-.hdr__etsy { display: inline-flex; align-items: center; gap: 4px; height: 44px; padding: 0 10px; color: var(--deep-sea); text-decoration: none; }
+.hdr__menu-btn { display: none; }
+.hdr__tools { flex: none; display: flex; align-items: baseline; justify-content: flex-end; gap: 4px; margin-right: -10px; }
+.hdr__etsy { display: inline-flex; align-items: baseline; gap: 4px; height: 44px; padding: 0 10px; color: var(--deep-sea); text-decoration: none; }
 .hdr__etsy:hover { color: var(--accent); }
-.hdr__brand { display: flex; flex-direction: var(--brand-dir); align-items: center; gap: 14px; text-decoration: none; color: var(--deep-sea); min-width: 0; }
-
-.hdr__logo { display: block; height: var(--logo-h); width: auto; align-self: flex-start; transition: height .3s ease; }
-html:not([data-logo="tab"]) .hdr__logo { align-self: center; margin-top: var(--header-pad); }
-html[data-logo="square"] .hdr__logo, html[data-logo="square-alt"] .hdr__logo, html[data-logo="mark"] .hdr__logo, html[data-logo="wide"] .hdr__logo { height: calc(var(--logo-h) * .72); }
-html:not([data-logo="tab"]) .hdr__brand { align-self: center; }
-.hdr.is-compact .hdr__logo { height: calc(var(--logo-h) * .7); }
+.hdr .ibtn svg { position: relative; top: var(--hdr-icon-drop); }
 .hdr__search { border-bottom: 1px solid var(--driftwood); padding-block: 14px; }
 .hdr__search form { display: flex; gap: 12px; align-items: center; max-width: 640px; margin-inline: auto; }
 .dbar { background: var(--bar-bg); color: var(--bar-fg); text-align: center; padding-block: 7px; }
 .dbar p { margin: 0; font-size: var(--small-size); letter-spacing: 0.06em; color: inherit; }
 
-@media (max-width: 899px) {
-  .hdr__in { grid-template-columns: 44px minmax(0, 1fr) 44px; gap: 8px; padding-bottom: 0; }
-  .hdr__nav, .hdr__tools .hide-m { display: none; }
+@media (max-width: 1079px) { /* header switches to the menu button below this width: the desktop row needs about 1040px */
+  .hdr__in { display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; align-items: center; gap: 8px; }
+  .hdr__mid, .hdr__tools .hide-m { display: none; }
   .hdr__menu-btn { display: inline-grid; margin-left: -4px; }
-  .hdr__tools { margin-right: -4px; }
-  .hdr__brand { justify-self: center; align-self: stretch; gap: 10px; flex-direction: row; }
-  .hdr__logo { height: var(--logo-h-m); }
-  html[data-logo="square"] .hdr__logo, html[data-logo="square-alt"] .hdr__logo, html[data-logo="mark"] .hdr__logo, html[data-logo="wide"] .hdr__logo { height: calc(var(--logo-h-m) * .72); margin-block: 8px; }
-  .hdr.is-compact .hdr__logo { height: calc(var(--logo-h-m) * .8); }
-  .hdr__brand .t-wordmark { font-size: calc(var(--wordmark-size) * .8); overflow: hidden; text-overflow: ellipsis; }
+  .hdr__tools { margin-right: -4px; align-items: center; }
+  .hdr__brand { justify-self: center; gap: 10px; flex-direction: row; flex: initial; }
+  .hdr { --logo-now: var(--logo-h-m); }
+  .hdr.is-compact { --logo-now: calc(var(--logo-h-m) * .8); }
+  .hdr__brand { align-items: center; }
+  .hdr__brand .t-wordmark { margin-top: 0; }
+  .hdr__brand .t-wordmark { font-size: calc(var(--wordmark-size) * var(--wordmark-scale-m)); overflow: hidden; text-overflow: ellipsis; }
+  .hdr .ibtn svg { top: 0; }
   .dbar p { font-size: 12px; }
 }
+
 
 
 /* Type filter (Shop by type) */
@@ -172,12 +178,19 @@ html:not([data-logo="tab"]) .hdr__brand { align-self: center; }
 .stage__text .crumbs { color: var(--on-image); }
 .stage__title { margin: 0; font-family: var(--font-display); font-weight: var(--title-wt); font-size: 80px; line-height: 1; letter-spacing: var(--title-ls); color: var(--on-image); }
 .tag {
-  position: absolute; z-index: 2; left: var(--x); top: var(--y); transform: translate(-5px, -50%); display: flex; align-items: center; gap: 10px;
-  min-height: 44px; padding: 0 16px 0 14px; background: rgba(245,239,228,0.94); color: var(--deep-sea); text-decoration: none; border: 0; cursor: pointer;
-  font: inherit; font-size: var(--label-size); line-height: 1; letter-spacing: 0.08em; text-transform: var(--label-case); white-space: nowrap;
+  position: absolute; z-index: 2; left: var(--x); top: var(--y);
+  transform: translate(calc(-1 * (var(--tag-pad) + var(--tag-icon-size) / 2)), -50%); /* the icon sits on the x/y point */
+  display: flex; align-items: center; gap: var(--tag-gap);
+  min-height: var(--tag-h); padding: 0 calc(var(--tag-pad) * 1.25) 0 var(--tag-pad); border: 0; border-radius: var(--tag-radius);
+  background: color-mix(in srgb, var(--tag-bg) calc(var(--tag-bg-opacity) * 100%), transparent);
+  color: var(--tag-fg); text-decoration: none; cursor: pointer;
+  font: inherit; font-size: var(--tag-size); font-weight: var(--tag-wt); line-height: 1; letter-spacing: var(--tag-ls); text-transform: var(--label-case); white-space: nowrap;
 }
-.tag::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--sun); box-shadow: 0 0 0 4px rgba(233,162,59,0.35); }
-.tag:hover { background: var(--sand); }
+.tag::before { /* JRS mark, coloured by --tag-icon */
+  content: ""; flex: none; width: var(--tag-icon-size); height: var(--tag-icon-size); background: var(--tag-icon);
+  -webkit-mask: url("../images/logos/logo-mark.svg") center / contain no-repeat; mask: url("../images/logos/logo-mark.svg") center / contain no-repeat;
+}
+.tag:hover { background: var(--tag-bg); }
 @media (max-width: 899px) { .stage__title { font-size: 56px; } }
 @media (max-width: 599px) {
   .stage { aspect-ratio: 4 / 3; }
@@ -203,9 +216,8 @@ html:not([data-logo="tab"]) .hdr__brand { align-self: center; }
 .card__media .flag { position: absolute; top: 10px; left: 10px; z-index: 3; }
 
 /* Home icon at the start of the main nav (desktop) */
-.hdr__home { margin-left: -10px; margin-right: 14px; color: var(--label-col); }
+.hdr__home { color: var(--label-col); }
 .hdr__home[aria-current="page"] { color: var(--accent); }
-@media (max-width: 899px) { .hdr__home { display: none; } }
 
 /* Staged hero with a placeholder fill instead of a photo */
 .stage.ph-shallows { background-color: var(--shallows); }

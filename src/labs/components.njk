@@ -1,75 +1,138 @@
 ---
 layout: layouts/base.njk
 permalink: /labs/components/
-title: Components lab
+title: Components
 robots: noindex
 labs: true
 eleventyExcludeFromCollections: true
 extraCss: ["/labs/labs.css"]
-
+extraJs: ["/js/wallpaper-tile.js", "/labs/style-lab.js"]
 ---
 {%- import "partials/macros.njk" as ui -%}
-  <main id="main" class="wrap lab-comps">
-    <h1 class="t-title">Components</h1>
-    <p class="t-body">Every reusable part of the site, on one page. The header, delivery bar and footer on this page are the real ones.</p>
+  <main id="main" class="lab">
+{% include "partials/lab-panel.njk" %}
+    <div class="lab-preview lab-comps">
+      <div class="wrap lab-intro">
+        <h1 class="lab-title">Components</h1>
+        <p class="t-small">Every part of the site, drawn with the site's own CSS. The header, delivery bar and footer of this page are the live ones. Links here don't navigate: clicking anything opens its controls. Product tabs will be added here once they exist.</p>
+      </div>
 
-    <section class="lab-block"><h2 class="lab-h">Buttons</h2>
-      <div class="btn-row"><a class="btn" href="#">Primary</a><a class="btn btn--line" href="#">Outline</a><button class="btn" type="button" disabled>Disabled</button></div>
-      <div class="lab-dark btn-row"><a class="btn btn--on" href="#">On photo</a><a class="btn btn--light" href="#">On photo, outline</a></div>
-    </section>
+      <section class="lab-block" data-ctl="header wordmark small roles"><div class="wrap"><h2 class="lab-h">Header and delivery bar</h2>
+        <p class="t-small">Desktop: the header at the top of this page. Mobile (390px wide). Click inside either frame to open the header controls.</p></div>
+        <div class="wrap lab-frames"><iframe class="lab-frame" src="/" title="Home page at phone width" loading="lazy"></iframe><iframe class="lab-frame" src="/shop/" title="Shop page at phone width" loading="lazy"></iframe></div>
+      </section>
 
-    <section class="lab-block"><h2 class="lab-h">Links, labels, breadcrumbs</h2>
-      <p><a class="t-label lnk" href="#">View all</a></p>
-      <nav class="crumbs" aria-label="Breadcrumb example"><a href="#">Home</a><span aria-hidden="true">/</span><a href="#">Shop</a><span aria-hidden="true">/</span><span>[Product name]</span></nav>
-    </section>
+      <section class="lab-block" data-ctl="hero lead label spacing roles"><div class="wrap"><h2 class="lab-h">Home hero</h2></div>
+        <section class="hero-sec" aria-label="Hero example">
+          <div class="imgbox hero-img">{% if pages.home.heroImage %}<img src="{{ pages.home.heroImage }}" alt="" style="object-position:{{ pages.home.heroFocus }}">{% endif %}</div>
+          <div class="hero__text wrap"><div>
+            <p class="t-label">{{ pages.home.heroKicker }}</p>
+            <h2 class="t-hero">{{ pages.home.heroTitle }}</h2>
+            <p class="t-lead">{{ pages.home.heroText }}</p>
+            <div class="btn-row"><a class="btn btn--on" href="#">{{ pages.home.heroButton1 }}</a><a class="btn btn--light" href="#">{{ pages.home.heroButton2 }}</a></div>
+          </div></div>
+        </section>
+      </section>
 
-    <section class="lab-block" data-filter-scope><h2 class="lab-h">Filter chips and product cards</h2>
-      <div class="filters">{{ ui.chips(collections.products | pluck("type") | unique, "Shop by type") }}<p class="t-small count js-count">{{ collections.products.length }} products</p></div>
-      <div class="pgrid" data-grid>
+      <section class="lab-block" data-ctl="tags small roles"><div class="wrap"><h2 class="lab-h">Photo header and photo tags (Shop, Art, Journal, About)</h2><p class="t-small">Photo tags are the labels on the photo; clicking one filters the grid. Hidden on phones.</p></div>
+{{ ui.stage(pages.shop) }}
+      </section>
+
+      <section class="lab-block" data-ctl="title small"><div class="wrap stack stack--tight"><h2 class="lab-h">Page title (product, info, basket pages)</h2>
+        <nav class="crumbs" aria-label="Breadcrumb example"><a href="#">Home</a><span aria-hidden="true">/</span><a href="#">Shop</a><span aria-hidden="true">/</span><span>[Product name]</span></nav>
+        <p class="t-title">[Product name]</p>
+      </div></section>
+
+      <section class="lab-block" data-ctl="section label"><div class="wrap"><h2 class="lab-h">Section heading</h2>
+        <div class="sec-head"><p class="t-section">New in</p><a class="t-label lnk" href="#">View all</a></div>
+      </div></section>
+
+      <section class="lab-block" data-ctl="label roles"><div class="wrap stack"><h2 class="lab-h">Buttons and links</h2>
+        <div class="btn-row"><a class="btn" href="#">Primary</a><a class="btn btn--line" href="#">Outline</a><button class="btn" type="button" disabled>Disabled</button><a class="t-label lnk" href="#">Text link</a></div>
+        <div class="lab-dark btn-row"><a class="btn btn--on" href="#">On photo</a><a class="btn btn--light" href="#">On photo, outline</a></div>
+      </div></section>
+
+      <section class="lab-block" data-filter-scope data-ctl="body small label roles"><div class="wrap"><h2 class="lab-h">Filters, sort and product cards</h2>
+        <div class="toolbar">{{ ui.chips(collections.products | pluck("type") | unique, "Filter by type") }}<label class="sort">Sort<select><option>Featured</option><option>Newest</option></select></label></div>
+        <p class="t-small js-count">{{ collections.products.length }} products</p>
+        <div class="pgrid" data-grid>
 {%- for item in collections.products %}{{ ui.productCard(item, loop.index) }}{% endfor %}
-      </div>
-    </section>
+        </div>
+        <div class="btn-row"><span class="flag">New</span><span class="flag flag--sun">Sale</span></div>
+      </div></section>
 
-    <section class="lab-block"><h2 class="lab-h">Artwork cards</h2>
-      <div class="agrid">{% for item in collections.artworks | limit(2) %}{{ ui.artCard(item, site) }}{% endfor %}</div>
-    </section>
+      <section class="lab-block" data-ctl="title body label small roles"><div class="wrap"><h2 class="lab-h">Product page</h2>
+        <div class="prod">
+          <div class="gallery">
+            <div class="imgbox gallery__main pat-wave cw-0"></div>
+            <div class="thumbs">{% for i in range(0, 4) %}<button type="button" class="thumb pat-wave cw-{{ i % 3 }}" data-src="" data-ground="pat-wave cw-{{ i % 3 }}" aria-label="Photo {{ i + 1 }}" aria-pressed="{{ 'true' if i == 0 else 'false' }}"></button>{% endfor %}</div>
+          </div>
+          <div class="buy">
+            <div class="stack stack--tight"><p class="t-title">[Product name]</p><p class="buy__price">[£ price]</p></div>
+            <div class="t-body"><p>[Two or three sentences about the piece.]</p></div>
+            <fieldset><legend class="t-label">Colourway: <span class="js-variant-name">[Colourway 1]</span></legend>
+              <div class="dots"><button type="button" class="dot" style="background:#3968A0" data-variant="colourway-1" aria-label="[Colourway 1]" aria-pressed="true"></button><button type="button" class="dot" style="background:#E9A23B" data-variant="colourway-2" aria-label="[Colourway 2]" aria-pressed="false"></button><button type="button" class="dot" style="background:#C8573A" data-variant="colourway-3" aria-label="[Colourway 3]" aria-pressed="false"></button></div></fieldset>
+            <div class="add-row"><div class="qty"><button type="button" data-qty-step="-1" aria-label="Decrease quantity"><svg><use href="#i-minus"/></svg></button><output value="1">1</output><button type="button" data-qty-step="1" aria-label="Increase quantity"><svg><use href="#i-plus"/></svg></button></div>
+              <button class="btn" type="button" data-action="add-to-basket" data-product-id="sample" data-variant="colourway-1" data-variant-name="[Colourway 1]" data-name="[Sample product]" data-qty="1" data-price-pence="">Add to basket</button></div>
+            <p class="note js-added" role="status" hidden>Added to your basket.</p>
+            <p class="t-small">{{ pages.shop.productNote }} <a href="#">Delivery &amp; returns</a></p>
+            <div class="acc">
+              <details open><summary class="t-label">Materials &amp; care</summary><p class="t-body">[Materials and care]</p></details>
+              <details><summary class="t-label">Dimensions</summary><p class="t-body">[Dimensions]</p></details>
+            </div>
+          </div>
+        </div>
+      </div></section>
 
-    <section class="lab-block"><h2 class="lab-h">Journal cards</h2>
-      <div class="jgrid">
-        <a class="jcard" href="#"><div class="imgbox ph-sea"></div><span class="t-small">[Date]</span><span class="t-card">[Post title]</span></a>
-        <a class="jcard" href="#"><div class="imgbox ph-wet"></div><span class="t-small">[Date]</span><span class="t-card">[Post title]</span></a>
-        <a class="jcard" href="#"><div class="imgbox ph-shallows"></div><span class="t-small">[Date]</span><span class="t-card">[Post title]</span></a>
-      </div>
-    </section>
+      <section class="lab-block" data-ctl="body small label"><div class="wrap"><h2 class="lab-h">Artwork cards</h2>
+        <div class="agrid">{% for item in collections.artworks | limit(3) %}{{ ui.artCard(item, site) }}{% endfor %}</div>
+      </div></section>
 
-    <section class="lab-block"><h2 class="lab-h">Form fields</h2>
-      <form class="form" data-form="contact" novalidate>
-        <label class="t-label">Name<input class="input" name="name" required></label>
-        <label class="t-label">Email<input class="input" name="email" type="email" required></label>
-        <label class="t-label">Message<textarea class="input" name="message" required></textarea></label>
-        <label class="sort">Sort<select><option>Featured</option><option>Newest</option></select></label>
-        <button class="btn" type="submit">Send</button>
-        <p class="t-small" role="status" aria-live="polite"></p>
-      </form>
-    </section>
+      <section class="lab-block" data-ctl="statement roles"><div class="wrap"><h2 class="lab-h">Statement band and commission band</h2></div>
+        <section class="sec band-dune"><div class="wrap teaser"><p class="t-statement">{{ pages.home.statement }}</p><a class="btn btn--line" href="#">{{ pages.home.statementButton }}</a></div></section>
+        <div class="wrap"><section class="cta-band"><div><h2>{{ pages.art.ctaTitle }}</h2><p>{{ pages.art.ctaText }}</p></div><a class="btn btn--on" href="#">{{ pages.art.ctaButton }}</a></section></div>
+      </section>
 
-    <section class="lab-block"><h2 class="lab-h">Product options</h2>
-      <fieldset class="lab-fieldset"><legend class="t-label">Colourway: <span class="js-variant-name">[Colourway 1]</span></legend>
-        <div class="dots"><button type="button" class="dot" style="background:#3968A0" data-variant="colourway-1" aria-label="[Colourway 1]" aria-pressed="true"></button><button type="button" class="dot" style="background:#E9A23B" data-variant="colourway-2" aria-label="[Colourway 2]" aria-pressed="false"></button><button type="button" class="dot" style="background:#C8573A" data-variant="colourway-3" aria-label="[Colourway 3]" aria-pressed="false"></button></div></fieldset>
-      <div class="add-row"><div class="qty"><button type="button" data-qty-step="-1" aria-label="Decrease quantity"><svg><use href="#i-minus"/></svg></button><output value="1">1</output><button type="button" data-qty-step="1" aria-label="Increase quantity"><svg><use href="#i-plus"/></svg></button></div>
-        <button class="btn" type="button" data-action="add-to-basket" data-product-id="sample" data-variant="colourway-1" data-variant-name="[Colourway 1]" data-name="[Sample product]" data-qty="1" data-price-pence="">Add to basket</button></div>
-    </section>
+      <section class="lab-block" data-ctl="section label body small"><div class="wrap"><h2 class="lab-h">Home panels and journal cards</h2>
+        <div class="doors">
+          <a class="door" href="#"><div class="imgbox door-shop pat-hex"></div><p class="t-label">{{ pages.home.shopDoorKicker }}</p><p class="t-section">{{ pages.home.shopDoorTitle }}</p><p class="t-body">{{ pages.home.shopDoorText }}</p></a>
+          <a class="door" href="#"><div class="imgbox door-art pat-wave"></div><p class="t-label">{{ pages.home.artDoorKicker }}</p><p class="t-section">{{ pages.home.artDoorTitle }}</p><p class="t-body">{{ pages.home.artDoorText }}</p></a>
+        </div>
+        <div class="jgrid lab-gap">{% for item in collections.posts | limit(3) %}{{ ui.postCard(item) }}{% endfor %}</div>
+      </div></section>
 
-    <section class="lab-block"><h2 class="lab-h">Badges and notes</h2>
-      <div class="btn-row"><span class="flag">New</span><span class="flag flag--sun">Sale</span></div>
-      <p class="note">Added to your basket.</p>
-    </section>
+      <section class="lab-block" data-ctl="label body small"><div class="wrap"><h2 class="lab-h">Form fields (contact, search)</h2>
+        <form class="form" data-form="contact" novalidate>
+          <label class="t-label">Name<input class="input" name="name" required></label>
+          <label class="t-label">Email<input class="input" name="email" type="email" required></label>
+          <label class="t-label">Message<textarea class="input" name="message" required></textarea></label>
+          <button class="btn" type="submit">Send</button>
+          <p class="t-small" role="status" aria-live="polite"></p>
+        </form>
+      </div></section>
 
-    <section class="lab-block"><h2 class="lab-h">Commission band</h2>
-      <section class="cta-band"><div><h2>Enquiries and commissions</h2><p>[One line on buying original work or commissioning a piece]</p></div><a class="btn btn--on" href="#">Get in touch</a></section>
-    </section>
+      <section class="lab-block" data-ctl="body small label roles"><div class="wrap"><h2 class="lab-h">Info pages: rates table and help box</h2><div class="doc__body">
+        <div class="table-wrap"><table class="table"><thead><tr><th>Service</th><th>Delivery time</th><th>Cost</th></tr></thead>
+          <tbody><tr><td>[Standard]</td><td>[3–5 working days]</td><td>[£X]</td></tr><tr><td>[Express]</td><td>[1–2 working days]</td><td>[£X]</td></tr></tbody></table></div>
+        <section class="help-box lab-gap"><div><h2>Questions about an order?</h2><p class="t-body">{{ site.email }}</p></div><a class="btn" href="#">Contact</a></section>
+      </div></div></section>
 
-    <section class="lab-block"><h2 class="lab-h">Overlays</h2>
-      <div class="btn-row"><button class="btn btn--line" type="button" data-open="basket" aria-controls="ovl-basket">Open basket drawer</button><button class="btn btn--line" type="button" data-open="menu" aria-controls="ovl-menu">Open mobile menu</button></div>
-    </section>
+      <section class="lab-block" data-ctl="label body small roles"><div class="wrap"><h2 class="lab-h">Basket</h2>
+        <div class="bpage">
+          <aside class="summary" aria-label="Order summary example">
+            <p class="t-label">Order summary</p>
+            <div class="bk-row"><span>Subtotal</span><span>[£ price]</span></div>
+            <div class="bk-row"><span>Delivery</span><span>Calculated at checkout</span></div>
+            <div class="bk-row bk-row--total"><span>Total</span><span>[£ price]</span></div>
+            <button class="btn btn--full" type="button">Checkout</button>
+          </aside>
+        </div>
+        <div class="btn-row lab-gap"><button class="btn btn--line" type="button" data-open="basket" aria-controls="ovl-basket">Open basket drawer</button><button class="btn btn--line" type="button" data-open="menu" aria-controls="ovl-menu">Open mobile menu</button></div>
+        <p class="t-small">Use "Add to basket" in the product section first to see a line item in the drawer.</p>
+      </div></section>
+
+      <section class="lab-block" data-ctl="section label small roles"><div class="wrap"><h2 class="lab-h">Footer</h2>
+        <p class="t-small">The footer at the bottom of this page is the live one.</p>
+      </div></section>
+    </div>
   </main>

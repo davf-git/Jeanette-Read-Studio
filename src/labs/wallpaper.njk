@@ -1,0 +1,48 @@
+---
+layout: layouts/base.njk
+permalink: /labs/wallpaper/
+title: Wallpaper lab
+robots: noindex
+labs: true
+labOnly: wall
+eleventyExcludeFromCollections: true
+extraCss: ["/labs/labs.css"]
+extraJs: ["/js/wallpaper-tile.js", "/labs/style-lab.js"]
+---
+{%- import "partials/macros.njk" as ui -%}
+{%- set h = pages.home -%}
+  <main id="main" class="lab">
+{% include "partials/lab-panel.njk" %}
+    <div class="lab-preview">
+      <div class="wrap lab-intro lab-pad">
+        <h1 class="lab-title">Wallpaper lab</h1>
+        <p class="t-small">A pattern of the JRS mark behind the page and/or on the feature bands, shown here behind real site sections. Tick "Behind pages" or "On feature bands" to start. While you're in this tab, the preview pages (Home, Shop and so on) show your lab settings too, so you can check it in place.</p>
+      </div>
+
+      <section class="sec" aria-label="Section example">
+        <div class="wrap">
+          <div class="sec-head"><h2 class="t-section">{{ h.newInTitle }}</h2><a class="t-label lnk" href="#">View all</a></div>
+          <div class="pgrid">{% for item in collections.products | limit(3) %}{{ ui.productCard(item, loop.index) }}{% endfor %}</div>
+        </div>
+      </section>
+
+      <section class="sec band-dune" aria-label="Feature band example">
+        <div class="wrap teaser"><p class="t-statement">{{ h.statement }}</p><a class="btn btn--line" href="#">{{ h.statementButton }}</a></div>
+      </section>
+
+      <section class="sec" aria-label="Text example">
+        <div class="wrap intro2">
+          <p class="t-body">{{ pages.about.intro1 }}</p>
+          <p class="t-body">{{ pages.about.intro2 }}</p>
+        </div>
+        <div class="wrap lab-gap"><p class="t-small">Small text: Free UK delivery on orders over [£X] · 20 October 2026 · Studio news</p></div>
+      </section>
+
+      <section class="sec" aria-label="Journal example">
+        <div class="wrap">
+          <div class="sec-head"><h2 class="t-section">{{ h.journalTitle }}</h2></div>
+          <div class="jgrid">{% for item in collections.posts | limit(3) %}{{ ui.postCard(item) }}{% endfor %}</div>
+        </div>
+      </section>
+    </div>
+  </main>

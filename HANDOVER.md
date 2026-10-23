@@ -1,6 +1,6 @@
 # Jeanette Read Studio – developer handover
 
-For the developer who connects selling and hosts the site (e.g. Woz). Kept up to date as the build goes on. Last updated: 21 Oct 2026 (stage 3: Eleventy build with Pages CMS admin, Netlify hosting).
+For the developer who connects selling and hosts the site (e.g. Woz). Kept up to date as the build goes on. Last updated: 23 Oct 2026 (stage 3: Eleventy build with Pages CMS admin, Netlify hosting; design work pushed to the `design` branch).
 
 ## What you are receiving
 - An [Eleventy 3](https://www.11ty.dev/) project (Nunjucks templates, Markdown and JSON content). Output is plain static HTML, CSS and JavaScript; no front-end framework.
@@ -19,7 +19,7 @@ For the developer who connects selling and hosts the site (e.g. Woz). Kept up to
 - If selling moves to a platform (e.g. Shopify), products could come from its API at build time instead of these files; the card and product templates (`partials/macros.njk`, `layouts/product.njk`) are where to switch.
 
 ## Before launch
-- Turn off **Site settings → Show "Design labs" link**, and delete `src/labs/` (style lab and components lab; `noindex` and an `X-Robots-Tag` header via `netlify.toml`).
+- Turn off **Site settings → Show "Design labs" link**, and delete `src/labs/` (Style lab, Components, Wallpaper lab, `apply-preview.js`; `noindex` and an `X-Robots-Tag` header via `netlify.toml`), `src/_includes/partials/lab-panel.njk` and `lab-bar.njk`, and the `build.preview` line in `layouts/base.njk`. Keep `js/wallpaper-tile.js` and `wallpaper.11ty.js` if the wallpaper is used.
 - Set **Site settings → Live site address** (used for canonical URLs). Add `robots.txt`, `sitemap.xml` and Open Graph tags (Eleventy can generate the sitemap from `collections.all`). Each page has a `<title>` and `<meta name="description">`.
 - Fonts: Google Fonts (Barlow Condensed, Barlow) via one `<link>`. Trim to the weights used, or self-host the woff2 files (better for privacy and speed; avoids a Google request needing cookie-banner consideration).
 - Images: admin uploads are full size. Add `@11ty/eleventy-img` (or Netlify Image CDN) for resizing, WebP/AVIF and `width`/`height` attributes. Check final `alt` text.
@@ -27,9 +27,12 @@ For the developer who connects selling and hosts the site (e.g. Woz). Kept up to
 - Custom domain: Netlify → Domain management. HTTPS is automatic.
 
 ## CSS structure
-- `settings.css`: palette, then colour roles, then per-text-level colour, typefaces, text levels (size / line height / letter spacing / weight), spacing. All other CSS uses role tokens, not palette names or hex values. Keep it that way.
+- `settings.css`: palette, then colour roles, then per-text-level colour, typefaces, text levels (size / line height / letter spacing / weight), spacing and header, wallpaper, photo tags. All other CSS uses role tokens, not palette names or hex values. Keep it that way.
+- Header (desktop): logo and name | home icon and nav, centred in the space between | tools. The name's baseline is the row's baseline: its top margin centres it on the logo (`--name-drop` fine-tunes), nav and Etsy sit on that baseline, icons stand on it (`--hdr-icon-drop`). Spacing: `--brand-gap`, `--nav-gap`, `--nav-home-gap`.
+- Photo tags (`.tag`): rounded label with the JRS mark (CSS mask of `logo-mark.svg`, coloured by `--tag-icon`); all sizes and colours are `--tag-*` settings. The mark sits on the tag's x/y point.
+- Wallpaper: a JRS-mark pattern behind the page (`--wall-page: 1`) and/or on Dune feature bands (`--wall-bands: 1`), drawn as a `::before` layer masked with `/images/wallpaper.svg`. That tile is generated at build time by `src/wallpaper.11ty.js` from `--wall-motif`, `--wall-gap`, `--wall-tilt`; colour, strength and pattern angle are plain CSS settings.
 - Text levels are classes: `.t-hero`, `.t-title`, `.t-section`, `.t-statement`, `.t-wordmark`, `.t-lead`, `.t-body`, `.t-label`, `.t-small`.
-- Breakpoints: 899px (mobile header and menu, single-column grids), 599px (display type scales by `--mobile-scale`).
+- Breakpoints: 1079px (header switches to menu button, centred logo and name, basket; the desktop row needs about 1,040px), 899px (single-column grids and other mobile layouts), 599px (display type scales by `--mobile-scale`).
 - Placeholder fills (`.ph-*`, `.pat-*`, `.cw-*`, `.art-ph--*`) stand in for photos. Remove them as real images arrive.
 - Per-image crops are inline `object-position` on the `<img>` (from the `heroFocus` content field). Tag positions on the Shop/Art photos are inline `--x`/`--y` custom properties (from `tags` in page text). Colourway swatch colours on product pages are inline (from content).
 
@@ -70,7 +73,9 @@ For the developer who connects selling and hosts the site (e.g. Woz). Kept up to
 - Overlays (`.ovl`: basket drawer, mobile menu) use `role="dialog"`, `aria-modal`, Escape to close, focus moves to the close button and returns to the trigger. A full focus trap is not yet implemented; add one.
 - Icon buttons have `aria-label`s. Focus outlines use the accent colour.
 - Sun (`--sun`) is a fill colour only; it does not meet contrast as text on sand.
-- Current settings set page titles (`--title-col`) to Driftwood, which is low contrast on Sand. Design decision pending; check before launch.
+- Page titles use Driftwood deep (3.1:1 on Sand, passes for large text only; keep titles at display sizes). Pebble (captions, small text, wordmark) is 4.9:1 on Sand and 4.6:1 on Dune. Driftwood itself is for rules, not text.
+- Labels and nav are currently Shallows: 4.3:1 on Sand and 4.0:1 on Dune, just under the 4.5:1 needed at 14px. Design decision pending; darken Shallows slightly or change `--label-col` before launch.
+- Wallpaper: if switched on behind text, check small text stays readable over it.
 - Motion respects `prefers-reduced-motion`.
 
 ## Hosting
@@ -78,6 +83,6 @@ For the developer who connects selling and hosts the site (e.g. Woz). Kept up to
 - Netlify site https://jeanette-read-studio.netlify.app connected to `main` on 21 Oct 2026; Pages CMS connected to the same repo and branch. Tested end to end, then **builds stopped** (Build status: Stopped) the same day: the free plan's 300 credits/month (15 per production deploy) ran out after about 20 admin saves. The site shows the last deploy before that.
 - Netlify credit costs (checked 21 Oct 2026): production deploy 15; bandwidth 20 per GB; web requests 2 per 10,000; branch deploys, deploy previews and failed deploys free. Personal plan $9/month for 1,000 credits; Pro from $20/month for 3,000. Rough post-launch estimate 400–700 credits/month (assumes 20–40 saves and ~1,000 visits a month; not measured).
 - Before reactivating: decide host (Netlify Personal vs Cloudflare Pages, free 500 builds/month), add image resizing, and load bulk content on a separate branch then merge once, so population costs one production deploy.
-- Design work continues on the `design` branch and in the claude.ai preview artifact; `main` stays frozen until launch.
+- Design work is on the `design` branch (pushed 23 Oct 2026 from the claude.ai preview artifact); `main` stays frozen until launch.
 - Netlify Forms could handle the contact and newsletter forms with a `data-netlify` attribute (check the free-tier limits), or use a mailing service's embed.
 - Payment, newsletter and contact form need whichever services are chosen. Domain still to be decided.

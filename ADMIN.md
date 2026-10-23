@@ -56,4 +56,4 @@ Tips:
 
 ## Not in the admin
 
-Design (colours, type, spacing, layouts) is changed in code, using the style lab at `/labs/style/` to try values and `src/css/settings.css` to keep them.
+Design (colours, type, spacing, header layout, photo tags, wallpaper) is changed in code, using the labs (`/labs/style/`, `/labs/components/`, `/labs/wallpaper/`) to try values and `src/css/settings.css` to keep them.

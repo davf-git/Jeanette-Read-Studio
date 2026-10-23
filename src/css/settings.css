@@ -10,13 +10,14 @@
   --dune: #F2EDE3;        /* feature bands */
   --wet-sand: #E4D7BF;    /* image grounds */
   --driftwood: #CDC0A7;   /* rules */
+  --driftwood-deep: #A28A5C; /* page titles (3:1 on sand) */
   --deep-sea: #3B5C78;    /* text, primary buttons, footer */
   --open-sea: #3A75A1;    /* main accent, logo blue */
   --shallows: #2E7F85;    /* alternative accent */
   --sun: #EAA134;         /* highlights, badges (fill only, not text on sand) */
   --coral: #D77D42;       /* occasional accent */
   --slate: #59656E;       /* body text */
-  --pebble: #818F98;      /* captions */
+  --pebble: #606D76;      /* captions, wordmark (4.5:1 on sand and dune) */
 
   /* ---- Colour roles ---- */
   --page-bg: var(--sand);
@@ -31,16 +32,20 @@
   --footer-fg: var(--sand);
   --footer-mute: var(--driftwood);
   --link-col: var(--deep-sea);
+  --tag-bg: var(--dune);        /* photo tags on Shop and Art headers */
+  --tag-fg: var(--slate);
+  --tag-icon: var(--sun);
+  --wall-col: var(--sun);   /* wallpaper pattern colour */
 
   /* ---- Text colour for each text level ---- */
   --hero-col: var(--sun);
-  --title-col: var(--driftwood);
+  --title-col: var(--driftwood-deep);
   --section-col: var(--deep-sea);
   --statement-col: var(--deep-sea);
   --wordmark-col: var(--pebble);
   --lead-col: var(--deep-sea);
   --body-col: var(--slate);
-  --label-col: var(--deep-sea);
+  --label-col: var(--shallows);
   --small-col: var(--pebble);
 
   /* ---- Typefaces ---- */
@@ -48,14 +53,14 @@
   --font-body: "Barlow", "Helvetica Neue", Arial, sans-serif;
 
   /* ---- Text levels: size / line height / letter spacing / weight ---- */
-  --hero-size: 88px;      --hero-lh: 0.97;      --hero-ls: -0.015em;    --hero-wt: 400;
+  --hero-size: 88px;      --hero-lh: 0.81;      --hero-ls: -0.01em;    --hero-wt: 400;
   --section-size: 52px;   --section-lh: 1.05;   --section-ls: -0.015em; --section-wt: 200;
   --statement-size: 40px; --statement-lh: 1.03; --statement-ls: -0.015em; --statement-wt: 300;
-  --title-size: 56px;     --title-lh: 1.04;     --title-ls: -0.02em;    --title-wt: 200;
-  --wordmark-size: 24px;  --wordmark-lh: 1.2;   --wordmark-ls: 0.21em;  --wordmark-wt: 400;
+  --title-size: 49px;     --title-lh: 0.99;     --title-ls: -0.02em;    --title-wt: 200;
+  --wordmark-size: 23px;  --wordmark-lh: 0.8;   --wordmark-ls: 0.21em;  --wordmark-wt: 400;
   --lead-size: 21px;      --lead-lh: 1.42;      --lead-ls: -0.01em;     --lead-wt: 500;
   --body-size: 16px;      --body-lh: 1.4;       --body-ls: -0.005em;    --body-wt: 400;
-  --label-size: 13px;     --label-lh: 1.5;      --label-ls: 0.22em;     --label-wt: 500;
+  --label-size: 14px;     --label-lh: 1.78;      --label-ls: 0.265em;     --label-wt: 600;
   --small-size: 13px;     --small-lh: 1.5;      --small-ls: 0em;        --small-wt: 400;
   --wordmark-case: none;
   --label-case: uppercase;
@@ -65,11 +70,33 @@
   --gutter: 40px;
   --section-gap: 60px;    /* half above, half below each section */
   --max-w: 1600px;
-  --radius: 0px;
+  --radius: 5px;
   --header-pad: 10px;
   --brand-dir: row;       /* row = name beside logo, column = name beneath */
-  --logo-h: 60px;
-  --logo-h-m: 40px;
-  --hero-img-h: 450px;    /* home hero height, desktop */
-  --hero-img-h-m: 300px;  /* home hero height, under 600px wide */
+  --logo-h: 67px;
+  --logo-h-m: 33px;
+  --wordmark-scale-m: 0.8; /* wordmark size in the mobile header, as a share of --wordmark-size */
+  --brand-gap: 12px;      /* logo to name */
+  --nav-gap: 28px;        /* between nav links */
+  --nav-home-gap: 24px;   /* home icon to first nav link */
+  --hdr-icon-drop: 6px;   /* nudges header icons down (+) or up (-) from the text baseline */
+  --name-drop: 0px;       /* moves the name (and the header baseline) down (+) or up (-) against the logo */
+
+  /* ---- Wallpaper: JRS mark pattern behind pages and/or feature bands ----
+     The tile is built from --wall-motif, --wall-gap and --wall-tilt into /images/wallpaper.svg at build time. */
+  --wall-page: 0;         /* 1 = behind every page */
+  --wall-bands: 1;        /* 1 = on feature bands (Dune) */
+  --wall-opacity: 0.12;
+  --wall-motif: 38px;     /* size of each mark */
+  --wall-gap: 3px;       /* space added around each mark */
+  --wall-tilt: -8deg;     /* rotation of each mark */
+  --wall-angle: 1deg;     /* rotation of the whole pattern */
+  --wall-tile: url("../images/wallpaper.svg");
+
+  /* ---- Photo tags (Shop and Art headers) ---- */
+  --tag-bg-opacity: 0.94;
+  --tag-h: 44px;          --tag-pad: 12px;      --tag-gap: 12px;        --tag-radius: 8px;
+  --tag-icon-size: 22px;  --tag-size: 13px;     --tag-ls: 0.14em;       --tag-wt: 500;
+  --hero-img-h: 441px;    /* home hero height, desktop */
+  --hero-img-h-m: 341px;  /* home hero height, under 600px wide */
 }

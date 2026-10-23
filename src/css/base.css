@@ -15,7 +15,17 @@ body {
 }
 a { color: inherit; }
 img { max-width: 100%; }
-.site { background: var(--page-bg); }
+.site { background: var(--page-bg); position: relative; isolation: isolate; overflow: clip; }
+
+/* Wallpaper (settings: --wall-*). Off unless --wall-page or --wall-bands is 1. */
+.site::before, .band-dune::before {
+  content: ""; position: absolute; inset: -50%; z-index: -1; pointer-events: none;
+  background: var(--wall-col); transform: rotate(var(--wall-angle));
+  -webkit-mask: var(--wall-tile) 0 0 / calc(var(--wall-motif) + var(--wall-gap)) repeat;
+  mask: var(--wall-tile) 0 0 / calc(var(--wall-motif) + var(--wall-gap)) repeat;
+}
+.site::before { opacity: calc(var(--wall-page) * var(--wall-opacity)); }
+.band-dune::before { opacity: calc(var(--wall-bands) * var(--wall-opacity)); }
 .skip { position: absolute; left: 16px; top: -100px; z-index: 100; padding: 12px 18px; background: var(--deep-sea); color: var(--sand); }
 .skip:focus { top: 12px; }
 .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
@@ -50,7 +60,7 @@ img { max-width: 100%; }
   padding-left: max(16px, var(--gutter), env(safe-area-inset-left, 0px));
   padding-right: max(16px, var(--gutter), env(safe-area-inset-right, 0px));
 }
-.band-dune { background: var(--band-bg); }
+.band-dune { background: var(--band-bg); position: relative; isolation: isolate; overflow: clip; }
 .sec { padding-block: calc(var(--section-gap) / 2); }
 .stack { display: flex; flex-direction: column; gap: 20px; }
 

@@ -34,8 +34,16 @@
   .spec-row { grid-template-columns: 1fr; gap: 6px; }
 }
 
-/* Components lab */
-.lab-comps { padding-block: 40px 96px; display: flex; flex-direction: column; gap: 56px; }
+/* Components page */
+.lab-preview { min-width: 0; }
+.lab-comps { padding-block: 32px 96px; display: flex; flex-direction: column; gap: 56px; }
+.lab-intro { display: flex; flex-direction: column; gap: 8px; max-width: 760px; margin-inline: 0; }
+.lab-title { margin: 0; font: 600 20px/1.3 system-ui, sans-serif; color: #1E2328; }
 .lab-block { display: flex; flex-direction: column; gap: 16px; padding-top: 24px; border-top: 1px solid var(--driftwood); }
+.lab-block > .wrap { width: 100%; }
+.lab-gap { margin-top: 24px; }
+.lab-pad { padding-block: 32px 0; }
 .lab-dark { padding: 24px; background: var(--deep-sea); }
-.lab-fieldset { border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.lab-frames { display: flex; flex-wrap: wrap; gap: 24px; }
+.lab-frame { width: 390px; max-width: 100%; height: 720px; border: 1px solid #D3CFC8; background: #fff; }
+.lab-on { outline: 2px dashed #F2C14E; outline-offset: 4px; }

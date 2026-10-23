@@ -1,0 +1,9 @@
+    <aside class="lab-panel" aria-label="Style controls">
+      <p class="lab-note">Changes preview live here and carry between the Style lab and Components pages while this tab is open. Click any part of the page to open its controls. When it looks right, press <b>Copy settings.css</b> and paste it over css/settings.css (or send it to Claude).</p>
+      <div class="lab-actions">
+        <button class="lab-btn lab-btn--main" type="button" id="lab-copy">Copy settings.css</button>
+        <button class="lab-btn" type="button" id="lab-reset">Reset</button>
+      </div>
+      <div id="lab-controls"{% if labOnly %} data-only="{{ labOnly }}"{% endif %}></div>
+      <textarea id="lab-out" class="lab-out" readonly hidden aria-label="settings.css"></textarea>
+    </aside>
