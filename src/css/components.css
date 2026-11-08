@@ -1,7 +1,7 @@
 /* =========================================================
    Jeanette Read Studio – COMPONENTS
    Shared parts used on more than one page: header, delivery
-   bar, filters, product cards, footer, basket drawer, mobile
+   bar, filters, product cards, footer, mobile
    menu, staged photo hero, breadcrumbs.
    ========================================================= */
 /* ---------- Header ---------- */
@@ -15,15 +15,29 @@
 /* Desktop: logo and name | home and nav (centred in the space between) | tools.
    Everything sits on the baseline of the name; icons stand on that baseline; the logo is centred on the row. */
 .hdr__in { display: flex; align-items: baseline; gap: 24px; padding-block: var(--header-pad); }
-.hdr__brand { display: flex; flex-direction: var(--brand-dir); align-items: baseline; gap: var(--brand-gap); text-decoration: none; color: var(--deep-sea); min-width: 0; flex: none; }
-.hdr__logo { display: block; height: var(--logo-now); width: auto; align-self: center; transition: height .3s ease; }
-/* The name is the baseline for the whole header. Its top margin centres it on the logo,
-   and --name-drop fine-tunes that; everything else in the row follows the name's baseline. */
-.hdr__brand .t-wordmark { margin-top: max(0px, calc((var(--logo-now) - var(--wordmark-size) * var(--wordmark-lh)) / 2 + var(--name-drop))); transition: margin .3s ease; }
+.hdr__brand { display: flex; flex-direction: var(--brand-dir); align-items: flex-start; gap: var(--brand-gap); text-decoration: none; min-width: 0; flex: none; }
+.hdr__logo { display: block; height: var(--logo-now); width: auto; transition: height .3s ease; }
+/* The name (the logo's own lettering, logo-name.svg) is the baseline for the whole header.
+   It is placed against the mark as in the logo artwork; --name-scale and --name-drop adjust that.
+   In logo-name.svg the baseline is 22.2% up from the bottom (the j's descender) and the lettering
+   is 0.62 of the mark's height; in the artwork the baseline is 0.67 of the way down the mark.
+   The zero-width ::after gives the box a text baseline for the header row to align to. */
+.hdr { --name-now: calc(var(--logo-now) * 0.62 * var(--name-scale)); }
+.hdr__name { display: block; line-height: 0; align-self: baseline; margin-top: calc(var(--logo-now) * 0.67 - var(--name-now) * 0.778 + var(--name-drop)); transition: margin .3s ease; }
+.hdr__name::after { content: "\200b"; }
+.hdr__name img { display: inline; height: var(--name-now); width: auto; max-width: none; vertical-align: calc(var(--name-now) * -0.222); transition: height .3s ease; }
 .hdr__mid { flex: 1 1 auto; min-width: 0; display: flex; align-items: baseline; justify-content: center; gap: var(--nav-home-gap); }
 .hdr__nav { display: flex; align-items: baseline; gap: var(--nav-gap); }
-.hdr__nav a { color: var(--label-col); text-decoration: none; padding-block: 10px; }
-.hdr__nav a[aria-current="page"] { text-decoration: underline; text-underline-offset: 8px; text-decoration-thickness: 1px; }
+.hdr__nav a { position: relative; color: var(--label-col); text-decoration: none; padding-block: 10px; }
+/* Nav underline: drawn as a line so it can stop at the last letter (letter spacing adds space after it)
+   and wipe in from the left on the current page and on hover. */
+.hdr__nav a::after {
+  content: ""; position: absolute; left: 0; right: var(--label-ls); top: calc(50% + 0.36em + var(--nav-line-offset)); height: var(--nav-line); /* 50% + 0.36em is about the text baseline */
+  background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .35s ease;
+}
+.hdr__nav a:not([aria-current="page"]):hover::after { transform: scaleX(1); background: var(--nav-hover-col); }
+.hdr__nav a[aria-current="page"]::after { transform: scaleX(1); animation: nav-wipe .5s ease-out .1s both; }
+@keyframes nav-wipe { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 .hdr__menu-btn { display: none; }
 .hdr__tools { flex: none; display: flex; align-items: baseline; justify-content: flex-end; gap: 4px; margin-right: -10px; }
 .hdr__etsy { display: inline-flex; align-items: baseline; gap: 4px; height: 44px; padding: 0 10px; color: var(--deep-sea); text-decoration: none; }
@@ -39,12 +53,13 @@
   .hdr__mid, .hdr__tools .hide-m { display: none; }
   .hdr__menu-btn { display: inline-grid; margin-left: -4px; }
   .hdr__tools { margin-right: -4px; align-items: center; }
-  .hdr__brand { justify-self: center; gap: 10px; flex-direction: row; flex: initial; }
-  .hdr { --logo-now: var(--logo-h-m); }
-  .hdr.is-compact { --logo-now: calc(var(--logo-h-m) * .8); }
-  .hdr__brand { align-items: center; }
-  .hdr__brand .t-wordmark { margin-top: 0; }
-  .hdr__brand .t-wordmark { font-size: calc(var(--wordmark-size) * var(--wordmark-scale-m)); overflow: hidden; text-overflow: ellipsis; }
+  .hdr__brand { justify-self: center; gap: calc(var(--logo-now) * 0.2); flex-direction: row; flex: initial; }
+  .hdr.is-compact { --logo-now: calc(var(--logo-fit) * .8); }
+  /* The whole logo shrinks if it would not fit between the menu button and the right edge
+     (mark 1.26 + gap 0.2 + name 6.39 x name scale, in units of the mark's height; 104px = the two buttons and gaps). */
+  .hdr { --logo-fit: min(var(--logo-h-m), (100vw - 2 * var(--gutter) - 104px) / (1.46 + 6.39 * var(--name-scale-m)));
+    --logo-now: var(--logo-fit); --name-now: calc(var(--logo-now) * 0.62 * var(--name-scale-m)); }
+  .hdr__brand { justify-content: center; }
   .hdr .ibtn svg { top: 0; }
   .dbar p { font-size: 12px; }
 }
@@ -72,9 +87,12 @@
 .card__layer:not(.is-on) { display: none; }
 .cw-0 { background-color: #E4D7BF; } .cw-1 { background-color: #C9D7E6; } .cw-2 { background-color: #EBCB9B; }
 .swatches { position: absolute; left: 10px; bottom: 10px; display: flex; gap: 6px; z-index: 4; }
-.swatch { width: 44px; height: 44px; padding: 0; cursor: pointer; border: 2px solid var(--sand); box-shadow: 0 0 0 1px rgba(20,50,74,0.25); background-size: 22px 22px; }
+.swatch { position: relative; overflow: hidden; width: 44px; height: 44px; padding: 0; cursor: pointer; border: 2px solid var(--sand); box-shadow: 0 0 0 1px rgba(20,50,74,0.25); background-size: 22px 22px; }
 .swatch.pat-tri { background-size: 22px 22px; } .swatch.pat-grid { background-size: 14px 14px; } .swatch.pat-wave { background-size: 12px 8px; } .swatch.pat-dots { background-size: 10px 10px; }
 .swatch[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--deep-sea); }
+/* Fabric swatch: a close-up of the colourway photo, centred on the point set in the admin
+   (--sx/--sy, % across and down the photo) and enlarged --sz times the swatch width. Used by card swatches and product page dots. */
+.fabric { position: absolute; left: 50%; top: 50%; width: calc(var(--sz) * 100%); height: auto; max-width: none; transform: translate(calc(var(--sx) * -1%), calc(var(--sy) * -1%)); pointer-events: none; }
 .card__row { display: flex; justify-content: space-between; gap: 12px; text-decoration: none; color: var(--link-col); }
 
 
@@ -107,37 +125,11 @@
   background: var(--sand); color: var(--deep-sea); font: inherit;
 }
 
-/* ---------- Overlays: basket drawer, mobile menu ---------- */
+/* ---------- Overlay: mobile menu ---------- */
 .ovl { position: fixed; inset: 0; z-index: 60; visibility: hidden; transition: visibility 0s .35s; font-family: var(--font-body); color: var(--deep-sea); }
 .ovl.is-open { visibility: visible; transition: visibility 0s 0s; }
 .ovl__scrim { position: absolute; inset: 0; background: rgba(20,50,74,0.45); opacity: 0; transition: opacity .3s; border: 0; padding: 0; width: 100%; cursor: pointer; }
 .ovl.is-open .ovl__scrim { opacity: 1; }
-.drawer {
-  position: absolute; top: 0; bottom: 0; right: 0; width: min(420px, 100vw);
-  background: var(--page-bg); display: flex; flex-direction: column; gap: 24px; overflow-y: auto;
-  transform: translateX(105%); transition: transform .35s cubic-bezier(.2,.7,.2,1);
-  padding: calc(env(safe-area-inset-top, 0px) + 20px) max(20px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 20px) 20px;
-}
-.ovl.is-open .drawer { transform: none; }
-.drawer__head { display: flex; justify-content: space-between; align-items: center; }
-.drawer__title { margin: 0; font-family: var(--font-display); font-weight: var(--section-wt); font-size: 34px; line-height: 1.1; color: var(--deep-sea); }
-.bk-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
-.bk-item { display: flex; gap: 16px; padding-bottom: 24px; border-bottom: 1px solid var(--driftwood); }
-.bk-item .imgbox { flex: 0 0 88px; height: 110px; background-size: 44px 44px; }
-.bk-item__info { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 6px; font-size: 15px; }
-.bk-item__top { display: flex; justify-content: space-between; gap: 8px; }
-.bk-item__bottom { display: flex; align-items: center; gap: 12px; margin-top: auto; }
-.bk-qty { display: inline-flex; align-items: center; border: 1px solid #C9B79A; }
-.bk-qty button { width: 40px; height: 40px; border: 0; background: transparent; color: var(--deep-sea); cursor: pointer; display: grid; place-items: center; }
-.bk-qty button svg { width: 14px; height: 14px; }
-.bk-qty output { width: 28px; text-align: center; font-variant-numeric: tabular-nums; }
-.bk-remove { border: 0; background: none; padding: 0; color: var(--pebble); cursor: pointer; text-decoration: underline; font: inherit; font-size: 13px; }
-.bk-spacer { flex: 1 1 auto; }
-.bk-foot { display: flex; flex-direction: column; gap: 12px; }
-.bk-row { display: flex; justify-content: space-between; font-size: 17px; font-variant-numeric: tabular-nums; }
-.bk-foot .t-small a { color: var(--pebble); }
-.bk-continue { min-height: 44px; background: transparent; border: 0; color: var(--deep-sea); font: inherit; font-size: 14px; text-decoration: underline; cursor: pointer; }
-.bk-empty { padding-block: 40px; text-align: center; display: flex; flex-direction: column; gap: 16px; align-items: center; }
 
 .mpanel {
   position: absolute; top: 0; bottom: 0; left: 0; width: min(420px, 100vw);
@@ -186,11 +178,20 @@
   color: var(--tag-fg); text-decoration: none; cursor: pointer;
   font: inherit; font-size: var(--tag-size); font-weight: var(--tag-wt); line-height: 1; letter-spacing: var(--tag-ls); text-transform: var(--label-case); white-space: nowrap;
 }
-.tag::before { /* JRS mark, coloured by --tag-icon */
-  content: ""; flex: none; width: var(--tag-icon-size); height: var(--tag-icon-size); background: var(--tag-icon);
-  -webkit-mask: url("../images/logos/logo-mark.svg") center / contain no-repeat; mask: url("../images/logos/logo-mark.svg") center / contain no-repeat;
-}
 .tag:hover { background: var(--tag-bg); }
+/* JRS mark on the tag (inline SVG, symbol #i-mark), coloured by --tag-icon.
+   Motion (settings --tag-motion-*): the svg plays the load animation (staggered by tag),
+   the <use> inside it plays the hover animation, so hovering never restarts the load one. */
+.tag__icon { flex: none; width: var(--tag-icon-size); height: var(--tag-icon-size); overflow: visible; color: var(--tag-icon);
+  fill: currentColor; stroke: currentColor; stroke-width: 0; stroke-dasharray: 1; stroke-dashoffset: 0; stroke-linejoin: round;
+  animation: var(--tag-motion-load) var(--tag-motion-dur) var(--tag-motion-ease) calc(var(--tag-motion-delay) + var(--i, 0) * var(--tag-motion-stagger)) both; }
+.tag__icon use { transform-box: fill-box; transform-origin: center; }
+.tag:hover .tag__icon use, .tag:focus-visible .tag__icon use { animation: var(--tag-motion-hover) var(--tag-motion-dur) var(--tag-motion-ease) 0s var(--tag-motion-repeat); }
+@keyframes tag-swirl { from { transform: scale(0) rotate(calc(-1 * var(--tag-motion-angle))); } to { transform: none; } }
+@keyframes tag-turn { from { transform: rotate(calc(-1 * var(--tag-motion-angle))); } to { transform: none; } }
+@keyframes tag-pop { 0% { transform: scale(0); } 60% { transform: scale(1.25); } 100% { transform: none; } }
+@keyframes tag-draw { 0% { stroke-dashoffset: 1; stroke-width: 5; fill-opacity: 0; } 65% { stroke-dashoffset: 0; stroke-width: 5; fill-opacity: 0; } 100% { stroke-dashoffset: 0; stroke-width: 0; fill-opacity: 1; } }
+@keyframes tag-wave { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(var(--tag-motion-amp)) translateY(-8%); } 75% { transform: rotate(calc(-1 * var(--tag-motion-amp))) translateY(8%); } }
 @media (max-width: 899px) { .stage__title { font-size: 56px; } }
 @media (max-width: 599px) {
   .stage { aspect-ratio: 4 / 3; }
@@ -205,10 +206,6 @@
 .card__layer > img { object-position: 50% 75%; }
 
 
-/* Mobile header: keep logo and name clear of the menu and basket buttons */
-@media (max-width: 599px) {
-  .hdr__brand .t-wordmark { font-size: 14px; letter-spacing: 0.04em; }
-}
 
 /* Flags on product cards (New, Sale) */
 .flag { display: inline-block; padding: 4px 10px; background: var(--deep-sea); color: var(--sand); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; }
@@ -217,7 +214,9 @@
 
 /* Home icon at the start of the main nav (desktop) */
 .hdr__home { color: var(--label-col); }
-.hdr__home[aria-current="page"] { color: var(--accent); }
+/* Home icon: outline normally, filled on the home page (the open paths close when filled, leaving the door cut out) */
+.hdr__home svg { fill: none; }
+.hdr__home[aria-current="page"] svg { fill: currentColor; }
 
 /* Staged hero with a placeholder fill instead of a photo */
 .stage.ph-shallows { background-color: var(--shallows); }

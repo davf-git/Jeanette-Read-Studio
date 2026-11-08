@@ -11,11 +11,12 @@
     'Barlow': '"Barlow", "Helvetica Neue", Arial, sans-serif'
   };
   const LEVELS = [['hero', 'Hero', 40, 140], ['title', 'Page title', 32, 120], ['section', 'Section heading', 28, 96], ['statement', 'Statement', 22, 72],
-    ['wordmark', 'Wordmark', 14, 44], ['lead', 'Lead', 14, 30], ['body', 'Body', 13, 22], ['label', 'Label / nav', 10, 18], ['small', 'Small', 10, 18]];
-  const ROLES = [['page-bg', 'Page background'], ['band-bg', 'Feature bands'], ['on-image', 'Text over photos'], ['link-col', 'Links'], ['btn-bg', 'Button fill'], ['btn-fg', 'Button text'],
+    ['lead', 'Lead', 14, 30], ['body', 'Body', 13, 22], ['label', 'Label / nav', 10, 18], ['small', 'Small', 10, 18]];
+  const ROLES = [['page-bg', 'Page background'], ['band-bg', 'Feature bands'], ['on-image', 'Text over photos'], ['link-col', 'Links'], ['nav-hover-col', 'Nav hover underline'], ['btn-bg', 'Button fill'], ['btn-fg', 'Button text'],
     ['accent', 'Accent'], ['bar-bg', 'Delivery bar'], ['bar-fg', 'Delivery bar text'], ['footer-bg', 'Footer'], ['footer-fg', 'Footer text'], ['footer-mute', 'Footer muted text']];
-  const HEADER = [['logo-h', 'Logo height', 32, 140, 'px'], ['logo-h-m', 'Logo, mobile', 24, 96, 'px'], ['header-pad', 'Header padding (above and below logo)', 0, 40, 'px'], ['wordmark-scale-m', 'Wordmark, mobile (× desktop size)', 0.4, 1, ''],
-    ['brand-gap', 'Logo to name', 0, 48, 'px'], ['nav-gap', 'Between nav links', 8, 64, 'px'], ['nav-home-gap', 'Home icon to nav', 0, 64, 'px'], ['hdr-icon-drop', 'Icons up/down from baseline', -8, 8, 'px'], ['name-drop', 'Name and nav up/down against logo', -24, 24, 'px']];
+  const HEADER = [['logo-h', 'Logo height', 32, 140, 'px'], ['logo-h-m', 'Logo, mobile', 24, 96, 'px'], ['header-pad', 'Header padding (above and below logo)', 0, 40, 'px'], ['name-scale', 'Name size against mark (1 = as in logo)', 0.5, 1.5, ''], ['name-scale-m', 'Name size, mobile', 0.5, 1.5, ''],
+    ['brand-gap', 'Logo to name', 0, 48, 'px'], ['nav-gap', 'Between nav links', 8, 64, 'px'], ['nav-home-gap', 'Home icon to nav', 0, 64, 'px'], ['hdr-icon-drop', 'Icons up/down from baseline', -8, 8, 'px'], ['name-drop', 'Name and nav up/down against logo', -24, 24, 'px'],
+    ['nav-line', 'Nav underline thickness', 1, 4, 'px'], ['nav-line-offset', 'Nav underline gap', 2, 16, 'px']];
   const TAGS = [['tag-bg-opacity', 'Background opacity', 0, 1, ''], ['tag-h', 'Height', 28, 72, 'px'], ['tag-pad', 'Side padding', 4, 32, 'px'], ['tag-gap', 'Icon to text', 4, 32, 'px'],
     ['tag-radius', 'Corner radius', 0, 36, 'px'], ['tag-icon-size', 'Icon size', 10, 48, 'px'], ['tag-size', 'Text size', 10, 24, 'px'], ['tag-ls', 'Letter spacing', 0, 0.3, 'em'], ['tag-wt', 'Weight', 300, 700, '']];
   const TAG_COLS = [['tag-bg', 'Background'], ['tag-fg', 'Text'], ['tag-icon', 'Icon']];
@@ -69,6 +70,16 @@
   }
   const palOpts = PAL.map(c => [`var(--${c})`, c]);
 
+  function buildMotion(open) {
+    const m = group('Photo tag motion', 'motion', open);
+    select(m, 'tag-motion-load', 'On page load', [['none', 'None'], ['tag-swirl', 'Swirl in'], ['tag-turn', 'Turn'], ['tag-pop', 'Pop'], ['tag-draw', 'Draw']]);
+    select(m, 'tag-motion-hover', 'On hover', [['none', 'None'], ['tag-turn', 'Turn'], ['tag-wave', 'Wave']]);
+    select(m, 'tag-motion-repeat', 'Hover repeats', [['1', 'Once'], ['infinite', 'While hovering']]);
+    select(m, 'tag-motion-ease', 'Easing', [['ease', 'Ease'], ['ease-in-out', 'Ease in and out'], ['cubic-bezier(.2, .7, .2, 1)', 'Soft stop'], ['cubic-bezier(.34, 1.56, .64, 1)', 'Overshoot'], ['linear', 'Linear']]);
+    [['tag-motion-dur', 'Duration', 0.2, 3, 's', 0.05], ['tag-motion-delay', 'Delay before first', 0, 2, 's', 0.05], ['tag-motion-stagger', 'Delay between tags', 0, 1, 's', 0.05],
+     ['tag-motion-angle', 'Turn amount', 0, 720, 'deg', 15], ['tag-motion-amp', 'Wave amount', 0, 45, 'deg', 1]]
+      .forEach(([k, label, min, max, unit, step]) => range(m, k, label, min, max, step, unit));
+  }
   function buildWall(open) {
     const w = group('Wallpaper', 'wall', open);
     toggle(w, 'wall-page', 'Behind pages');
@@ -81,6 +92,7 @@
   }
   function build() {
     box.innerHTML = '';
+    if (box.dataset.only === 'motion') { buildMotion(true); const tg = group('Photo tags', 'tags'); TAG_COLS.forEach(([k, label]) => select(tg, k, label, palOpts)); TAGS.forEach(([k, label, min, max, unit]) => range(tg, k, label, min, max, unit === 'px' ? 1 : unit === 'em' ? 0.005 : max > 1 ? 100 : 0.01, unit)); return meta(); }
     if (box.dataset.only === 'wall') { buildWall(true); const r = group('Colour roles', 'roles'); ROLES.forEach(([k, label]) => select(r, k, label, palOpts)); return meta(); }
     const t = group('Typefaces', 'type', true);
     select(t, 'font-display', 'Display', Object.entries(FONTS).map(([k, v]) => [v, k]));
@@ -107,6 +119,7 @@
     const tg = group('Photo tags', 'tags');
     TAG_COLS.forEach(([k, label]) => select(tg, k, label, palOpts));
     TAGS.forEach(([k, label, min, max, unit]) => range(tg, k, label, min, max, unit === 'px' ? 1 : unit === 'em' ? 0.005 : max > 1 ? 100 : 0.01, unit));
+    buildMotion(false);
     buildWall(false);
     const s = group('Spacing and sizes', 'spacing');
     SPACE.forEach(([k, label, min, max, unit]) => range(s, k, label, min, max, unit ? 1 : 0.01, unit));
@@ -116,7 +129,7 @@
   /* Clicking any part of the page opens the controls that affect it.
      On these lab pages, links inside the site don't navigate (the lab bar still does). */
   const LEVEL_KEYS = LEVELS.map(l => l[0]);
-  const AREAS = [['.tag', 'tags'], ['.dbar', 'small roles'], ['.hdr', 'header wordmark label roles'], ['.ftr', 'section label body small roles']];
+  const AREAS = [['.tag', 'tags motion'], ['.dbar', 'small roles'], ['.hdr', 'header label roles'], ['.ftr', 'section label body small roles']];
   const onClick = (e, framed) => {
     const t = e.target;
     if (!t || !t.closest || t.closest('.lab-panel, .lab-bar, .ovl')) return;

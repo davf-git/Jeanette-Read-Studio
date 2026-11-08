@@ -35,6 +35,7 @@ content:
         options:
           values: [Beanbags, Cushions, Throws, Rugs, Tableware]
       - { name: price, label: 'Price (£)', type: number, description: "Numbers only, e.g. 85. Leave empty to show [£ price]." }
+      - { name: etsyUrl, label: 'Etsy listing link', type: string, description: "The product's page on Etsy, where customers buy it. Leave empty to link to the main Etsy shop." }
       - name: colourways
         label: Colours (one per colourway)
         type: object
@@ -46,7 +47,10 @@ content:
         fields:
           - { name: name, label: 'Colour name', type: string, description: "e.g. Indigo. Shown to customers." }
           - { name: image, label: 'Photo in this colour', type: image }
-          - { name: swatch, label: "Dot colour", type: string, description: "A hex colour code for the little colour dot, e.g. #3968A0." }
+          - { name: swatchX, label: 'Swatch point: across (%)', type: number, description: "The swatch shows a close-up of this colour's photo, centred here. Pick a spot on the fabric: 0 is the left edge, 100 the right. Leave empty to use the dot colour instead." }
+          - { name: swatchY, label: 'Swatch point: down (%)', type: number, description: "0 is the top edge of the photo, 100 the bottom." }
+          - { name: swatchZoom, label: 'Swatch zoom', type: number, description: "How much the photo is enlarged in the swatch. 8 is the default; higher shows a smaller patch of fabric." }
+          - { name: swatch, label: "Dot colour (if no swatch point)", type: string, description: "A hex colour code, e.g. #3968A0. Used only when no swatch point is set." }
       - name: gallery
         label: More photos (product page)
         type: image

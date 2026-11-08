@@ -66,15 +66,9 @@
 .buy fieldset { border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
 .buy legend { padding: 0; margin-bottom: 10px; }
 .dots { display: flex; flex-wrap: wrap; gap: 10px; }
-.dot { width: 44px; height: 44px; border-radius: 50%; cursor: pointer; padding: 0; border: 2px solid var(--sand); box-shadow: 0 0 0 1px #C9B79A; }
+.dot { position: relative; overflow: hidden; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; padding: 0; border: 2px solid var(--sand); box-shadow: 0 0 0 1px #C9B79A; }
 .dot[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--deep-sea); }
-.add-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: stretch; }
-.qty { display: flex; align-items: center; border: 1px solid #C9B79A; }
-.qty button { width: 44px; height: 52px; background: transparent; border: 0; color: var(--deep-sea); cursor: pointer; display: grid; place-items: center; }
-.qty button svg { width: 14px; height: 14px; }
-.qty output { width: 32px; text-align: center; font-variant-numeric: tabular-nums; }
-.add-row .btn { flex: 1 1 200px; min-height: 52px; }
-.note { margin: 0; padding: 12px 16px; background: var(--band-bg); font-size: 15px; color: var(--deep-sea); }
+.btn--etsy { align-self: flex-start; min-width: 240px; min-height: 52px; }
 .acc { border-top: 1px solid var(--driftwood); }
 .acc details { border-bottom: 1px solid var(--driftwood); padding-block: 16px; }
 .acc summary { cursor: pointer; color: var(--label-col); }
@@ -158,16 +152,6 @@
 .help-box h2 { font-size: 32px; }
 @media (max-width: 899px) { .doc__nav { position: static; } }
 
-/* Basket page */
-.bpage { display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start; }
-.bpage__list { flex: 2 1 520px; min-width: 0; }
-.bpage__list .bk-list { border-top: 1px solid var(--driftwood); }
-.bpage__list .bk-item { padding-top: 24px; }
-.bpage__list .bk-item .imgbox { flex-basis: 120px; height: 150px; }
-.summary { flex: 1 1 300px; padding: 28px; background: var(--band-bg); display: flex; flex-direction: column; gap: 14px; position: sticky; top: 180px; }
-.summary .bk-row { font-size: 16px; }
-.summary .bk-row--total { font-size: 19px; padding-top: 12px; border-top: 1px solid var(--driftwood); }
-@media (max-width: 899px) { .summary { position: static; } }
 
 /* 404 */
 .lost { min-height: 50vh; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 20px; padding-block: 72px; }

@@ -5,9 +5,15 @@ price: 250
 colourways:
   - name: Sand, slate
     image: /images/Yellow Beanbag Lifestyle-1.jpg
+    swatchX: 45
+    swatchY: 41
+    swatchZoom: 8
     swatch: "#fce138"
   - name: "[Colourway 2]"
     image: /images/homeware/purple beanbag.jpeg
+    swatchX: 45
+    swatchY: 41
+    swatchZoom: 8
     swatch: "#E9A23B"
   - name: "[Colourway 3]"
     swatch: "#C8573A"

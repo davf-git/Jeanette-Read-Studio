@@ -17,7 +17,7 @@
   --sun: #EAA134;         /* highlights, badges (fill only, not text on sand) */
   --coral: #D77D42;       /* occasional accent */
   --slate: #59656E;       /* body text */
-  --pebble: #606D76;      /* captions, wordmark (4.5:1 on sand and dune) */
+  --pebble: #606D76;      /* captions, small text (4.5:1 on sand and dune) */
 
   /* ---- Colour roles ---- */
   --page-bg: var(--sand);
@@ -32,6 +32,7 @@
   --footer-fg: var(--sand);
   --footer-mute: var(--driftwood);
   --link-col: var(--deep-sea);
+  --nav-hover-col: var(--driftwood); /* nav underline on hover (the current page's underline uses the label colour) */
   --tag-bg: var(--dune);        /* photo tags on Shop and Art headers */
   --tag-fg: var(--slate);
   --tag-icon: var(--sun);
@@ -42,7 +43,6 @@
   --title-col: var(--driftwood-deep);
   --section-col: var(--deep-sea);
   --statement-col: var(--deep-sea);
-  --wordmark-col: var(--pebble);
   --lead-col: var(--deep-sea);
   --body-col: var(--slate);
   --label-col: var(--shallows);
@@ -57,12 +57,10 @@
   --section-size: 52px;   --section-lh: 1.05;   --section-ls: -0.015em; --section-wt: 200;
   --statement-size: 40px; --statement-lh: 1.03; --statement-ls: -0.015em; --statement-wt: 300;
   --title-size: 49px;     --title-lh: 0.99;     --title-ls: -0.02em;    --title-wt: 200;
-  --wordmark-size: 23px;  --wordmark-lh: 0.8;   --wordmark-ls: 0.21em;  --wordmark-wt: 400;
   --lead-size: 21px;      --lead-lh: 1.42;      --lead-ls: -0.01em;     --lead-wt: 500;
   --body-size: 16px;      --body-lh: 1.4;       --body-ls: -0.005em;    --body-wt: 400;
   --label-size: 14px;     --label-lh: 1.78;      --label-ls: 0.265em;     --label-wt: 600;
   --small-size: 13px;     --small-lh: 1.5;      --small-ls: 0em;        --small-wt: 400;
-  --wordmark-case: none;
   --label-case: uppercase;
   --mobile-scale: 0.7;   /* display sizes multiply by this under 600px wide */
 
@@ -73,13 +71,16 @@
   --radius: 5px;
   --header-pad: 10px;
   --brand-dir: row;       /* row = name beside logo, column = name beneath */
-  --logo-h: 67px;
-  --logo-h-m: 33px;
-  --wordmark-scale-m: 0.8; /* wordmark size in the mobile header, as a share of --wordmark-size */
-  --brand-gap: 12px;      /* logo to name */
+  --logo-h: 48px;         /* height of the mark; the name scales with it */
+  --logo-h-m: 30px;
+  --name-scale: 1;        /* size of the name lettering against the mark; 1 = as drawn in the logo */
+  --name-scale-m: 1;      /* the same, on phones */
+  --brand-gap: 10px;      /* logo to name (in the logo artwork it is 0.2 of the mark's height) */
   --nav-gap: 28px;        /* between nav links */
   --nav-home-gap: 24px;   /* home icon to first nav link */
   --hdr-icon-drop: 6px;   /* nudges header icons down (+) or up (-) from the text baseline */
+  --nav-line: 2px;        /* nav underline thickness */
+  --nav-line-offset: 8px; /* gap between nav text and its underline */
   --name-drop: 0px;       /* moves the name (and the header baseline) down (+) or up (-) against the logo */
 
   /* ---- Wallpaper: JRS mark pattern behind pages and/or feature bands ----
@@ -95,8 +96,19 @@
 
   /* ---- Photo tags (Shop and Art headers) ---- */
   --tag-bg-opacity: 0.94;
-  --tag-h: 44px;          --tag-pad: 12px;      --tag-gap: 12px;        --tag-radius: 8px;
-  --tag-icon-size: 22px;  --tag-size: 13px;     --tag-ls: 0.14em;       --tag-wt: 500;
+  --tag-h: 44px;          --tag-pad: 12px;      --tag-gap: 12px;        --tag-radius: 36px;
+  --tag-icon-size: 23px;  --tag-size: 13px;     --tag-ls: 0.14em;       --tag-wt: 500;
+
+  /* ---- Photo tag motion (try options in the Motion lab) ---- */
+  --tag-motion-load: tag-swirl;   /* on page load: none, tag-swirl, tag-turn, tag-pop, tag-draw */
+  --tag-motion-hover: tag-turn;   /* on hover: none, tag-turn, tag-wave */
+  --tag-motion-repeat: infinite;  /* hover motion: 1 = once, infinite = while hovering */
+  --tag-motion-dur: 1.5s;
+  --tag-motion-delay: 0.3s;       /* before the first tag moves */
+  --tag-motion-stagger: 0.15s;    /* extra delay for each following tag */
+  --tag-motion-angle: 180deg;     /* how far swirl and turn rotate */
+  --tag-motion-amp: 14deg;        /* how far wave rocks */
+  --tag-motion-ease: cubic-bezier(.2, .7, .2, 1);
   --hero-img-h: 441px;    /* home hero height, desktop */
   --hero-img-h-m: 341px;  /* home hero height, under 600px wide */
 }

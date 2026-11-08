@@ -5,7 +5,7 @@
     <section class="stage{% if not p.heroImage %} ph-shallows{% endif %}" aria-label="{{ p.title }}">
       {% if p.heroImage %}<img src="{{ p.heroImage }}" alt="{{ p.heroImageAlt }}" style="object-position:{{ p.heroFocus or '50% 50%' }}">{% else %}<span class="ph-label">{{ p.heroImageAlt }}</span>{% endif %}
       {%- for t in p.tags %}
-      <button type="button" class="tag" style="--x:{{ t.x }}%;--y:{{ t.y }}%" data-tag-filter="{{ t.filter }}">{{ t.label }}</button>
+      <button type="button" class="tag" style="--x:{{ t.x }}%;--y:{{ t.y }}%;--i:{{ loop.index0 }}" data-tag-filter="{{ t.filter }}"><svg class="tag__icon" aria-hidden="true"><use href="#i-mark"/></svg>{{ t.label }}</button>
       {%- endfor %}
       <div class="stage__text wrap">
         <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span>{{ crumb or p.title }}</span></nav>
@@ -29,7 +29,7 @@
               </a>
               {%- if d.flag %}<span class="flag{% if d.flag == 'Sale' %} flag--sun{% endif %}">{{ d.flag }}</span>{% endif %}
               {%- if d.colourways.length > 1 %}
-              <div class="swatches" role="group" aria-label="Colourways">{% for c in d.colourways %}<button type="button" class="swatch {{ d.placeholder }} cw-{{ loop.index0 % 3 }}" data-cw="{{ loop.index0 }}" aria-label="{{ c.name }}" aria-pressed="{{ 'true' if loop.first else 'false' }}"></button>{% endfor %}</div>
+              <div class="swatches" role="group" aria-label="Colourways">{% for c in d.colourways %}<button type="button" class="swatch {{ d.placeholder }} cw-{{ loop.index0 % 3 }}" data-cw="{{ loop.index0 }}" aria-label="{{ c.name }}" aria-pressed="{{ 'true' if loop.first else 'false' }}">{% if c.image and (c.swatchX or c.swatchX === 0) %}<img class="fabric" src="{{ c.image }}" alt="" loading="lazy" style="--sx:{{ c.swatchX }};--sy:{{ c.swatchY or 50 }};--sz:{{ c.swatchZoom or 8 }}">{% endif %}</button>{% endfor %}</div>
               {%- endif %}
             </div>
             <a class="card__row" href="{{ item.url }}"><span>{{ d.title }}</span><span>{{ d.price | gbp }}</span></a>

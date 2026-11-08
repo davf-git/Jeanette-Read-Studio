@@ -3,7 +3,7 @@
 Website for Jeanette Read Studio (homeware and art). Built with [Eleventy](https://www.11ty.dev/) (a static site generator), edited through [Pages CMS](https://pagescms.org/), hosted on Netlify. Plain HTML, CSS and JavaScript in the output; no front-end framework. All code belongs to Jeanette.
 
 - **Editing content:** see [ADMIN.md](ADMIN.md) (how to log in and edit, and how to set up hosting and the admin the first time).
-- **Developer notes** (selling, checkout, forms, launch checklist): see [HANDOVER.md](HANDOVER.md).
+- **Developer notes** (selling through Etsy, forms, launch checklist): see [HANDOVER.md](HANDOVER.md).
 
 ## How it fits together
 
@@ -17,9 +17,9 @@ Every save in the admin is a commit to `main`. Netlify rebuilds and publishes th
 
 ```
 src/
-  index.njk, shop.njk, art.njk, journal.njk, about.njk, basket.njk, 404.njk   Page templates
+  index.njk, shop.njk, art.njk, journal.njk, about.njk, 404.njk   Page templates
   _includes/layouts/    base.njk (every page), product.njk, post.njk, info.njk
-  _includes/partials/   header, footer, overlays (basket drawer, mobile menu), icons, macros (cards, filters, photo header)
+  _includes/partials/   header, footer, overlays (mobile menu), icons, macros (cards, filters, photo header)
   _data/site.json       Site settings: name, delivery bar, email, social links, footer
   _data/pages/*.json    Page text for Home, Shop, Art, Journal, About
   content/products/     One file per product   → /shop/<name>/
@@ -29,12 +29,12 @@ src/
   content/content.11tydata.js   Layout and URL rules for the content folders
   css/settings.css      Design tokens: colours, colour roles, type scale, spacing
   css/base.css, components.css, pages.css
-  js/site.js            Menu, search, filters, sort, colourways, product options, basket (front end only)
+  js/site.js            Menu, search, filters, sort, colourways, product page (products are sold through Etsy)
   js/wallpaper-tile.js  Draws the wallpaper pattern tile (JRS mark); used by the build and the labs
   wallpaper.11ty.js     Builds /images/wallpaper.svg from the --wall-* values in settings.css
   _data/build.js        Build flags (preview = the claude.ai design preview build)
-  images/               logos/, photos/, uploads/ (admin uploads)
-  labs/                 Style lab, Components page, Wallpaper lab (design sandbox, not for launch)
+  images/               logos/ (mark, name, lockup, square icon), photos/, uploads/ (admin uploads)
+  labs/                 Style lab, Components page, Wallpaper lab, Motion lab (design sandbox, not for launch)
 eleventy.config.js      Eleventy settings, collections, filters
 .pages.yml              Admin configuration: what can be edited and where it is saved
 netlify.toml            Netlify build settings
@@ -55,9 +55,10 @@ npm run build      # build the site into _site/
 ## Design changes
 
 - Colours, type and spacing live in `src/css/settings.css`. Other CSS uses its role tokens (`--page-bg`, `--btn-bg`, `--title-col` and so on), never hex values, so the settings stay in charge.
-- The labs share one control panel (sliders for type, colour, header and logo, photo tags, wallpaper, spacing). "Copy settings.css" gives the whole file with the changes, to paste over `src/css/settings.css`.
+- The labs share one control panel (sliders for type, colour, header and logo, photo tags and their motion, wallpaper, spacing). "Copy settings.css" gives the whole file with the changes, to paste over `src/css/settings.css`.
   - `/labs/style/`: type and colour specimens.
   - `/labs/components/`: every part of the site on one page, including the header at phone width. Clicking a part opens the controls that affect it.
   - `/labs/wallpaper/`: the JRS-mark pattern behind pages and/or feature bands.
+  - `/labs/motion/`: how the mark on the photo tags moves on page load and on hover.
 - Lab changes carry between the lab pages for the browser tab's session. In the preview build only, the site pages also show them, with a "Showing unsaved lab settings · Clear" notice.
 - The admin edits content (text, photos, products, posts). It does not change the design.

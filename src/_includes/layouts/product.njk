@@ -31,20 +31,12 @@ layout: layouts/base.njk
         {%- if colourways and colourways.length %}
         <fieldset>
           <legend class="t-label">Colourway: <span class="js-variant-name">{{ first.name }}</span></legend>
-          <div class="dots">{% for c in colourways %}<button type="button" class="dot" style="background:{{ c.swatch or '#D8CBB3' }}" data-variant="colourway-{{ loop.index }}" data-image="{{ c.image }}" aria-label="{{ c.name }}" aria-pressed="{{ 'true' if loop.first else 'false' }}"></button>{% endfor %}</div>
+          <div class="dots">{% for c in colourways %}<button type="button" class="dot" style="background:{{ c.swatch or '#D8CBB3' }}" data-variant="colourway-{{ loop.index }}" data-image="{{ c.image }}" aria-label="{{ c.name }}" aria-pressed="{{ 'true' if loop.first else 'false' }}">{% if c.image and (c.swatchX or c.swatchX === 0) %}<img class="fabric" src="{{ c.image }}" alt="" loading="lazy" style="--sx:{{ c.swatchX }};--sy:{{ c.swatchY or 50 }};--sz:{{ c.swatchZoom or 8 }}">{% endif %}</button>{% endfor %}</div>
         </fieldset>
         {%- endif %}
 
-        <div class="add-row">
-          <div class="qty">
-            <button type="button" data-qty-step="-1" aria-label="Decrease quantity"><svg><use href="#i-minus"/></svg></button>
-            <output aria-live="polite" value="1">1</output>
-            <button type="button" data-qty-step="1" aria-label="Increase quantity"><svg><use href="#i-plus"/></svg></button>
-          </div>
-          <!-- ADD TO BASKET HOOK: product id, variant, quantity, price in pence. See HANDOVER.md. -->
-          <button class="btn" type="button" data-action="add-to-basket" data-product-id="{{ page.fileSlug }}" data-variant="colourway-1" data-variant-name="{{ first.name }}" data-name="{{ title }}" data-qty="1" data-price-pence="{{ price | pence }}" data-img="{{ mainImg }}">Add to basket</button>
-        </div>
-        <p class="note js-added" role="status" hidden>Added to your basket.</p>
+        <!-- Sold through Etsy: the button links to this product's Etsy listing, or to the shop if none is set. -->
+        <a class="btn btn--etsy" href="{{ etsyUrl or site.etsyUrl }}" target="_blank" rel="noopener">Buy on Etsy <span aria-hidden="true">↗</span></a>
         <p class="t-small">{{ p.productNote }} <a href="/delivery/">Delivery &amp; returns</a></p>
 
         <div class="acc">
