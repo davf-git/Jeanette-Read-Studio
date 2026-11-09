@@ -1,13 +1,13 @@
 ---
 layout: layouts/base.njk
 ---
-{#- One page per file in src/content/products. Edited in the admin under Shop. -#}
+{#- One page per file in src/content/products. Edited in the admin under Homeware. -#}
 {%- import "partials/macros.njk" as ui -%}
 {%- set p = pages.shop -%}
 {%- set first = colourways[0] if colourways and colourways.length else {} -%}
 {%- set mainImg = gallery[0] if gallery and gallery.length else first.image -%}
   <main id="main" class="wrap page-top page-main">
-    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/shop/">Shop</a><span aria-hidden="true">/</span><span>{{ title }}</span></nav>
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/homeware/">Homeware</a><span aria-hidden="true">/</span><span>{{ title }}</span></nav>
 
     <div class="prod">
       <div class="gallery">

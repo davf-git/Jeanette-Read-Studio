@@ -6,6 +6,12 @@
 [build.environment]
   NODE_VERSION = "22"
 
+# The Shop page was renamed Homeware (Nov 2026)
+[[redirects]]
+  from = "/shop/*"
+  to = "/homeware/:splat"
+  status = 301
+
 # Serve the 404 page for unknown URLs
 [[redirects]]
   from = "/*"

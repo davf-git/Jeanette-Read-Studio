@@ -17,13 +17,13 @@ Every save in the admin is a commit to `main`. Netlify rebuilds and publishes th
 
 ```
 src/
-  index.njk, shop.njk, art.njk, journal.njk, about.njk, 404.njk   Page templates
-  _includes/layouts/    base.njk (every page), product.njk, post.njk, info.njk
-  _includes/partials/   header, footer, overlays (mobile menu), icons, macros (cards, filters, photo header)
+  index.njk, shop.njk (Homeware page), art.njk, journal.njk, about.njk, 404.njk   Page templates
+  _includes/layouts/    base.njk (every page), product.njk, artwork.njk, post.njk, info.njk
+  _includes/partials/   header, footer, overlays (mobile menu), enquiry (Art enquiry panel), icons, macros (cards, filters, photo header)
   _data/site.json       Site settings: name, delivery bar, email, social links, footer
-  _data/pages/*.json    Page text for Home, Shop, Art, Journal, About
-  content/products/     One file per product   → /shop/<name>/
-  content/art/          One file per artwork   (listed on /art/)
+  _data/pages/*.json    Page text for Home, Homeware (shop.json), Art, Journal, About
+  content/products/     One file per product   → /homeware/<name>/
+  content/art/          One file per artwork   → /art/<name>/
   content/journal/      One file per post      → /journal/<name>/
   content/info/         Delivery, privacy, terms → /delivery/, /privacy/, /terms/
   content/content.11tydata.js   Layout and URL rules for the content folders

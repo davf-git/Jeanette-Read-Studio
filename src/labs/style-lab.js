@@ -18,7 +18,7 @@
     ['brand-gap', 'Logo to name', 0, 48, 'px'], ['nav-gap', 'Between nav links', 8, 64, 'px'], ['nav-home-gap', 'Home icon to nav', 0, 64, 'px'], ['hdr-icon-drop', 'Icons up/down from baseline', -8, 8, 'px'], ['name-drop', 'Name and nav up/down against logo', -24, 24, 'px'],
     ['nav-line', 'Nav underline thickness', 1, 4, 'px'], ['nav-line-offset', 'Nav underline gap', 2, 16, 'px']];
   const TAGS = [['tag-bg-opacity', 'Background opacity', 0, 1, ''], ['tag-h', 'Height', 28, 72, 'px'], ['tag-pad', 'Side padding', 4, 32, 'px'], ['tag-gap', 'Icon to text', 4, 32, 'px'],
-    ['tag-radius', 'Corner radius', 0, 36, 'px'], ['tag-icon-size', 'Icon size', 10, 48, 'px'], ['tag-size', 'Text size', 10, 24, 'px'], ['tag-ls', 'Letter spacing', 0, 0.3, 'em'], ['tag-wt', 'Weight', 300, 700, '']];
+    ['tag-radius', 'Corner radius', 0, 36, 'px'], ['tag-icon-size', 'Icon size', 10, 48, 'px'], ['tag-size', 'Text size', 10, 24, 'px'], ['tag-ls', 'Letter spacing', 0, 0.3, 'em'], ['tag-wt', 'Weight', 300, 700, ''], ['tag-hover-grow', 'Grow on hover', 1, 1.3, '']];
   const TAG_COLS = [['tag-bg', 'Background'], ['tag-fg', 'Text'], ['tag-icon', 'Icon']];
   const WALL = [['wall-opacity', 'Strength', 0, 1, ''], ['wall-motif', 'Mark size', 8, 140, 'px'], ['wall-gap', 'Spacing', 0, 160, 'px'],
     ['wall-tilt', 'Mark rotation', -180, 180, 'deg'], ['wall-angle', 'Pattern angle', -90, 90, 'deg']];
@@ -92,7 +92,7 @@
   }
   function build() {
     box.innerHTML = '';
-    if (box.dataset.only === 'motion') { buildMotion(true); const tg = group('Photo tags', 'tags'); TAG_COLS.forEach(([k, label]) => select(tg, k, label, palOpts)); TAGS.forEach(([k, label, min, max, unit]) => range(tg, k, label, min, max, unit === 'px' ? 1 : unit === 'em' ? 0.005 : max > 1 ? 100 : 0.01, unit)); return meta(); }
+    if (box.dataset.only === 'motion') { buildMotion(true); const tg = group('Photo tags', 'tags'); TAG_COLS.forEach(([k, label]) => select(tg, k, label, palOpts)); TAGS.forEach(([k, label, min, max, unit]) => range(tg, k, label, min, max, unit === 'px' ? 1 : unit === 'em' ? 0.005 : max > 100 ? 100 : 0.01, unit)); return meta(); }
     if (box.dataset.only === 'wall') { buildWall(true); const r = group('Colour roles', 'roles'); ROLES.forEach(([k, label]) => select(r, k, label, palOpts)); return meta(); }
     const t = group('Typefaces', 'type', true);
     select(t, 'font-display', 'Display', Object.entries(FONTS).map(([k, v]) => [v, k]));
@@ -118,7 +118,7 @@
     HEADER.forEach(([k, label, min, max, unit]) => range(h, k, label, min, max, unit ? 1 : 0.01, unit));
     const tg = group('Photo tags', 'tags');
     TAG_COLS.forEach(([k, label]) => select(tg, k, label, palOpts));
-    TAGS.forEach(([k, label, min, max, unit]) => range(tg, k, label, min, max, unit === 'px' ? 1 : unit === 'em' ? 0.005 : max > 1 ? 100 : 0.01, unit));
+    TAGS.forEach(([k, label, min, max, unit]) => range(tg, k, label, min, max, unit === 'px' ? 1 : unit === 'em' ? 0.005 : max > 100 ? 100 : 0.01, unit));
     buildMotion(false);
     buildWall(false);
     const s = group('Spacing and sizes', 'spacing');

@@ -98,6 +98,7 @@
   --tag-bg-opacity: 0.94;
   --tag-h: 44px;          --tag-pad: 12px;      --tag-gap: 12px;        --tag-radius: 36px;
   --tag-icon-size: 23px;  --tag-size: 13px;     --tag-ls: 0.14em;       --tag-wt: 500;
+  --tag-hover-grow: 1.08;  /* tag size on hover; 1 = no change */
 
   /* ---- Photo tag motion (try options in the Motion lab) ---- */
   --tag-motion-load: tag-swirl;   /* on page load: none, tag-swirl, tag-turn, tag-pop, tag-draw */

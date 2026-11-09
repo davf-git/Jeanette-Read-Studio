@@ -29,7 +29,8 @@ description: Original paintings and prints by Jeanette Read.
           <h2>{{ p.ctaTitle }}</h2>
           <p>{{ p.ctaText }}</p>
         </div>
-        <a class="btn btn--on" href="/about/#contact">{{ p.ctaButton }}</a>
+        <a class="btn btn--on" href="/about/#contact" data-open="enquire" aria-controls="ovl-enquire">{{ p.ctaButton }}</a>
       </section>
     </div>
   </main>
+{% include "partials/enquiry.njk" %}

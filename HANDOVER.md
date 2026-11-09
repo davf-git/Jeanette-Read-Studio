@@ -1,6 +1,6 @@
 # Jeanette Read Studio – developer handover
 
-For the developer who hosts the site and connects any services (e.g. Woz). Kept up to date as the build goes on. Last updated: 8 Nov 2026 (stage 3: Eleventy build with Pages CMS admin, Netlify hosting; design work pushed to the `design` branch). Since 5 Nov 2026 products are sold through Jeanette's Etsy shop; the site has no basket or checkout.
+For the developer who hosts the site and connects any services (e.g. Woz). Kept up to date as the build goes on. Last updated: 9 Nov 2026 (stage 3: Eleventy build with Pages CMS admin, Netlify hosting; `design` merged into `main` on 9 Nov 2026 so Jeanette can review it on the Netlify address). Since 5 Nov 2026 products are sold through Jeanette's Etsy shop; the site has no basket or checkout.
 
 ## What you are receiving
 - An [Eleventy 3](https://www.11ty.dev/) project (Nunjucks templates, Markdown and JSON content). Output is plain static HTML, CSS and JavaScript; no front-end framework.
@@ -8,8 +8,8 @@ For the developer who hosts the site and connects any services (e.g. Woz). Kept 
 - Content is placeholder where Jeanette has not yet supplied it. Placeholders are in square brackets, e.g. `[£ price]`, `[Product name]`.
 
 ## Content model
-- Products: `src/content/products/*.md` (frontmatter: title, type, price in pounds, order, newIn, dateAdded, flag, etsyUrl, colourways[{name, image, swatchX, swatchY, swatchZoom, swatch}], gallery[], materials, dimensions, draft; body = description). Page per product at `/shop/<file-name>/`.
-- Artworks: `src/content/art/*.md` (title, kind Original|Print, year, medium, size, image, etsyUrl, order, draft). No page of their own.
+- Products: `src/content/products/*.md` (frontmatter: title, type, price in pounds, order, newIn, dateAdded, flag, etsyUrl, colourways[{name, image, swatchX, swatchY, swatchZoom, swatch}], gallery[], materials, dimensions, draft; body = description). Page per product at `/homeware/<file-name>/` (the Shop page was renamed Homeware on 8 Nov 2026; `netlify.toml` redirects old `/shop/` addresses).
+- Artworks: `src/content/art/*.md` (title, kind Original|Print, year, medium, size, sizeIn, depth, signed, availability Available|Reserved|Sold, price, image, gallery[{image, caption}], roomImage, framing, etsyUrl, order, draft; body = about this work). Page per work at `/art/<file-name>/` (`layouts/artwork.njk`).
 - Journal: `src/content/journal/YYYY-MM-DD-name.md` (title, date, category, image, excerpt, standfirst, draft; body = post). Page at `/journal/<name>/`.
 - Info pages: `src/content/info/*.md` (title, description, updated, intro, rates[], sections[{heading, text (Markdown)}], showContactBox).
 - Page text: `src/_data/pages/*.json`. Site settings: `src/_data/site.json`.
@@ -36,7 +36,7 @@ For the developer who hosts the site and connects any services (e.g. Woz). Kept 
 - Text levels are classes: `.t-hero`, `.t-title`, `.t-section`, `.t-statement`, `.t-lead`, `.t-body`, `.t-label`, `.t-small`.
 - Breakpoints: 1079px (header switches to menu button and centred logo; the desktop row needs about 1,060px), 899px (single-column grids and other mobile layouts), 599px (display type scales by `--mobile-scale`).
 - Placeholder fills (`.ph-*`, `.pat-*`, `.cw-*`, `.art-ph--*`) stand in for photos. Remove them as real images arrive.
-- Per-image crops are inline `object-position` on the `<img>` (from the `heroFocus` content field). Tag positions on the Shop/Art photos are inline `--x`/`--y` custom properties (from `tags` in page text). Colourway swatches (product page dots and card swatches) show a close-up of the colourway photo: an `img.fabric` centred on the colourway's swatchX/swatchY point (% of the photo) and enlarged swatchZoom times (default 8). Without a point, the dot uses the plain `swatch` colour.
+- Per-image crops are inline `object-position` on the `<img>` (from the `heroFocus` content field). Tag positions on the Homeware/Art photos are inline `--x`/`--y` custom properties (from `tags` in page text). Colourway swatches (product page dots and card swatches) show a close-up of the colourway photo: an `img.fabric` centred on the colourway's swatchX/swatchY point (% of the photo) and enlarged swatchZoom times (default 8). Without a point, the dot uses the plain `swatch` colour.
 
 ## Selling (through Etsy)
 - Products are sold on Jeanette's Etsy shop. The product page has "Buy on Etsy ↗" (`a.btn--etsy`, `layouts/product.njk`) linking to the product's `etsyUrl`, or to `site.etsyUrl` (Site settings) if none is set. Prints and canvases on the Art page link to Etsy the same way.
@@ -46,12 +46,16 @@ For the developer who hosts the site and connects any services (e.g. Woz). Kept 
 
 ## Product cards, filters, sort
 - Cards: `.card[data-type][data-product-id][data-colourway][data-order][data-new][data-price-pence]`. One image layer per colourway (`.card__layer`, visible one has `.is-on`), swatch buttons `.swatch[data-cw]` with `aria-pressed`. The card swatch switches the card photo.
-- Filters: chips `[data-filter]` inside a `[data-filter-scope]`; items carry `data-type`. Used on Home (New in), Shop, Art and Journal.
-- Sort (Shop): `select[data-sort]` with `featured` (by `data-order`), `newest` (by `data-new`, yyyy-mm-dd), `price-asc`, `price-desc` (by `data-price-pence`). These are filled from the product files.
-- Shop/Art photo tags: `button.tag[data-tag-filter]` set the filter and scroll to the grid. Hidden under 600px.
+- Filters: chips `[data-filter]` inside a `[data-filter-scope]`; items carry `data-type`. Used on Home (New in), Homeware, Art and Journal.
+- Sort (Homeware): `select[data-sort]` with `featured` (by `data-order`), `newest` (by `data-new`, yyyy-mm-dd), `price-asc`, `price-desc` (by `data-price-pence`). These are filled from the product files.
+- Homeware/Art photo tags: `button.tag[data-tag-filter]` set the filter and scroll to the grid. They grow on hover (`--tag-hover-grow`) and get smaller under 1080px and 900px. The x/y point marks the top of the tag, level with the icon's middle. The photo-header title scales with the header (80px at 1440px wide) so tags placed clear of it stay clear. Hidden under 600px.
 
 ## Art
-- Originals: "Enquire" links to `/about/#contact`. Prints and canvases: "Buy on Etsy ↗" links out to Etsy.
+- Each work has its own page (`layouts/artwork.njk`): large picture, then thumbnails for the whole work, "On the wall" (`roomImage`) and the close-ups (`gallery`). Clicking the large picture opens a full-screen viewer (built by `site.js`) with scroll, pinch, double-click and button zoom, drag to pan and arrow keys. Zoom stops at the image file's own size; keep uploads at about 2000 px so nothing larger is ever served.
+- Originals show availability, "Price on request" (or the price), Enquire and "See it on a wall". Sold hides Enquire. Prints show "Buy on Etsy ↗".
+- Enquiries: Enquire (artwork pages, art cards, and the commissions button on the Art page) opens a panel (`partials/enquiry.njk`) over the page with the work's thumbnail and a started message, so visitors don't leave the page. It uses the same placeholder form handling as the contact form until a form service is connected. Without script, the links fall back to `/about/#contact`.
+- Page text for artwork pages (Art page text): `replyNote` under Enquire, `deliveryText` for Delivery and viewing.
+- The preview build rewrites `data-enq-img` (and `data-src`, `data-img`) to relative paths; add any new attribute that carries a root-relative path to the transform in `eleventy.config.js`.
 
 ## Forms needing a backend
 - Newsletter (`form[data-form="newsletter"]`, footer): placeholder message on submit. Connect to the chosen mailing service; add consent wording.
@@ -60,7 +64,7 @@ For the developer who hosts the site and connects any services (e.g. Woz). Kept 
 
 ## Links to confirm
 - Instagram and Etsy links come from Site settings and currently point at the platforms' home pages until Jeanette's handle and shop URL are set.
-- Footer links to Gift cards, Care guide and FAQs currently point at Shop or Delivery pages; confirm which pages will exist.
+- Footer links to Gift cards, Care guide and FAQs currently point at Homeware or Delivery pages; confirm which pages will exist.
 
 ## Content waiting on Jeanette
 - Launch product list (names, prices, colourways, photos, materials, dimensions), delivery threshold and rates, returns terms, business name and address, email, Instagram handle, Etsy shop URL, "made in the UK" claim (to confirm), artwork details, journal posts, privacy and terms text (needs proper legal wording).
@@ -80,6 +84,6 @@ For the developer who hosts the site and connects any services (e.g. Woz). Kept 
 - Netlify site https://jeanette-read-studio.netlify.app connected to `main` on 21 Oct 2026; Pages CMS connected to the same repo and branch. Tested end to end, then **builds stopped** (Build status: Stopped) the same day: the free plan's 300 credits/month (15 per production deploy) ran out after about 20 admin saves. The site shows the last deploy before that.
 - Netlify credit costs (checked 21 Oct 2026): production deploy 15; bandwidth 20 per GB; web requests 2 per 10,000; branch deploys, deploy previews and failed deploys free. Personal plan $9/month for 1,000 credits; Pro from $20/month for 3,000. Rough post-launch estimate 400–700 credits/month (assumes 20–40 saves and ~1,000 visits a month; not measured).
 - Before reactivating: decide host (Netlify Personal vs Cloudflare Pages, free 500 builds/month), add image resizing, and load bulk content on a separate branch then merge once, so population costs one production deploy.
-- Design work is on the `design` branch (last pushed 8 Nov 2026 from the claude.ai preview artifact); `main` stays frozen until launch.
+- Design work is on the `design` branch, pushed from the claude.ai preview artifact. On 9 Nov 2026 Dav asked for it to go to Netlify: `design` was merged into `main`, so the Netlify address shows the current design (placeholders, and the Design labs link in the footer) once Netlify builds are set back to Active. Each production deploy costs 15 credits; every admin save is a deploy.
 - Netlify Forms could handle the contact and newsletter forms with a `data-netlify` attribute (check the free-tier limits), or use a mailing service's embed.
 - Newsletter and contact form need whichever services are chosen. Payment is handled by Etsy. Domain still to be decided.

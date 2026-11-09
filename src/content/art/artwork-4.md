@@ -1,10 +1,10 @@
 ---
 title: "[Title]"
-kind: Print
+kind: Original
 year: "[Year]"
 medium: "[Medium]"
 size: "[Size]"
-image: ""
+image: /images/art/squares-blue.jpg
 placeholder: 4
 etsyUrl: ""
 order: 4

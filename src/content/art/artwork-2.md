@@ -1,10 +1,10 @@
 ---
 title: "[Title]"
-kind: Print
+kind: Original
 year: "[Year]"
 medium: "[Medium]"
 size: "[Size]"
-image: ""
+image: /images/art/waves-bands.jpg
 placeholder: 2
 etsyUrl: ""
 order: 2

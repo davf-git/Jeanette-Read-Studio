@@ -138,6 +138,25 @@
   padding: calc(env(safe-area-inset-top, 0px) + 12px) 20px calc(env(safe-area-inset-bottom, 0px) + 32px) max(20px, env(safe-area-inset-left, 0px));
 }
 .ovl.is-open .mpanel { transform: none; }
+/* Enquiry panel (Art page): slides in from the right */
+.epanel {
+  position: absolute; top: 0; bottom: 0; right: 0; width: min(480px, 100vw);
+  background: var(--page-bg); display: flex; flex-direction: column; overflow-y: auto; gap: 20px;
+  transform: translateX(105%); transition: transform .35s cubic-bezier(.2,.7,.2,1);
+  padding: calc(env(safe-area-inset-top, 0px) + 12px) max(24px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 32px) 24px;
+}
+.ovl.is-open .epanel { transform: none; }
+.epanel__top { display: flex; justify-content: space-between; align-items: center; margin-right: -10px; }
+.epanel__top .t-label { margin: 0; }
+.epanel__work { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 16px; align-items: center; }
+.epanel__work[hidden] { display: none; }
+.epanel__img { aspect-ratio: 4 / 3; background: var(--band-bg); padding: 8px; }
+.epanel__img img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.epanel__img .art-ph { width: 100%; height: 100%; }
+.epanel__title { margin: 0; font-family: var(--font-display); font-weight: var(--section-wt); font-size: 32px; line-height: 1.05; color: var(--section-col); text-wrap: balance; }
+.epanel .form { max-width: none; }
+.epanel__email { user-select: all; color: var(--deep-sea); }
+@media (prefers-reduced-motion: reduce) { .epanel { transition: none; } }
 .mpanel__top { display: flex; justify-content: space-between; align-items: center; }
 .mpanel__top img { height: 40px; width: auto; }
 .mpanel__nav { display: flex; flex-direction: column; }
@@ -165,20 +184,28 @@
 .stage { position: relative; overflow: hidden; aspect-ratio: 1408 / 415; background: var(--deep-sea); }
 .stage > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; max-width: none; }
 .stage::before { content: ""; position: absolute; inset: 0 40% 0 0; z-index: 1; pointer-events: none; background: linear-gradient(to right, rgba(20,50,74,0.55) 0%, rgba(20,50,74,0.2) 45%, rgba(20,50,74,0) 75%); }
-.stage__text { position: absolute; top: 28px; left: 0; right: 0; z-index: 2; display: flex; flex-direction: column; gap: 10px; color: var(--on-image); pointer-events: none; }
+.stage__text { position: absolute; top: clamp(20px, 1.95vw, 28px); left: 0; right: 0; z-index: 2; display: flex; flex-direction: column; gap: 10px; color: var(--on-image); pointer-events: none; }
 .stage__text a { pointer-events: auto; }
 .stage__text .crumbs { color: var(--on-image); }
-.stage__title { margin: 0; font-family: var(--font-display); font-weight: var(--title-wt); font-size: 80px; line-height: 1; letter-spacing: var(--title-ls); color: var(--on-image); }
+.stage__title { margin: 0; font-family: var(--font-display); font-weight: var(--title-wt); font-size: clamp(32px, 5.56vw, 80px); line-height: 1; letter-spacing: var(--title-ls); color: var(--on-image); }
+/* The title scales with the header (80px at 1440px wide), so it covers the same part of the photo at every desktop width
+   and photo tags placed clear of it stay clear. The header keeps one shape above 600px, so tags stay on the same objects too. */
 .tag {
   position: absolute; z-index: 2; left: var(--x); top: var(--y);
-  transform: translate(calc(-1 * (var(--tag-pad) + var(--tag-icon-size) / 2)), -50%); /* the icon sits on the x/y point */
+  /* x/y marks the top of the tag, level with the middle of the icon: the icon sits half a tag height below the point (Dav, 8 Nov) */
+  transform: translate(calc(-1 * (var(--tag-pad) + var(--tag-icon-size) / 2)), 0) scale(calc(var(--tag-scale, 1) * var(--tag-grow-now, 1)));
+  transform-origin: calc(var(--tag-pad) + var(--tag-icon-size) / 2) 50%;
+  transition: transform .2s ease, background-color .2s ease;
   display: flex; align-items: center; gap: var(--tag-gap);
   min-height: var(--tag-h); padding: 0 calc(var(--tag-pad) * 1.25) 0 var(--tag-pad); border: 0; border-radius: var(--tag-radius);
   background: color-mix(in srgb, var(--tag-bg) calc(var(--tag-bg-opacity) * 100%), transparent);
   color: var(--tag-fg); text-decoration: none; cursor: pointer;
   font: inherit; font-size: var(--tag-size); font-weight: var(--tag-wt); line-height: 1; letter-spacing: var(--tag-ls); text-transform: var(--label-case); white-space: nowrap;
 }
-.tag:hover { background: var(--tag-bg); }
+.tag:hover, .tag:focus-visible { background: var(--tag-bg); --tag-grow-now: var(--tag-hover-grow); }
+/* Smaller tags on narrower screens, where the header photo is shorter */
+@media (max-width: 1079px) { .tag { --tag-scale: .85; } }
+@media (max-width: 899px) { .tag { --tag-scale: .7; } }
 /* JRS mark on the tag (inline SVG, symbol #i-mark), coloured by --tag-icon.
    Motion (settings --tag-motion-*): the svg plays the load animation (staggered by tag),
    the <use> inside it plays the hover animation, so hovering never restarts the load one. */
@@ -192,7 +219,6 @@
 @keyframes tag-pop { 0% { transform: scale(0); } 60% { transform: scale(1.25); } 100% { transform: none; } }
 @keyframes tag-draw { 0% { stroke-dashoffset: 1; stroke-width: 5; fill-opacity: 0; } 65% { stroke-dashoffset: 0; stroke-width: 5; fill-opacity: 0; } 100% { stroke-dashoffset: 0; stroke-width: 0; fill-opacity: 1; } }
 @keyframes tag-wave { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(var(--tag-motion-amp)) translateY(-8%); } 75% { transform: rotate(calc(-1 * var(--tag-motion-amp))) translateY(8%); } }
-@media (max-width: 899px) { .stage__title { font-size: 56px; } }
 @media (max-width: 599px) {
   .stage { aspect-ratio: 4 / 3; }
   .tag { display: none; }

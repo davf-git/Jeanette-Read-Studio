@@ -1,10 +1,10 @@
 ---
 title: "[Title]"
-kind: Print
+kind: Original
 year: "[Year]"
 medium: "[Medium]"
 size: "[Size]"
-image: ""
+image: /images/art/waves-teal.jpg
 placeholder: 6
 etsyUrl: ""
 order: 6

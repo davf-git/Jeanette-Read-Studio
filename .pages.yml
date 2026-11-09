@@ -15,9 +15,9 @@ settings:
       delete: "Delete {path} (via admin)"
 
 content:
-  # ---------------------------------------------------------------- Shop
+  # ---------------------------------------------------------------- Homeware
   - name: products
-    label: Shop – products
+    label: Homeware – products
     type: collection
     path: src/content/products
     format: yaml-frontmatter
@@ -31,7 +31,7 @@ content:
       - name: type
         label: Product type
         type: select
-        description: "Decides which filter on the Shop page shows it."
+        description: "Decides which filter on the Homeware page shows it."
         options:
           values: [Beanbags, Cushions, Throws, Rugs, Tableware]
       - { name: price, label: 'Price (£)', type: number, description: "Numbers only, e.g. 85. Leave empty to show [£ price]." }
@@ -43,7 +43,7 @@ content:
           collapsible:
             collapsed: true
             summary: "{index}. {name}"
-        description: "Each colour gets its own photo. In the Shop grid, the first colour's photo shows on the product's card and the dots switch between them. On the product page, clicking a colour swaps the main photo. Landscape photos work best; they are cropped to 4:3 from the centre."
+        description: "Each colour gets its own photo. In the Homeware grid, the first colour's photo shows on the product's card and the dots switch between them. On the product page, clicking a colour swaps the main photo. Landscape photos work best; they are cropped to 4:3 from the centre."
         fields:
           - { name: name, label: 'Colour name', type: string, description: "e.g. Indigo. Shown to customers." }
           - { name: image, label: 'Photo in this colour', type: image }
@@ -66,7 +66,7 @@ content:
         description: "A small New or Sale label on the product's card."
         options:
           values: [New, Sale]
-      - { name: order, label: 'Position in the shop', type: number, description: "1 shows first, then 2, and so on." }
+      - { name: order, label: 'Position on the Homeware page', type: number, description: "1 shows first, then 2, and so on." }
       - { name: dateAdded, label: 'Date added', type: date, options: { format: yyyy-MM-dd }, description: "Used when customers sort by Newest." }
       - { name: placeholder, type: string, hidden: true }
       - { name: draft, label: 'Hide from the site (draft)', type: boolean, description: "Tick to save without publishing." }
@@ -91,9 +91,32 @@ content:
           values: [Original, Print]
       - { name: year, type: string }
       - { name: medium, type: string }
-      - { name: size, type: string }
-      - { name: image, label: 'Photo of the work', type: image, description: "Shown whole, not cropped." }
-      - { name: etsyUrl, label: 'Etsy link (prints)', type: string, description: "Leave empty to link to the main Etsy shop." }
+      - { name: size, label: 'Size (cm)', type: string, description: "Width × height, e.g. 100 × 70 cm." }
+      - { name: sizeIn, label: 'Size (inches)', type: string, description: "e.g. 39½ × 27½ in." }
+      - { name: depth, label: 'Depth', type: string, description: "Canvas depth, e.g. 4 cm. Leave empty for works on paper." }
+      - { name: signed, label: 'Signed', type: string, description: "e.g. On the reverse." }
+      - name: availability
+        label: Availability
+        type: select
+        options:
+          values: [Available, Reserved, Sold]
+      - { name: price, label: 'Price (£)', type: number, description: "Numbers only. Leave empty to show Price on request." }
+      - { name: image, label: 'Photo of the whole work', type: image, description: "Straight on, in daylight. Shown whole, not cropped. About 2000 px on the long side." }
+      - name: gallery
+        label: Close-up photos
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{index}. {caption}"
+        description: "Close-ups of the surface, the edges and the side of the canvas. They show the paint, which the whole-work photo can't."
+        fields:
+          - { name: image, label: 'Photo', type: image }
+          - { name: caption, label: 'Caption', type: string, description: "e.g. Detail · left edge" }
+      - { name: roomImage, label: 'Photo on a wall', type: image, description: "The work in a room, to show its size. Optional." }
+      - { name: framing, label: 'Framing and hanging', type: text }
+      - { name: body, label: 'About this work', type: rich-text, description: "Two or three sentences: what the piece explores, how it was made." }
+      - { name: etsyUrl, label: 'Etsy link (prints)', type: string, description: "For prints: the Etsy listing. Leave empty to link to the main Etsy shop." }
       - { name: order, label: 'Order on the page', type: number }
       - { name: placeholder, type: number, hidden: true }
       - { name: draft, label: 'Hide from the site (draft)', type: boolean }
@@ -136,7 +159,7 @@ content:
       - { name: heroKicker, label: 'Hero small label', type: string }
       - { name: heroTitle, label: 'Hero title', type: string }
       - { name: heroText, label: 'Hero text', type: text }
-      - { name: heroButton1, label: 'Hero button 1 (Shop)', type: string }
+      - { name: heroButton1, label: 'Hero button 1 (Homeware)', type: string }
       - { name: heroButton2, label: 'Hero button 2 (Art)', type: string }
       - { name: newInTitle, label: '"New in" heading', type: string }
       - { name: shopDoorImage, label: 'Homeware panel photo', type: image }
@@ -152,7 +175,7 @@ content:
       - { name: journalTitle, label: 'Journal section heading', type: string }
 
   - name: page-shop
-    label: Page text – Shop
+    label: Page text – Homeware
     type: file
     path: src/_data/pages/shop.json
     format: json
@@ -169,7 +192,7 @@ content:
           collapsible:
             collapsed: true
             summary: "{label} ({x}% across, {y}% down)"
-        description: "Labels placed on the header photo. Clicking one filters the products below. Hidden on phones."
+        description: "Labels placed on the header photo. Clicking one filters the products below. They stay on the same spot in the photo at every computer and tablet width, and are hidden on phones. Keep them out of the top-left corner, where the page title sits (roughly the first 30% across and 40% down)."
         fields:
           - { name: label, label: 'Label text', type: string }
           - name: filter
@@ -203,7 +226,7 @@ content:
           collapsible:
             collapsed: true
             summary: "{label} ({x}% across, {y}% down)"
-        description: "Labels placed on the header photo. Clicking one filters the works below. Hidden on phones."
+        description: "Labels placed on the header photo. Clicking one filters the works below. They stay on the same spot in the photo at every computer and tablet width, and are hidden on phones. Keep them out of the top-left corner, where the page title sits (roughly the first 30% across and 40% down)."
         fields:
           - { name: label, label: 'Label text', type: string }
           - name: filter
@@ -217,6 +240,8 @@ content:
       - { name: ctaTitle, label: 'Commissions heading', type: string }
       - { name: ctaText, label: 'Commissions text', type: text }
       - { name: ctaButton, label: 'Commissions button', type: string }
+      - { name: replyNote, label: 'Note under the Enquire button (artwork pages)', type: text }
+      - { name: deliveryText, label: 'Delivery and viewing (artwork pages)', type: text }
 
   - name: page-journal
     label: Page text – Journal
