@@ -39,10 +39,10 @@ The left-hand menu in the admin has:
 
 | Menu item | What it edits |
 |---|---|
-| **Shop – products** | One entry per product: name, type, price, colourways (name, swatch colour, photo), product photos, description, materials, dimensions, "New in", order, draft |
-| **Art – works** | One entry per artwork: title, original or print, year, medium, size, photo, Etsy link, order |
+| **Homeware – products** | One entry per product: name, type, price, Etsy listing link, colourways (name, photo, swatch point and zoom, dot colour), product photos, description, materials, dimensions, "New in", order, draft |
+| **Art – works** | One entry per artwork (each has its own page): title, original or print, year, medium, size (cm and inches), depth, signed, availability, price, photo of the whole work, close-up photos, photo on a wall, framing, about this work, Etsy link, order |
 | **Journal – posts** | One entry per post: title, date, category, header photo, excerpt, the post itself |
-| **Page text – Home / Shop / Art / Journal / About** | Headings, intro text, header photos and their crop, photo tags, buttons |
+| **Page text – Home / Homeware / Art / Journal / About** | Headings, intro text, header photos and their crop, photo tags, buttons |
 | **Info pages** | Delivery and returns (including the rates table), privacy policy, terms |
 | **Site settings** | Delivery bar, email, Instagram, Etsy, footer line, newsletter text |
 
@@ -50,10 +50,13 @@ Tips:
 - **Adding a product, artwork or post:** open the list and click **Add an entry**. Tick **Hide from the site (draft)** to save it without publishing it.
 - **Photos:** use the image picker and upload. Uploads go into `src/images/`. Make them about 2000 px on the long side; very large camera files slow the site down.
 - **Header crop** ("x% y%"): the first number moves the visible area left and right, the second up and down. `50% 50%` is the centre; `50% 80%` shows more of the bottom.
-- **Photo tags** on Shop and Art: x and y are percentages across and down the visible header photo.
-- **Prices:** leave empty to show "[£ price]". Prices here are for display; payment is connected separately (see HANDOVER.md).
+- **Photo tags** on Homeware and Art: x and y are percentages across and down the visible header photo. Keep them out of the top-left corner, where the page title sits.
+- **Artworks:** each work has its own page. Add a straight-on photo of the whole work, a few close-ups with captions (surface, edges, side), and optionally a photo on a wall. Fill in size (cm and inches), depth, availability and, for originals, a price or leave it empty for "Price on request".
+- **Prices:** leave empty to show "[£ price]". Prices here are for display only; customers buy on Etsy.
+- **Etsy listing link:** paste the product's Etsy page address. The product's "Buy on Etsy" button goes there; if it's empty, the button goes to the main Etsy shop (Site settings).
+- **Swatches:** each colourway's swatch shows a close-up of its photo. Set *Swatch point: across* and *down* (in %) to a spot on the fabric; *Swatch zoom* 8 is the default, higher shows a smaller patch. Save and check the result; nudge the numbers if it lands off the fabric. With no point set, the swatch uses the dot colour.
 - Each save publishes. For several changes, expect a rebuild after each one; that's fine.
 
 ## Not in the admin
 
-Design (colours, type, spacing, layouts) is changed in code, using the style lab at `/labs/style/` to try values and `src/css/settings.css` to keep them.
+Design (colours, type, spacing, header layout, photo tags and their motion, wallpaper) is changed in code, using the labs (`/labs/style/`, `/labs/components/`, `/labs/wallpaper/`, `/labs/motion/`) to try values and `src/css/settings.css` to keep them.

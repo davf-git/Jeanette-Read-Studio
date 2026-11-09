@@ -1,0 +1,71 @@
+---
+layout: layouts/base.njk
+---
+{#- One page per file in src/content/art. Edited in the admin under Art – works.
+    Pictures: the whole work, then "On the wall" (roomImage), then the close-ups (gallery).
+    Clicking the large picture opens the full-screen viewer (site.js); originals open the enquiry panel. -#}
+{%- import "partials/macros.njk" as ui -%}
+{%- set p = pages.art -%}
+{%- set orig = kind == "Original" -%}
+{%- set pics = [] -%}
+{%- if image %}{% set pics = pics.concat([{ src: image, cap: "Whole work", alt: title + ", the whole work", ground: "is-art" }]) %}{% endif -%}
+{%- if roomImage %}{% set pics = pics.concat([{ src: roomImage, cap: "On the wall", alt: title + " on a wall, to show its size in a room", ground: "is-room" }]) %}{% endif -%}
+{%- for g in gallery or [] %}{% set pics = pics.concat([{ src: g.image, cap: g.caption or "Detail", alt: title + ", " + (g.caption or "detail"), ground: "is-art" }]) %}{% endfor -%}
+  <main id="main" class="wrap page-top page-main">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/art/">Art</a><span aria-hidden="true">/</span><span>{{ title }}</span></nav>
+
+    <div class="prod awork">
+      <div class="gallery" aria-label="Pictures of the work">
+        {%- if pics.length %}
+        <button type="button" class="imgbox gallery__main {{ pics[0].ground }}" data-viewer aria-label="Open full screen to zoom"><img src="{{ pics[0].src }}" alt="{{ pics[0].alt }}"><span class="zoom-hint" aria-hidden="true"><svg><use href="#i-search"/></svg>Zoom</span></button>
+        <p class="t-small gallery__cap js-gallery-cap">{{ pics[0].cap }}</p>
+        {%- if pics.length > 1 %}
+        <div class="thumbs" role="group" aria-label="Pictures">
+          {%- for pic in pics %}<button type="button" class="thumb" data-src="{{ pic.src }}" data-alt="{{ pic.alt }}" data-cap="{{ pic.cap }}" data-ground="{{ pic.ground }}"{% if pic.ground == "is-room" %} data-room{% endif %} aria-label="Show: {{ pic.cap }}" aria-pressed="{{ 'true' if loop.first else 'false' }}"><img src="{{ pic.src }}" alt=""><span>{{ pic.cap }}</span></button>{% endfor %}
+        </div>
+        {%- endif %}
+        {%- else %}
+        <div class="imgbox gallery__main is-art"><div class="art-ph art-ph--{{ placeholder or 1 }}"></div></div>
+        {%- endif %}
+      </div>
+
+      <div class="buy">
+        <div class="stack stack--tight">
+          <h1 class="t-title">{{ title }}</h1>
+          <p class="t-body">{{ kind }} · {{ year }}</p>
+        </div>
+        <span class="status status--{{ (availability or 'Available') | lower }}">{{ availability or "Available" }}</span>
+        <dl class="facts">
+          {%- if medium %}<dt>Medium</dt><dd>{{ medium }}</dd>{% endif %}
+          {%- if size %}<dt>Size</dt><dd>{{ size }}{% if sizeIn %} · {{ sizeIn }}{% endif %}</dd>{% endif %}
+          {%- if depth %}<dt>Depth</dt><dd>{{ depth }}</dd>{% endif %}
+          {%- if signed %}<dt>Signed</dt><dd>{{ signed }}</dd>{% endif %}
+        </dl>
+        {%- if orig %}
+        <p class="awork__price">{{ price | gbp if price else "Price on request" }}</p>
+        <div class="btn-row awork__btns">
+          {%- if availability != "Sold" %}<a class="btn" href="/about/#contact" data-open="enquire" aria-controls="ovl-enquire" data-enq-title="{{ title }}" data-enq-meta="{{ year }} · {{ medium }} · {{ size }}" data-enq-img="{{ image }}" data-enq-ph="{{ placeholder or 1 }}">Enquire</a>{% endif %}
+          {%- if roomImage %}<button type="button" class="btn btn--line" data-show-room>See it on a wall</button>{% endif %}
+        </div>
+        {%- if availability != "Sold" %}<p class="t-small">{{ p.replyNote }}</p>{% endif %}
+        {%- else %}
+        <a class="btn btn--etsy" href="{{ etsyUrl or site.etsyUrl }}" target="_blank" rel="noopener">Buy on Etsy <span aria-hidden="true">↗</span></a>
+        {%- endif %}
+
+        <div class="acc">
+          {%- if content | trim %}<details open><summary class="t-label">About this work</summary><div class="t-body">{{ content | safe }}</div></details>{% endif %}
+          {%- if framing %}<details><summary class="t-label">Framing and hanging</summary><p class="t-body">{{ framing }}</p></details>{% endif %}
+          {%- if orig %}<details><summary class="t-label">Delivery and viewing</summary><p class="t-body">{{ p.deliveryText }}</p></details>{% endif %}
+        </div>
+        <p class="t-small">© Jeanette Read. Pictures are shown at screen size.</p>
+      </div>
+    </div>
+
+    <section class="stack related-sec" aria-label="More work">
+      <h2 class="t-section">More work</h2>
+      <div class="agrid">
+{%- for item in collections.artworks | exclude(page.url) | limit(3) %}{{ ui.artCard(item, site) }}{% endfor %}
+      </div>
+    </section>
+  </main>
+{% include "partials/enquiry.njk" %}

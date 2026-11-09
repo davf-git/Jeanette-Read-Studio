@@ -15,7 +15,8 @@
 <link rel="stylesheet" href="/css/base.css">
 <link rel="stylesheet" href="/css/components.css">
 <link rel="stylesheet" href="/css/pages.css">
-{% for css in extraCss %}<link rel="stylesheet" href="{{ css }}">
+{% if build.preview and not labs %}<script src="/labs/apply-preview.js"></script>
+{% endif %}{% for css in extraCss %}<link rel="stylesheet" href="{{ css }}">
 {% endfor %}
 </head>
 <body>

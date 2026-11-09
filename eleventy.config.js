@@ -45,7 +45,7 @@ export default function (eleventyConfig) {
     eleventyConfig.addTransform("relative-links", function (content) {
       if (!(this.page.outputPath || "").endsWith(".html")) return content;
       const from = path.posix.dirname(this.page.url.endsWith("/") ? this.page.url + "index.html" : this.page.url);
-      return content.replace(/(href|src|data-src|data-img|srcset)="\/(?!\/)([^"]*)"/g, (m, attr, target) => {
+      return content.replace(/(href|src|data-src|data-img|data-enq-img|srcset)="\/(?!\/)([^"]*)"/g, (m, attr, target) => {
         let [p, hash = ""] = target.split("#");
         if (p === "" || p.endsWith("/")) p += "index.html";
         let rel = path.posix.relative(from, "/" + p) || "index.html";
@@ -56,7 +56,7 @@ export default function (eleventyConfig) {
 
   return {
     dir: { input: "src", includes: "_includes", data: "_data", output: "_site" },
-    templateFormats: ["njk", "md", "html"],
+    templateFormats: ["njk", "md", "html", "11ty.js"],
     markdownTemplateEngine: "njk",
     htmlTemplateEngine: "njk",
   };

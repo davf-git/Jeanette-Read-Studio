@@ -1,0 +1,34 @@
+---
+layout: layouts/base.njk
+permalink: /labs/motion/
+title: Motion lab
+robots: noindex
+labs: true
+labOnly: motion
+eleventyExcludeFromCollections: true
+extraCss: ["/labs/labs.css"]
+extraJs: ["/js/wallpaper-tile.js", "/labs/style-lab.js"]
+---
+{%- import "partials/macros.njk" as ui -%}
+  <main id="main" class="lab">
+{% include "partials/lab-panel.njk" %}
+    <div class="lab-preview">
+      <div class="wrap lab-intro lab-pad">
+        <h1 class="lab-title">Motion lab</h1>
+        <p class="t-small">How the JRS mark on the photo tags moves: once as the page opens, and when someone hovers over a tag. Change the settings on the left, then press Replay to see the page-load motion again. Hover a tag to see the hover motion. People who have turned on "reduce motion" on their device see the tags without movement.</p>
+        <div class="btn-row"><button class="btn" type="button" id="motion-replay">Replay</button></div>
+      </div>
+      <div class="lab-gap" data-ctl="motion tags">
+{{ ui.stage(pages.shop) }}
+      </div>
+      <div class="lab-gap" data-ctl="motion tags">
+{{ ui.stage(pages.art) }}
+      </div>
+    </div>
+  </main>
+  <script>
+    /* Replay: swapping each photo header for a fresh copy restarts the page-load motion. */
+    document.getElementById('motion-replay').addEventListener('click', () => {
+      document.querySelectorAll('.lab-preview .stage').forEach(s => s.replaceWith(s.cloneNode(true)));
+    });
+  </script>

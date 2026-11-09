@@ -4,7 +4,7 @@ kind: Original
 year: "[Year]"
 medium: "[Medium]"
 size: "[Size]"
-image: ""
+image: /images/art/circles-pink-yellow.jpg
 placeholder: 3
 etsyUrl: ""
 order: 3

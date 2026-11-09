@@ -4,7 +4,7 @@ kind: Original
 year: "[Year]"
 medium: "[Medium]"
 size: "[Size]"
-image: ""
+image: /images/art/maze-black.jpg
 placeholder: 5
 etsyUrl: ""
 order: 5

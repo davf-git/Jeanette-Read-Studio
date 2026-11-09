@@ -1,11 +1,11 @@
 {#- Reusable markup. Import with: {% import "partials/macros.njk" as ui %} -#}
 
-{#- Staged photo header with tags (Shop, Art, Journal, About) -#}
+{#- Staged photo header with tags (Homeware, Art, Journal, About) -#}
 {% macro stage(p, crumb) %}
     <section class="stage{% if not p.heroImage %} ph-shallows{% endif %}" aria-label="{{ p.title }}">
       {% if p.heroImage %}<img src="{{ p.heroImage }}" alt="{{ p.heroImageAlt }}" style="object-position:{{ p.heroFocus or '50% 50%' }}">{% else %}<span class="ph-label">{{ p.heroImageAlt }}</span>{% endif %}
       {%- for t in p.tags %}
-      <button type="button" class="tag" style="--x:{{ t.x }}%;--y:{{ t.y }}%" data-tag-filter="{{ t.filter }}">{{ t.label }}</button>
+      <button type="button" class="tag" style="--x:{{ t.x }}%;--y:{{ t.y }}%;--i:{{ loop.index0 }}" data-tag-filter="{{ t.filter }}"><svg class="tag__icon" aria-hidden="true"><use href="#i-mark"/></svg>{{ t.label }}</button>
       {%- endfor %}
       <div class="stage__text wrap">
         <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span>{{ crumb or p.title }}</span></nav>
@@ -29,7 +29,7 @@
               </a>
               {%- if d.flag %}<span class="flag{% if d.flag == 'Sale' %} flag--sun{% endif %}">{{ d.flag }}</span>{% endif %}
               {%- if d.colourways.length > 1 %}
-              <div class="swatches" role="group" aria-label="Colourways">{% for c in d.colourways %}<button type="button" class="swatch {{ d.placeholder }} cw-{{ loop.index0 % 3 }}" data-cw="{{ loop.index0 }}" aria-label="{{ c.name }}" aria-pressed="{{ 'true' if loop.first else 'false' }}"></button>{% endfor %}</div>
+              <div class="swatches" role="group" aria-label="Colourways">{% for c in d.colourways %}<button type="button" class="swatch {{ d.placeholder }} cw-{{ loop.index0 % 3 }}" data-cw="{{ loop.index0 }}" aria-label="{{ c.name }}" aria-pressed="{{ 'true' if loop.first else 'false' }}">{% if c.image and (c.swatchX or c.swatchX === 0) %}<img class="fabric" src="{{ c.image }}" alt="" loading="lazy" style="--sx:{{ c.swatchX }};--sy:{{ c.swatchY or 50 }};--sz:{{ c.swatchZoom or 8 }}">{% endif %}</button>{% endfor %}</div>
               {%- endif %}
             </div>
             <a class="card__row" href="{{ item.url }}"><span>{{ d.title }}</span><span>{{ d.price | gbp }}</span></a>
@@ -37,15 +37,17 @@
           </div>
 {% endmacro %}
 
-{#- Artwork card: originals link to enquiries, prints to Etsy -#}
+{#- Artwork card: the picture and title open the work's own page; the action enquires (originals) or goes to Etsy (prints) -#}
 {% macro artCard(item, site) %}
 {%- set d = item.data -%}
 {%- set orig = d.kind == "Original" -%}
 {%- set href = "/about/#contact" if orig else (d.etsyUrl or site.etsyUrl) -%}
 {%- set ext = "" if orig else ' target="_blank" rel="noopener"' -%}
+{#- Originals open the enquiry panel on the Art page (partials/enquiry.njk); the About link is the fallback without script -#}
+{%- if orig %}{% set ext %} data-open="enquire" aria-controls="ovl-enquire" data-enq-title="{{ d.title }}" data-enq-meta="{{ d.year }} · {{ d.medium }} · {{ d.size }}" data-enq-img="{{ d.image }}" data-enq-ph="{{ d.placeholder or 1 }}"{% endset %}{% endif -%}
         <div class="work" data-type="{{ 'Originals' if orig else 'Prints' }}">
-          <a class="work__frame" href="{{ href }}"{{ ext | safe }} aria-label="{{ d.title }}, {{ d.kind | lower }}">{% if d.image %}<img src="{{ d.image }}" alt="{{ d.title }}" loading="lazy">{% else %}<div class="art-ph art-ph--{{ d.placeholder or 1 }}"></div>{% endif %}</a>
-          <div class="work__row"><span class="work__title">{{ d.title }}</span><span class="t-small">{{ d.year }}</span></div>
+          <a class="work__frame" href="{{ item.url }}" aria-label="{{ d.title }}, {{ d.kind | lower }}: see the work">{% if d.image %}<img src="{{ d.image }}" alt="{{ d.title }}" loading="lazy">{% else %}<div class="art-ph art-ph--{{ d.placeholder or 1 }}"></div>{% endif %}</a>
+          <div class="work__row"><a class="work__title" href="{{ item.url }}">{{ d.title }}</a><span class="t-small">{{ d.year }}</span></div>
           <span class="t-small">{{ d.kind }} · {{ d.medium }} · {{ d.size }}</span>
           <a class="work__act t-label lnk" href="{{ href }}"{{ ext | safe }}>{{ "Enquire" if orig else "Buy on Etsy ↗" }}</a>
         </div>

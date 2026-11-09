@@ -1,0 +1,31 @@
+{#- Enquiry panel (Art page): opened by "Enquire" on an original, or by the commissions button.
+    It slides in over the page, so closing it leaves the visitor where they were.
+    The form posts nowhere yet; it needs the same form service as the About page contact form (see HANDOVER.md). -#}
+{%- set p = pages.art -%}
+<div class="ovl" id="ovl-enquire" aria-hidden="true">
+  <button class="ovl__scrim" type="button" data-close tabindex="-1" aria-label="Close enquiry"></button>
+  <aside class="epanel" role="dialog" aria-modal="true" aria-labelledby="enq-title">
+    <div class="epanel__top">
+      <p class="t-label">Enquiry</p>
+      <button class="ibtn" type="button" data-close aria-label="Close enquiry and return to Art"><svg><use href="#i-close"/></svg></button>
+    </div>
+    <div class="epanel__work js-enq-work" hidden>
+      <div class="epanel__img js-enq-img"></div>
+      <div class="stack stack--tight">
+        <h2 class="epanel__title" id="enq-title"><span class="js-enq-title">{{ p.ctaTitle }}</span></h2>
+        <p class="t-small js-enq-meta"></p>
+      </div>
+    </div>
+    <h2 class="epanel__title js-enq-general">{{ p.ctaTitle }}</h2>
+    <p class="t-body js-enq-general">{{ p.ctaText }}</p>
+    <form class="form" data-form="contact" novalidate>
+      <input type="hidden" name="artwork" class="js-enq-field">
+      <label class="t-label">Name<input class="input" name="name" autocomplete="name" required></label>
+      <label class="t-label">Email<input class="input" name="email" type="email" autocomplete="email" required></label>
+      <label class="t-label">Message<textarea class="input js-enq-msg" name="message" required></textarea></label>
+      <button class="btn" type="submit">Send enquiry</button>
+      <p class="t-small" role="status" aria-live="polite"></p>
+    </form>
+    <p class="t-small">Or email <span class="epanel__email">{{ site.email }}</span></p>
+  </aside>
+</div>
